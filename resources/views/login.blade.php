@@ -17,18 +17,19 @@
 
                 <h2 class="text-2xl font-semibold mt-8 mb-6 text-gray-700">Đăng nhập</h2>
 
-                <form action="" class="flex flex-col">
+                <form action="/login/auth" method="POST" class="flex flex-col">
+                    @csrf
                     <div id="input-field" class="flex flex-col mb-4 relative">
                         <i class="fi fi-rr-envelope absolute top-11 right-5 text-zinc-400"></i>
                         <label for="email" class="mb-2 text-gray-700">Nhập vào email</label>
-                        <input type="email" name="" id="email" placeholder="email@gmail.com"
+                        <input type="email" name="email" id="email" placeholder="email@gmail.com"
                             class="px-4 py-2 border-2 border-slate-300 rounded-md max-w-full focus:border-blue-500 focus:outline-none">
                     </div>
 
                     <div id="input-field" class="flex flex-col relative">
                         <i class="fi fi-rr-lock absolute top-11 right-5 text-zinc-400"></i>
                         <label for="Password" class="mb-2 text-gray-700">Nhập mật khẩu</label>
-                        <input type="password" name="" id="password" placeholder="Mật khẩu của bạn"
+                        <input type="password" name="password" id="password" placeholder="Mật khẩu của bạn"
                             class="px-4 py-2 border-2 border-slate-300 rounded-md max-w-full focus:outline-none focus:border-blue-500">
                     </div>
 
