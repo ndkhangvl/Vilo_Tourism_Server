@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AdminPlaceController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PlaceController;
 use Illuminate\Support\Facades\Route;
@@ -22,3 +24,8 @@ Route::get('/', function () {
 Route::get('/place', [PlaceController::class, 'index']);
 Route::get('/login', [LoginController::class, 'index']);
 Route::post('/login/auth', [LoginController::class, 'login']);
+
+//For Admin Type
+Route::get('/admin', [AdminController::class, 'index']);
+Route::get('/admin/index', [AdminPlaceController::class, 'index']);
+Route::post('/admin/place/add', [AdminPlaceController::class, 'store']);

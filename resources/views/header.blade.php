@@ -1,87 +1,78 @@
-<body style="font-family: 'Quicksand', sans-serif;">
-    <div class="wrapper">
-        <header id="banner" role="banner" class="menu-width-sub">
-            <div class="header-toolbar-app">
-                <div class="container">
-                    <div class="col-md-16">
-                        <div id="toppage-header">
-                            <div class="hidden-xs date_time_sys col-md-12 col-sm-12">
+<!-- component -->
 
+<aside
+    class="ml-[-100%] fixed z-10 top-0 pb-3 px-6 w-full flex flex-col justify-between h-screen border-r bg-white transition duration-300 md:w-4/12 lg:ml-0 lg:w-[25%] xl:w-[20%] 2xl:w-[15%]">
+    <div>
+        <div class="-mx-6 px-6 py-4">
+            <a href="#" title="home">
+                <img src="https://www.emprenderconactitud.com/img/POC%20WCS%20(1).png" class="w-40" alt="POC WCS">
+            </a>
+        </div>
+        <ul class="space-y-2 tracking-wide mt-8">
+            <li>
+                <a href="/admin/index" aria-label="dashboard"
+                    class="relative px-4 py-3 flex items-center space-x-4 rounded-lg text-white bg-gradient-to-r from-sky-600 to-cyan-400">
+                    <svg class="h-6 w-6 text-white" width="24" height="24" viewBox="0 0 24 24" stroke-width="2"
+                        stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" />
+                        <polyline points="5 12 3 12 12 3 21 12 19 12" />
+                        <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+                        <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+                    </svg>
+                    <span class="-mr-1 font-medium">Trang chủ</span>
+                </a>
+            </li>
+            <li>
+                <a href="#" class="px-4 py-3 flex items-center space-x-4 rounded-md text-gray-700 group">
+                    <svg class="h-6 w-6 text-gray-700" width="24" height="24" viewBox="0 0 24 24"
+                        stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" />
+                        <path
+                            d="M17 8v-3a1 1 0 0 0 -1 -1h-10a2 2 0 0 0 0 4h12a1 1 0 0 1 1 1v3m0 4v3a1 1 0 0 1 -1 1h-12a2 2 0 0 1 -2 -2v-12" />
+                        <path d="M20 12v4h-4a2 2 0 0 1 0 -4h4" />
+                    </svg>
+                    <span class="group-hover:text-gray-700">Địa điểm</span>
+                </a>
+            </li>
+            <li>
+                <a href="#" class="px-4 py-3 flex items-center space-x-4 rounded-md text-gray-700 group">
+                    <svg class="h-6 w-6 text-gray-700" width="24" height="24" viewBox="0 0 24 24"
+                        stroke-width="2"stroke="currentColor" fill="none" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" />
+                        <polyline points="16 3 20 7 16 11" />
+                        <line x1="10" y1="7" x2="20" y2="7" />
+                        <polyline points="8 13 4 17 8 21" />
+                        <line x1="4" y1="17" x2="13" y2="17" />
+                    </svg>
+                    <span class="group-hover:text-gray-700">Người dùng</span>
+                </a>
+            </li>
+            <li>
+                <a href="#" class="px-4 py-3 flex items-center space-x-4 rounded-md text-gray-700 group">
+                    <svg class="h-6 w-6 text-gray-700" width="24" height="24" viewBox="0 0 24 24"
+                        stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" />
+                        <circle cx="12" cy="7" r="4" />
+                        <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+                    </svg>
+                    <span class="group-hover:text-gray-700">Mi cuenta</span>
+                </a>
+            </li>
+        </ul>
+    </div>
 
-                                <span id="weather"></span>
-                                <script>
-                                    $(document).ready(function() {
-                                        callAjax();
-                                        //jQuery.simpleWeather({
-                                        //  woeid: '',
-                                        // unit: 'c',
-                                        // success: function (weather) {
-                                        //    var html = '<i class="icon-' + weather.code + '"></i> <span class="data">' + weather.city +
-                                        //       ', ' + weather.region + ' ' + weather.temp + '&deg;' +
-                                        //       weather.units.temp + ' </span>';
-
-                                        //   var rootWeather = jQuery('body').find('#weather');
-                                        //  rootWeather.html(html);
-                                        //},
-                                        // error: function (error) {
-                                        //  var rootWeather = jQuery('body').find('#weather');
-                                        //  rootWeather.html('<p>' + error + '</p>');
-                                        //}
-                                        // });
-
-
-                                        function callAjax() {
-                                            $.ajax({
-                                                type: 'POST',
-                                                url: '/Modules/Utilities/GetWeathers',
-                                                data: {
-                                                    UnitCode: 'VLG'
-                                                },
-                                                success: function(weather) {
-                                                    //console.log(weather);
-                                                    if (weather.list != null) {
-                                                        var html = '<img src="https://vinhlongtourist.vn/Images/weathericon/' +
-                                                            weather.list[0].weather[0].icon +
-                                                            '.png" style="width:30px;height:30px"> <span class="data">' +
-                                                            Math.round(weather.list[0].main.temp_min) + '&deg;C </span>';
-                                                        var rootWeather = jQuery('body').find('#weather');
-                                                        rootWeather.html(html);
-                                                    }
-
-                                                },
-                                                error: function(error) {
-                                                    var rootWeather = jQuery('body').find('#weather');
-                                                    rootWeather.html('<p>' + error + '</p>');
-                                                }
-                                            })
-                                        }
-
-                                    });
-                                </script>
-
-                                <i class="ion-clock"></i><span id="time-date"></span>
-                            </div>
-                            <div id="login-system" class="col-md-4 col-sm-4">
-                                <span id="inline-langage">
-
-                                    <a href="https://vinhlongtourist.vn/en/login">
-                                        <img src="/Images/language/en.png" />
-                                    </a>
-                                    <a href="https://vinhlongtourist.vn/vi/login">
-                                        <img src="/Images/language/vi.png" />
-                                    </a>
-
-
-
-
-                                </span>
-                                <span id="login-btn">
-                                    <span class="ion-locked dropdown nav-user">
-                                        <a id="login_system" class="login" href="javascript:;">Đăng nhập</a>
-                                    </span>
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+    <div class="px-6 -mx-6 pt-4 flex justify-between items-center border-t">
+        <button class="px-4 py-3 flex items-center space-x-4 rounded-md text-gray-700 group">
+            <svg class="h-6 w-6 text-gray-700" width="24" height="24" viewBox="0 0 24 24" stroke-width="2"
+                stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <path stroke="none" d="M0 0h24v24H0z" />
+                <path d="M14 8v-2a2 2 0 0 0 -2 -2h-7a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h7a2 2 0 0 0 2 -2v-2" />
+                <path d="M20 12h-13l3 -3m0 6l-3 -3" />
+            </svg>
+            <span class="group-hover:text-gray-700">Cerrar sesión</span>
+        </button>
+    </div>
+</aside>
