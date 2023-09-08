@@ -17,7 +17,7 @@
 
                 <h2 class="text-2xl font-semibold mt-8 mb-6 text-gray-700">Đăng nhập</h2>
 
-                <form action="/login/auth" method="POST" class="flex flex-col">
+                <form action="/login" method="POST" class="flex flex-col">
                     @csrf
                     <div id="input-field" class="flex flex-col mb-4 relative">
                         <i class="fi fi-rr-envelope absolute top-11 right-5 text-zinc-400"></i>
@@ -38,7 +38,7 @@
                         nhập</button>
                 </form>
 
-                <p class="text-gray-500">Bạn không có tài khoản? <a href="#"
+                <p class="text-gray-500">Bạn không có tài khoản? <a href="/register"
                         class="text-blue-500 font-semibold underline">Đăng kí</a></p>
 
             </div>
