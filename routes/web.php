@@ -5,6 +5,7 @@ use App\Http\Controllers\AdminPlaceController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PlaceController;
+use App\Http\Controllers\ImageController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -22,11 +23,27 @@ use Illuminate\Support\Facades\Route;
 //     return view('home.home');
 // });
 
+//Index
 Route::get('/', [HomeController::class, 'index']);
+Route::get('/list-place', [HomeController::class, 'index']);
+Route::get('/detailplace/{id}', [HomeController::class, 'detail_place']);
+
+Route::get('/map', function () {
+    return view('home.map');
+});
+
+Route::get('/routing', function () {
+    return view('home.routing');
+});
 
 Route::get('/introduction', function () {
     return view('home.introduction');
 });
+
+Route::get('/autosearch', function () {
+    return view('home.autosearch');
+});
+
 
 Route::get('/place', [PlaceController::class, 'index']);
 Route::get('/login', [LoginController::class, 'index']);
@@ -35,6 +52,10 @@ Route::get('/register', [LoginController::class, 'register_view']);
 Route::post('/login', [LoginController::class, 'login']);
 Route::post('/register', [LoginController::class, 'register']);
 
+Route::get('/image', function () {
+    return view('home.image');
+});
+Route::post('/upload', [ImageController::class, 'upload']);
 
 //For Admin Type
 Route::get('/admin', [AdminController::class, 'index']);

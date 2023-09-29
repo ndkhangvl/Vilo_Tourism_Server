@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 // use Kreait\Firebase\Factory;
@@ -36,9 +37,10 @@ class LoginController extends Controller
             $cred->name = $R->name;
             $cred->email = $R->email;
             $cred->password = Hash::make($R->password);
+            $cred->role = 'user';
             $cred->save();
-            $response = ['status' => 200, 'message' => 'Register Successfully! Welcome to Our Community'];
-            return response()->json($response);
+            // $response = ['status' => 200, 'message' => 'Register Successfully! Welcome to Our Community'];
+            return redirect('/login');
         } catch (Exception $e) {
             $response = ['status' => 500, 'message' => $e];
         }

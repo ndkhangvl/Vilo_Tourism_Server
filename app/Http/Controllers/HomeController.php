@@ -14,4 +14,18 @@ class HomeController extends Controller
             'vlplaces' => $vlplaces,
         ]);
     }
+
+    public function detail_place($id)
+    {
+        $detail_place = DB::select(
+            "select * from VLPlace where id_place=:id;",
+            [
+                'id' => $id,
+            ]
+        );
+        //dd($detail_place);
+        return view('home.detail_place', [
+            'detail_place' => $detail_place,
+        ]);
+    }
 }
