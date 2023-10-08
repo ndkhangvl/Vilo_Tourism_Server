@@ -66,4 +66,14 @@ class AdminPlaceController extends Controller
             'input' => $request->all()
         ]);
     }
+
+    public function delete($id)
+    {
+        $results = DB::statement('EXEC DeleteVLPlaceById ?;', [$id]);
+        // return response()->json([
+        //     'success' => true,
+        //     'data' => 'Thành công xóa',
+        // ]);
+        return redirect('admin');
+    }
 }

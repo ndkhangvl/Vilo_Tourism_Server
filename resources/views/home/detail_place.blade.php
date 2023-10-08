@@ -18,7 +18,7 @@
         <h1>{{ $detail_place->phone_place }}</h1>
         <h1>{{ $detail_place->email_contact_place }}</h1>
         <p>{!! $detail_place->describe_place !!}</p>
-        <h1>{{ $detail_place->image_url }}</h1>
+        <img src="{{ $detail_place->image_url }}" alt="mô_tả_hình_ảnh">
     @endforeach
 </body>
 

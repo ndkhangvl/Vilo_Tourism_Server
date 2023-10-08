@@ -7,6 +7,12 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
     @include('/components.constraint')
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css"
+        integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+        crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js"
+        integrity="sha512-GffPMF3RvMeYyc1LWMHtK8EbPv0iNZ8/oTtHPx9/cc2ILxQ+u905qIwdpULaqDkyBKgOaB57QTMg7ztg8Jm2Og=="
+        crossorigin=""></script>
     <style>
         .container {
             width: 100%;
@@ -23,6 +29,16 @@
             white-space: nowrap;
             /* Tạo thanh cuộn khi nội dung vượt quá khung */
         }
+
+        #map {
+            width: 100%;
+            height: 500px;
+        }
+
+        .goongjs-popup {
+            max-width: 400px;
+            font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+        }
     </style>
 </head>
 
@@ -38,7 +54,7 @@
             <hr class="h-px my-2 bg-gray-200 border-0 dark:bg-gray-700">
             <div class="grid gap-4">
                 <div class="relative">
-                    <img src="https://firebasestorage.googleapis.com/v0/b/vilo-tourism.appspot.com/o/05_637763058319802509.jpg?alt=media&token=b2f2abba-267a-4e02-aa45-3bb479d3bc3c"
+                    <img src="https://firebasestorage.googleapis.com/v0/b/vilo-tourism.appspot.com/o/Khang.png?alt=media&token=f1699427-6b19-4759-b3fb-d7de52d1b0ae"
                         alt="Image" class="w-full h-auto">
                     <div class="absolute bottom-0 left-0 w-full bg-black bg-opacity-50 text-white text-center">
                         <h1 class="text-4xl p-4">Text in Image</h1>
@@ -47,35 +63,35 @@
                 <div class="grid-container">
                     <div class="grid grid-cols-5 gap-4">
                         <div class="relative">
-                            <img src="https://firebasestorage.googleapis.com/v0/b/vilo-tourism.appspot.com/o/05_637763058319802509.jpg?alt=media&token=b2f2abba-267a-4e02-aa45-3bb479d3bc3c"
+                            <img src="https://firebasestorage.googleapis.com/v0/b/vilo-tourism.appspot.com/o/Khang.png?alt=media&token=f1699427-6b19-4759-b3fb-d7de52d1b0ae"
                                 alt="Image" class="w-full h-auto">
                             <div class="absolute bottom-0 left-0 w-full bg-black bg-opacity-50 text-white text-center">
                                 <h1 class="text-sm p-4">Text in Image</h1>
                             </div>
                         </div>
                         <div class="relative">
-                            <img src="https://firebasestorage.googleapis.com/v0/b/vilo-tourism.appspot.com/o/05_637763058319802509.jpg?alt=media&token=b2f2abba-267a-4e02-aa45-3bb479d3bc3c"
+                            <img src="https://firebasestorage.googleapis.com/v0/b/vilo-tourism.appspot.com/o/Khang.png?alt=media&token=f1699427-6b19-4759-b3fb-d7de52d1b0ae"
                                 alt="Image" class="w-full h-auto">
                             <div class="absolute bottom-0 left-0 w-full bg-black bg-opacity-50 text-white text-center">
                                 <h1 class="text-sm p-4">Text in Image</h1>
                             </div>
                         </div>
                         <div class="relative">
-                            <img src="https://firebasestorage.googleapis.com/v0/b/vilo-tourism.appspot.com/o/05_637763058319802509.jpg?alt=media&token=b2f2abba-267a-4e02-aa45-3bb479d3bc3c"
+                            <img src="https://firebasestorage.googleapis.com/v0/b/vilo-tourism.appspot.com/o/Khang.png?alt=media&token=f1699427-6b19-4759-b3fb-d7de52d1b0ae"
                                 alt="Image" class="w-full h-auto">
                             <div class="absolute bottom-0 left-0 w-full bg-black bg-opacity-50 text-white text-center">
                                 <h1 class="text-sm p-4">Text in Image</h1>
                             </div>
                         </div>
                         <div class="relative">
-                            <img src="https://firebasestorage.googleapis.com/v0/b/vilo-tourism.appspot.com/o/05_637763058319802509.jpg?alt=media&token=b2f2abba-267a-4e02-aa45-3bb479d3bc3c"
+                            <img src="https://firebasestorage.googleapis.com/v0/b/vilo-tourism.appspot.com/o/Khang.png?alt=media&token=f1699427-6b19-4759-b3fb-d7de52d1b0ae"
                                 alt="Image" class="w-full h-auto">
                             <div class="absolute bottom-0 left-0 w-full bg-black bg-opacity-50 text-white text-center">
                                 <h1 class="text-sm p-4">Text in Image</h1>
                             </div>
                         </div>
                         <div class="relative">
-                            <img src="https://firebasestorage.googleapis.com/v0/b/vilo-tourism.appspot.com/o/05_637763058319802509.jpg?alt=media&token=b2f2abba-267a-4e02-aa45-3bb479d3bc3c"
+                            <img src="https://firebasestorage.googleapis.com/v0/b/vilo-tourism.appspot.com/o/Khang.png?alt=media&token=f1699427-6b19-4759-b3fb-d7de52d1b0ae"
                                 alt="Image" class="w-full h-auto">
                             <div class="absolute bottom-0 left-0 w-full bg-black bg-opacity-50 text-white text-center">
                                 <h1 class="text-sm p-4">Text in Image</h1>
@@ -137,7 +153,8 @@
                                                 d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
                                         </svg>
                                         <svg class="w-4 h-4 text-yellow-300 mr-1" aria-hidden="true"
-                                            xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
+                                            xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+                                            viewBox="0 0 22 20">
                                             <path
                                                 d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
                                         </svg>
@@ -163,7 +180,68 @@
                 </div>
             </div>
         </div>
+        <div class="center p-2">
+            <div id="map"></div>
+        </div>
     </div>
+    @include('/components.footer')
+    <script>
+        var map = L.map('map').setView([10.246602, 105.971673], 14);
+        // apikey =
+        //     'https://maps.vietmap.vn/api/dm/{z}/{x}/{y}@2x.png?apikey=c3d0f188ff669f89042771a20656579073cffec5a8a69747';
+        L.tileLayer('https://maps.vietmap.vn/tm/{z}/{x}/{y}.png?apikey=c3d0f188ff669f89042771a20656579073cffec5a8a69747', {
+            attribution: '&copy; <a href="https://maps.vietmap.vn/copyright">Vietmap</a> contributors'
+        }).addTo(map);
+        // L.tileLayer(apikey, {
+        //     attribution: '&copy; <a href="https://maps.vietmap.vn/copyright">Vietmap</a> contributors'
+        // }).addTo(map);
+        var greenIcon = L.icon({
+            iconUrl: 'https://cdn-icons-png.flaticon.com/512/2775/2775994.png',
+
+            iconSize: [35, 35], // size of the icon
+            iconAnchor: [17, 17], // point of the icon which will correspond to marker's location
+            popupAnchor: [0, -17] // point from which the popup should open relative to the iconAnchor
+        });
+
+        var markers = [{
+                coordinates: [10.24289042956059, 105.98461513620583],
+                icon: greenIcon,
+                name: "Văn Thánh Miếu Vĩnh Long"
+            },
+            {
+                coordinates: [10.159404623604246, 106.09437396485744],
+                icon: greenIcon,
+                name: "Thánh Tịnh Ngọc Sơn Quang"
+            },
+            {
+                coordinates: [10.270603597725295, 105.95376759554469],
+                icon: greenIcon,
+                name: "Khu Du Lịch Vinh Sang"
+            },
+            {
+                coordinates: [10.24601303358093, 106.00493038205147],
+                icon: greenIcon,
+                name: "Khu Du Lịch Sinh Thái Hoàng Hảo"
+            },
+            {
+                coordinates: [10.271718469021256, 105.9871891090376],
+                icon: greenIcon,
+                name: "Nhà Dừa CocoHome"
+            },
+            {
+                coordinates: [10.263176661827437, 105.96914328205166],
+                icon: greenIcon,
+                name: "Chùa Tiên Châu"
+            },
+            // Thêm các điểm đánh dấu khác vào đây nếu cần
+        ];
+
+        markers.forEach(function(marker) {
+            var newMarker = L.marker(marker.coordinates, {
+                icon: marker.icon
+            }).bindPopup('<p style="color: green; font-weight: bold">' + marker.name + '</p>').addTo(map);
+        });
+    </script>
 </body>
 
 </html>

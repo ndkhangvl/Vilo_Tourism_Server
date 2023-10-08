@@ -46,12 +46,19 @@ class LoginController extends Controller
         }
     }
 
-    function login(Request $R)
+    function login(Request $request)
     {
-        $user = User::where('email', $R->email)->first();
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required'
+        ]);
 
-        if ($user != '[]' && Hash::check($R->password, $user->password)) {
-            $token = $user->createToken('Personal Access Token')->plainTextToken;
+        $user = User::where('email', $request->email)->first();
+
+        if ($user != '[]' && Hash::check($request->password, $user->password)) {
+            $token = $user->createToken('Personal Access Token')->accessToken;
+            $token->token->expires_at = now()->addHour(); // Thiết lập thời hạn cho token
+            $token->token->save();
             $response = ['status' => 200, 'token' => $token, 'user' => $user, 'message' => 'Successfully Login! Welcome Back'];
             return response()->json($response);
         } else if ($user == '[]') {
