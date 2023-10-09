@@ -61,4 +61,5 @@ Route::post('/upload', [ImageController::class, 'upload']);
 Route::get('/admin', [AdminController::class, 'index']);
 Route::get('/admin/index', [AdminPlaceController::class, 'index']);
 Route::post('/admin/place/add', [AdminPlaceController::class, 'store']);
+Route::get('/admin/place/detail/{id}', [AdminPlaceController::class, 'getVLPlace']);
 Route::delete('/admin/place/delete/{id}', [AdminPlaceController::class, 'delete']);

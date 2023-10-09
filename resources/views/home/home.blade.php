@@ -13,6 +13,8 @@
     <script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js"
         integrity="sha512-GffPMF3RvMeYyc1LWMHtK8EbPv0iNZ8/oTtHPx9/cc2ILxQ+u905qIwdpULaqDkyBKgOaB57QTMg7ztg8Jm2Og=="
         crossorigin=""></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/polyline-encoded@0.0.9/Polyline.encoded.min.js"></script>
     <style>
         .container {
             width: 100%;
@@ -192,6 +194,87 @@
         L.tileLayer('https://maps.vietmap.vn/tm/{z}/{x}/{y}.png?apikey=c3d0f188ff669f89042771a20656579073cffec5a8a69747', {
             attribution: '&copy; <a href="https://maps.vietmap.vn/copyright">Vietmap</a> contributors'
         }).addTo(map);
+
+        $(document).ready(function() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function(position) {
+                    var latitude = position.coords.latitude;
+                    var longitude = position.coords.longitude;
+                    markers.forEach(function(marker) {
+                        var newMarker = L.marker([latitude, longitude], {
+                                icon: marker.icon
+                            }).bindPopup(
+                                '<p style="color: green; font-weight: bold"> Vị trí hiện tại </p>')
+                            .addTo(map);
+                    });
+                    console.log('Latitude: ' + latitude);
+                    console.log('Longitude: ' + longitude);
+                    $.ajax({
+                        url: 'https://maps.vietmap.vn/api/route?point=' + latitude + ',' +
+                            longitude +
+                            '&point=10.24289042956059,105.98461513620583&apikey=c3d0f188ff669f89042771a20656579073cffec5a8a69747',
+                        type: 'get',
+                        success: function(res) {
+                            // console.log(res);
+                            var colors = ['red', 'blue', 'green', 'yellow', 'orange'];
+                            // var html = '<h2 class="title">Kết quả lộ trình</h2>';
+                            for (var i = 0; i < res.paths.length; i++) {
+                                var totalmeter = 0;
+                                var num = Number(i + 1);
+                                // var subhtml = '';
+                                // subhtml += '<ul class="list">';
+                                var instructions = res.paths[i].instructions;
+                                // var points = res.paths[i].points.coordinates;
+                                var points = res.paths[i].points;
+                                console.log(points);
+                                var polyline = L.Polyline.fromEncoded(points);
+                                var coordinates = polyline.getLatLngs();
+                                console.log(coordinates);
+                            }
+
+                            //draw line
+                            var latlngs = [];
+
+                            for (var k = 0; k < coordinates.length; k++) {
+                                latlngs.push([coordinates[k].lat, coordinates[k].lng]);
+                            }
+
+                            var colorIdx = i % colors.length;
+                            var polyline = L.polyline(latlngs, {
+                                color: colors[colorIdx]
+                            }).addTo(map);
+                            // zoom the map to the polyline
+                            map.fitBounds(polyline.getBounds());
+
+                            var endIcon = L.icon({
+                                iconUrl: 'https://cdn-icons-png.flaticon.com/512/2775/2775994.png',
+                                iconSize: [35, 35], // size of the icon
+                                iconAnchor: [17,
+                                    17
+                                ], // point of the icon which will correspond to marker's location
+                            });
+                            var startIcon = L.icon({
+                                iconUrl: 'https://cdn-icons-png.flaticon.com/512/2775/2775994.png',
+                                iconSize: [35, 35], // size of the icon
+                                iconAnchor: [17,
+                                    17
+                                ], // point of the icon which will correspond to marker's location
+                            });
+
+                            L.marker(latlngs[0], {
+                                icon: startIcon
+                            }).addTo(map);
+                            L.marker(latlngs[latlngs.length - 1], {
+                                icon: endIcon
+                            }).addTo(map);
+
+                        }
+                    })
+                });
+            } else {
+                console.log('Geolocation is not supported by this browser.');
+            }
+        })
         // L.tileLayer(apikey, {
         //     attribution: '&copy; <a href="https://maps.vietmap.vn/copyright">Vietmap</a> contributors'
         // }).addTo(map);

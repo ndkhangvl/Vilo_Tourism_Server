@@ -18,6 +18,15 @@ class AdminPlaceController extends Controller
         ]);
     }
 
+    public function getVLPlace($id)
+    {
+        $vlplace = DB::select('select * from VLPlace where id_place=', [$id]);
+        return response()->json([
+            'success' => true,
+            'vlplace' => $vlplace,
+        ]);
+    }
+
     public function store(Request $request)
     {
         $request->validate([

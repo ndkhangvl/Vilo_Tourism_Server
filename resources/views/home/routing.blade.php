@@ -14,6 +14,11 @@
         integrity="sha512-GffPMF3RvMeYyc1LWMHtK8EbPv0iNZ8/oTtHPx9/cc2ILxQ+u905qIwdpULaqDkyBKgOaB57QTMg7ztg8Jm2Og=="
         crossorigin=""></script>
 
+    <script
+        src="
+                                                                                                                                                            https://cdn.jsdelivr.net/npm/polyline-encoded@0.0.9/Polyline.encoded.min.js
+                                                                                                                                                            ">
+    </script>
     <style>
         body {
             margin: 0;
@@ -103,7 +108,7 @@
             <li class="nav"><a href="tilemap.html">Bản đồ nền</a></li>
             <li class="nav active"><a href="routing.html">Dẫn đường qua 2 điểm</a></li>
             <li class="nav"><a href="routingmulti.html">Dẫn đường qua nhiều điểm</a></li>
-            <li class="nav"><a href="/autosearch">Auto Search</a></li>
+            <li class="nav"><a href="autosearch.html">Auto Search</a></li>
         </ul>
     </div>
     <div class="center row">
@@ -111,18 +116,37 @@
         <div class="col col-lg-10 col-md-9" id="map"></div>
     </div>
     <script>
-        var map = L.map('map').setView([10.045365, 105.780324], 14);
+        var map = L.map('map').setView([10.758810, 106.681450], 14);
 
-        L.tileLayer('https://maps.vietmap.vn/tm/{z}/{x}/{y}.png?apikey=9cbf0bc15d3901b7e043d8f76be8d73f370a82fe629a2d46', {
+        L.tileLayer('https://maps.vietmap.vn/tm/{z}/{x}/{y}.png?apikey=c3d0f188ff669f89042771a20656579073cffec5a8a69747', {
             attribution: '&copy; <a href="http://maps.vietmap.vn/copyright">Vietmap</a> contributors'
         }).addTo(map);
 
+        // document.addEventListener('DOMContentLoaded', function() {
+        //     var encodedPolyline =
+        //         "evu`Acq|iSi@aAg@}@EEe@{@Wc@[k@OUOWIOOYIOKSe@y@IOKQa@u@e@u@U_@}@_Ba@u@{@wACYEo@HY@SRYRWVSf@Un@]dAk@~@k@z@g@xBsAbAo@`Ao@f@[x@i@h@]n@a@pDaC~ByAdAo@fC}ARIt@CXAZ?JAb@?f@?t@AX?`@AZ?n@AlDC|@?T?|AAvA?`BGUsBOgBMeABMe@oDUiBEYSwAK@Fb@";
+
+        //     var decodedPolyline = L.Polyline.fromEncoded(encodedPolyline);
+
+        //     var coordinates = decodedPolyline.getLatLngs(); // Get an array of LatLng objects
+
+        //     console.log('Number of Coordinates: ' + coordinates.length);
+
+        //     for (var i = 0; i < coordinates.length; i++) {
+        //         var lat = coordinates[i].lat;
+        //         var lng = coordinates[i].lng;
+
+        //         console.log('Latitude: ' + lat);
+        //         console.log('Longitude: ' + lng);
+        //     }
+        // });
+
         $(document).ready(function() {
             $.ajax({
-
-                url: 'https://maps.vietmap.vn/api/route?point=10.045365,105.780324&point=10.030315,105.771931&apikey=9cbf0bc15d3901b7e043d8f76be8d73f370a82fe629a2d46',
+                url: 'https://maps.vietmap.vn/api/route?point=10.765963,106.647366&point=10.758258,106.660445&apikey=c3d0f188ff669f89042771a20656579073cffec5a8a69747',
                 type: 'get',
                 success: function(res) {
+                    // console.log(res);
                     var colors = ['red', 'blue', 'green', 'yellow', 'orange'];
                     var html = '<h2 class="title">Kết quả lộ trình</h2>';
                     for (var i = 0; i < res.paths.length; i++) {
@@ -131,7 +155,13 @@
                         var subhtml = '';
                         subhtml += '<ul class="list">';
                         var instructions = res.paths[i].instructions;
-                        var points = res.paths[i].points.coordinates;
+                        // var points = res.paths[i].points.coordinates;
+                        var points = res.paths[i].points;
+                        console.log(points);
+                        var polyline = L.Polyline.fromEncoded(points);
+                        var coordinates = polyline.getLatLngs();
+                        console.log(coordinates);
+
                         for (var j = 0; j < instructions.length - 1; j++) {
                             totalmeter += instructions[j].distance;
                             subhtml += '<li class="list-item">';
@@ -157,10 +187,11 @@
                     //draw line
                     var latlngs = [];
 
-                    for (var j = 0; j < points.length; j++) {
-                        latlngs.push([points[j][1], points[j][0]]);
+                    for (var k = 0; k < coordinates.length; k++) {
+                        latlngs.push([coordinates[k].lat, coordinates[k].lng]);
                     }
-                    var colorIdx = 5 % i;
+
+                    var colorIdx = i % colors.length;
                     var polyline = L.polyline(latlngs, {
                         color: colors[colorIdx]
                     }).addTo(map);
@@ -168,12 +199,18 @@
                     map.fitBounds(polyline.getBounds());
 
                     var endIcon = L.icon({
-                        iconUrl: 'https://github.com/vietmap-company/maps-api-demo/blob/master/endmarker.png?raw=true',
-                        iconAnchor: [32, 32]
+                        iconUrl: 'https://cdn-icons-png.flaticon.com/512/2775/2775994.png',
+                        iconSize: [35, 35], // size of the icon
+                        iconAnchor: [17,
+                            17
+                        ], // point of the icon which will correspond to marker's location
                     });
                     var startIcon = L.icon({
-                        iconUrl: 'https://github.com/vietmap-company/maps-api-demo/blob/master/startmarker.png?raw=true',
-                        iconAnchor: [32, 32]
+                        iconUrl: 'https://cdn-icons-png.flaticon.com/512/2775/2775994.png',
+                        iconSize: [35, 35], // size of the icon
+                        iconAnchor: [17,
+                            17
+                        ], // point of the icon which will correspond to marker's location
                     });
 
                     L.marker(latlngs[0], {
