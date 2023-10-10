@@ -11,10 +11,11 @@ class AdminController extends Controller
 {
     public function index()
     {
-        $vlplaces = DB::select('select * from VLPlace');
-        $vlinfo = DB::select('select * from VLService');
+        $vltotal = DB::select('EXEC CountDashboard;');
+        // $vlinfo = DB::select('select * from VLService');
+        // dd($vltotal);
         return view('admin.index', [
-            'vlplaces' => $vlplaces,
+            'vltotal' => $vltotal,
         ]);
     }
 }

@@ -48,11 +48,11 @@
                     <!-- Card -->
                     <a class="card card-hover-shadow h-100" href="#">
                         <div class="card-body">
-                            <h6 class="card-subtitle">Total Users</h6>
+                            <h6 class="card-subtitle">Tổng Người Dùng</h6>
 
                             <div class="row align-items-center gx-2 mb-1">
                                 <div class="col-6">
-                                    <span class="card-title h2">72,540</span>
+                                    <span class="card-title h2">{{ $vltotal[0]->UserCount }}</span>
                                 </div>
 
                                 <div class="col-6">
@@ -112,11 +112,11 @@
                     <!-- Card -->
                     <a class="card card-hover-shadow h-100" href="#">
                         <div class="card-body">
-                            <h6 class="card-subtitle">Sessions</h6>
+                            <h6 class="card-subtitle">Tổng Địa Điểm</h6>
 
                             <div class="row align-items-center gx-2 mb-1">
                                 <div class="col-6">
-                                    <span class="card-title h2">29.4%</span>
+                                    <span class="card-title h2">{{ $vltotal[0]->PlaceCount }}</span>
                                 </div>
 
                                 <div class="col-6">
@@ -176,11 +176,11 @@
                     <!-- Card -->
                     <a class="card card-hover-shadow h-100" href="#">
                         <div class="card-body">
-                            <h6 class="card-subtitle">Avg. Click Rate</h6>
+                            <h6 class="card-subtitle">Tổng Tin Tức</h6>
 
                             <div class="row align-items-center gx-2 mb-1">
                                 <div class="col-6">
-                                    <span class="card-title h2">56.8%</span>
+                                    <span class="card-title h2">{{ $vltotal[0]->NewsCount }}</span>
                                 </div>
 
                                 <div class="col-6">
@@ -240,7 +240,7 @@
                     <!-- Card -->
                     <a class="card card-hover-shadow h-100" href="#">
                         <div class="card-body">
-                            <h6 class="card-subtitle">Pageviews</h6>
+                            <h6 class="card-subtitle">Lượt ghé trang</h6>
 
                             <div class="row align-items-center gx-2 mb-1">
                                 <div class="col-6">

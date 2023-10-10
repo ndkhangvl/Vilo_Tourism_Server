@@ -39,7 +39,9 @@
                  "type": "css-animation"
                }'>
                              <div class="avatar avatar-sm avatar-circle">
-                                 <img class="avatar-img" src="/../assets/img/160x160/img6.jpg" alt="Image Description">
+                                 <img class="avatar-img"
+                                     src="https://banner2.cleanpng.com/20180329/zue/kisspng-computer-icons-user-profile-person-5abd85306ff7f7.0592226715223698404586.jpg"
+                                     alt="Image Description">
                                  <span class="avatar-status avatar-sm-status avatar-status-success"></span>
                              </div>
                          </a>
@@ -50,7 +52,8 @@
                              <div class="dropdown-item-text">
                                  <div class="media align-items-center">
                                      <div class="avatar avatar-sm avatar-circle mr-2">
-                                         <img class="avatar-img" src="/../assets/img/160x160/img6.jpg"
+                                         <img class="avatar-img"
+                                             src="https://banner2.cleanpng.com/20180329/zue/kisspng-computer-icons-user-profile-person-5abd85306ff7f7.0592226715223698404586.jpg"
                                              alt="Image Description">
                                      </div>
                                      <div class="media-body">

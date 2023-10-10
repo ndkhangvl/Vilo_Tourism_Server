@@ -69,7 +69,7 @@
                             <th class="p-2 text-center">Nội dung</th>
                             <th class="p-2 text-center">Ngày viết</th>
                             <th class="p-2 text-center">Số lượt view</th>
-                            <th class="p-2 text-center">Hành động</th>
+                            <th class="p-2 text-center" style="width: 100px">Hành động</th>
                         </tr>
                     </thead>
                     <tbody>

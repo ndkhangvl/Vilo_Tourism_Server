@@ -19,8 +19,8 @@
     <script src="https://cdn.ckeditor.com/ckeditor5/39.0.2/classic/ckeditor.js"></script>
 
     <!-- CSS Implementing Plugins -->
-    <link rel="stylesheet" href="{{ asset('assets/css/vendor.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/vendor/icon-set/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('/../assets/css/vendor.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('/../assets/vendor/icon-set/style.css') }}">
     <link rel="stylesheet" href="../node_modules/select2/dist/css/select2.min.css">
     {{-- <link rel="stylesheet" href="{{ asset('css/select2.min.css') }}">
     <script src="{{ asset('js/select2.min.js') }}"></script> --}}
@@ -51,10 +51,10 @@
                 <i class="tio-add"></i>
                 Thêm mới
             </button>
-            <button data-toggle="modal" data-target="#detailPlaceModal" class="btn btn-primary btn-lg px-3 py-2">
+            {{-- <button data-toggle="modal" data-target="#detailPlaceModal" class="btn btn-primary btn-lg px-3 py-2">
                 <i class="tio-add"></i>
                 Thêm mới
-            </button>
+            </button> --}}
         </div>
         <div class="container-fluid p-3">
             <div class="table-responsive">
@@ -497,17 +497,17 @@
     <!-- End Modal -->
 
     <!-- JS Implementing Plugins -->
-    <script src="assets\js\vendor.min.js"></script>
-    <script src="assets\vendor\chart.js\dist\Chart.min.js"></script>
-    <script src="assets\vendor\chart.js.extensions\chartjs-extensions.js"></script>
-    <script src="assets\vendor\chartjs-plugin-datalabels\dist\chartjs-plugin-datalabels.min.js"></script>
+    <script src="\..\assets\js\vendor.min.js"></script>
+    <script src="\..\assets\vendor\chart.js\dist\Chart.min.js"></script>
+    <script src="\..\assets\vendor\chart.js.extensions\chartjs-extensions.js"></script>
+    <script src="\..\assets\vendor\chartjs-plugin-datalabels\dist\chartjs-plugin-datalabels.min.js"></script>
     <script src="../node_modules/select2/dist/js/select2.full.min.js"></script>
 
 
 
     <!-- JS Front -->
-    <script src="assets\js\theme.min.js"></script>
-    <script src="assets/js/hs.select2.js"></script>
+    <script src="\..\assets\js\theme.min.js"></script>
+    <script src="\..\assets/js/hs.select2.js"></script>
 
     <!-- JS Plugins Init. -->
     <script>

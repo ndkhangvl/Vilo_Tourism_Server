@@ -56,11 +56,14 @@ class LoginController extends Controller
         $user = User::where('email', $request->email)->first();
 
         if ($user != '[]' && Hash::check($request->password, $user->password)) {
-            $token = $user->createToken('Personal Access Token')->accessToken;
-            $token->token->expires_at = now()->addHour(); // Thiết lập thời hạn cho token
-            $token->token->save();
-            $response = ['status' => 200, 'token' => $token, 'user' => $user, 'message' => 'Successfully Login! Welcome Back'];
-            return response()->json($response);
+            $token = $user->createToken('Personal Access Token')->plainTextToken;
+            // $token->token->expires_at = now()->addHour(); // Thiết lập thời hạn cho token
+            // $token->token->save();
+            // $response = ['status' => 200, 'token' => $token, 'user' => $user, 'message' => 'Successfully Login! Welcome Back'];
+            return response()->json([
+                'access_token' => $token,
+                'token_type' => 'Bearer',
+            ]);
         } else if ($user == '[]') {
             $response = ['status' => 500, 'message' => 'No account found with this email'];
             return response()->json($response);
@@ -70,6 +73,11 @@ class LoginController extends Controller
             return response()->json($response);
         }
 
+    }
+
+    public function me(Request $request)
+    {
+        return $request->user();
     }
 }
 
