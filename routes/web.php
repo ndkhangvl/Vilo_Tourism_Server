@@ -6,6 +6,8 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PlaceController;
 use App\Http\Controllers\ImageController;
+use App\Http\Controllers\AdminNewsController;
+use App\Http\Controllers\AdminUserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -59,7 +61,11 @@ Route::post('/upload', [ImageController::class, 'upload']);
 
 //For Admin Type
 Route::get('/admin', [AdminController::class, 'index']);
-Route::get('/admin/index', [AdminPlaceController::class, 'index']);
+//Admin Place
+Route::get('/admin/place', [AdminPlaceController::class, 'index']);
 Route::post('/admin/place/add', [AdminPlaceController::class, 'store']);
 Route::get('/admin/place/detail/{id}', [AdminPlaceController::class, 'getVLPlace']);
 Route::delete('/admin/place/delete/{id}', [AdminPlaceController::class, 'delete']);
+//Admin News
+Route::get('/admin/news', [AdminNewsController::class, 'index']);
+//Admin User

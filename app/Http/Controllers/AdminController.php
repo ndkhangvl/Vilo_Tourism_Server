@@ -13,7 +13,7 @@ class AdminController extends Controller
     {
         $vlplaces = DB::select('select * from VLPlace');
         $vlinfo = DB::select('select * from VLService');
-        return view('admin.home', [
+        return view('admin.index', [
             'vlplaces' => $vlplaces,
         ]);
     }
