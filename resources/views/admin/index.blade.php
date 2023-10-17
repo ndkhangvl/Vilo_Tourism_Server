@@ -46,7 +46,7 @@
             <div class="row gx-2 gx-lg-3">
                 <div class="col-sm-6 col-lg-3 mb-3 mb-lg-5">
                     <!-- Card -->
-                    <a class="card card-hover-shadow h-100" href="#">
+                    <a class="card card-hover-shadow h-100" href="/admin/users">
                         <div class="card-body">
                             <h6 class="card-subtitle">Tổng Người Dùng</h6>
 
@@ -99,10 +99,10 @@
                             </div>
                             <!-- End Row -->
 
-                            <span class="badge badge-soft-success">
+                            {{-- <span class="badge badge-soft-success">
                                 <i class="tio-trending-up"></i> 12.5%
                             </span>
-                            <span class="text-body font-size-sm ml-1">from 70,104</span>
+                            <span class="text-body font-size-sm ml-1">from 70,104</span> --}}
                         </div>
                     </a>
                     <!-- End Card -->
@@ -110,7 +110,7 @@
 
                 <div class="col-sm-6 col-lg-3 mb-3 mb-lg-5">
                     <!-- Card -->
-                    <a class="card card-hover-shadow h-100" href="#">
+                    <a class="card card-hover-shadow h-100" href="/admin/place">
                         <div class="card-body">
                             <h6 class="card-subtitle">Tổng Địa Điểm</h6>
 
@@ -163,10 +163,10 @@
                             </div>
                             <!-- End Row -->
 
-                            <span class="badge badge-soft-success">
+                            {{-- <span class="badge badge-soft-success">
                                 <i class="tio-trending-up"></i> 1.7%
                             </span>
-                            <span class="text-body font-size-sm ml-1">from 29.1%</span>
+                            <span class="text-body font-size-sm ml-1">from 29.1%</span> --}}
                         </div>
                     </a>
                     <!-- End Card -->
@@ -174,7 +174,7 @@
 
                 <div class="col-sm-6 col-lg-3 mb-3 mb-lg-5">
                     <!-- Card -->
-                    <a class="card card-hover-shadow h-100" href="#">
+                    <a class="card card-hover-shadow h-100" href="/admin/news">
                         <div class="card-body">
                             <h6 class="card-subtitle">Tổng Tin Tức</h6>
 
@@ -227,10 +227,10 @@
                             </div>
                             <!-- End Row -->
 
-                            <span class="badge badge-soft-danger">
+                            {{-- <span class="badge badge-soft-danger">
                                 <i class="tio-trending-down"></i> 4.4%
                             </span>
-                            <span class="text-body font-size-sm ml-1">from 61.2%</span>
+                            <span class="text-body font-size-sm ml-1">from 61.2%</span> --}}
                         </div>
                     </a>
                     <!-- End Card -->
@@ -238,7 +238,7 @@
 
                 <div class="col-sm-6 col-lg-3 mb-3 mb-lg-5">
                     <!-- Card -->
-                    <a class="card card-hover-shadow h-100" href="#">
+                    <a class="card card-hover-shadow h-100" href="/admin">
                         <div class="card-body">
                             <h6 class="card-subtitle">Lượt ghé trang</h6>
 
@@ -291,8 +291,8 @@
                             </div>
                             <!-- End Row -->
 
-                            <span class="badge badge-soft-secondary">0.0%</span>
-                            <span class="text-body font-size-sm ml-1">from 2,913</span>
+                            {{-- <span class="badge badge-soft-secondary">0.0%</span>
+                            <span class="text-body font-size-sm ml-1">from 2,913</span> --}}
                         </div>
                     </a>
                     <!-- End Card -->

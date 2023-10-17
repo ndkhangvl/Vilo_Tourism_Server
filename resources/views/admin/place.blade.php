@@ -51,10 +51,6 @@
                 <i class="tio-add"></i>
                 Thêm mới
             </button>
-            {{-- <button data-toggle="modal" data-target="#detailPlaceModal" class="btn btn-primary btn-lg px-3 py-2">
-                <i class="tio-add"></i>
-                Thêm mới
-            </button> --}}
         </div>
         <div class="container-fluid p-3">
             <div class="table-responsive">
@@ -84,12 +80,15 @@
                                 <td class="text-center align-middle">{{ $vlplace->email_contact_place }}</td>
                                 <!-- <td class="text-center align-middle">{{ $vlplace->describe_place }}</td> -->
                                 <td class="d-flex align-items-center">
-                                    <a href="/admin/place/{{ $vlplace->id_place }}" class="view flex-grow-1"
+                                    <a href="/admin/place/detail/{{ $vlplace->id_place }}" class="view flex-grow-1"
                                         title="" data-toggle="tooltip" data-original-title="View"
-                                        style="margin: 0 1px;"><i class="tio-visible-outlined"></i></a>
-                                    <a href="#" class="edit flex-grow-1" title="" data-toggle="tooltip"
-                                        data-original-title="Edit" style="margin: 0 1px;"
-                                        data-bs-target="#detailPlaceModal"><i class="tio-edit text-warning"></i></a>
+                                        style="margin: 0 1px;" onclick="getDetailPlace(event,this)"><i
+                                            class="tio-visible-outlined"></i></a>
+                                    <a href="/admin/place/detail/{{ $vlplace->id_place }}" class="edit flex-grow-1"
+                                        title="" data-toggle="tooltip" data-original-title="Edit"
+                                        style="margin: 0 1px;"
+                                        onclick="getEditDetailPlace(event,this, {{ $vlplace->id_place }})"
+                                        data-id="{{ $vlplace->id_place }}"><i class="tio-edit text-warning"></i></a>
                                     {{-- <a href="/admin/place/delete/{{ $vlplace->id_place }}" class="delete"
                                         title="" data-toggle="tooltip" data-original-title="Delete"
                                         style="margin: 0 5px;"><i class="tio-delete-outlined text-danger"></i></a> --}}
@@ -255,112 +254,114 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form action="/admin/place/add" class="" method="POST" id="viewPlace"
-                        enctype="multipart/form-data">
-                        @csrf
-                        <div class="form-row">
-                            <div class="form-group col-md-4">
-                                <label for="id_view_area">Khu vực</label>
-                                <select id="id_view_area" name="id_view_area"
-                                    class="js-select2-custom1 custom-select" size="1" style="opacity: 0;"
-                                    data-hs-select2-options='{
+                    <div id="detailContent">
+                        <form action="/admin/place/add" class="" method="POST" id="viewPlace"
+                            enctype="multipart/form-data">
+                            @csrf
+                            <div class="form-row">
+                                <div class="form-group col-md-4">
+                                    <label for="label_view_area">Khu vực</label>
+                                    <select id="id_view_area" name="id_view_area"
+                                        class="js-select2-custom1 custom-select" size="1" style="opacity: 0;"
+                                        data-hs-select2-options='{
           "minimumResultsForSearch": "Infinity"
         }'>
-                                    <option value="1000">Huyện Bình Tân</option>
-                                    <option value="1001">Huyện Long Hồ</option>
-                                    <option value="1002">Huyện Mang Thít</option>
-                                    <option value="1003">Huyện Tam Bình</option>
-                                    <option value="1004">Huyện Trà Ôn</option>
-                                    <option value="1005">Huyện Vũng Liêm</option>
-                                    <option value="1006">Thành phố Vĩnh Long</option>
-                                    <option value="1007">Thị xã Bình Minh</option>
-                                </select>
-                            </div>
-                            <div class="form-group col-md-4">
-                                <label for="id_view_price">Loại giá</label>
-                                <select id="id_view_price" name="id_view_price"
-                                    class="js-select2-custom1 custom-select" size="1" style="opacity: 0;"
-                                    data-hs-select2-options='{
+                                        <option value="1000">Huyện Bình Tân</option>
+                                        <option value="1001">Huyện Long Hồ</option>
+                                        <option value="1002">Huyện Mang Thít</option>
+                                        <option value="1003">Huyện Tam Bình</option>
+                                        <option value="1004">Huyện Trà Ôn</option>
+                                        <option value="1005">Huyện Vũng Liêm</option>
+                                        <option value="1006">Thành phố Vĩnh Long</option>
+                                        <option value="1007">Thị xã Bình Minh</option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label for="id_view_price">Loại giá</label>
+                                    <select id="id_view_price" name="id_view_price"
+                                        class="js-select2-custom1 custom-select" size="1" style="opacity: 0;"
+                                        data-hs-select2-options='{
           "minimumResultsForSearch": "Infinity"
         }'>
-                                    <option value="3000">Miễn phí</option>
-                                    <option value="3001">Có phí</option>
-                                </select>
-                            </div>
-                            <div class="form-group col-md-4">
-                                <label for="id_view_type">Loại dịch vụ</label>
-                                <select id="id_view_type" name="id_view_type"
-                                    class="js-select2-custom1 custom-select" size="1" style="opacity: 0;"
-                                    data-hs-select2-options='{
+                                        <option value="3000">Miễn phí</option>
+                                        <option value="3001">Có phí</option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label for="id_view_type">Loại dịch vụ</label>
+                                    <select id="id_view_type" name="id_view_type"
+                                        class="js-select2-custom1 custom-select" size="1" style="opacity: 0;"
+                                        data-hs-select2-options='{
           "minimumResultsForSearch": "Infinity"
         }'>
-                                    <option value="4000">Du lịch sinh thái</option>
-                                    <option value="4001">Du lịch làng nghề</option>
-                                    <option value="4002">Du lịch lịch sử - văn hóa</option>
-                                    <option value="4003">Du lịch tâm linh</option>
-                                    <option value="4004">Du lịch trở về nguồn cội</option>
-                                </select>
+                                        <option value="4000">Du lịch sinh thái</option>
+                                        <option value="4001">Du lịch làng nghề</option>
+                                        <option value="4002">Du lịch lịch sử - văn hóa</option>
+                                        <option value="4003">Du lịch tâm linh</option>
+                                        <option value="4004">Du lịch trở về nguồn cội</option>
+                                    </select>
+                                </div>
                             </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group col-md-4">
-                                <label for="type_view_service">Loại dịch vụ</label>
-                                <select id="type_view_service" class="js-select2-custom1 custom-select"
-                                    size="1" style="opacity: 0;"
-                                    data-hs-select2-options='{
+                            <div class="form-row">
+                                <div class="form-group col-md-4">
+                                    <label for="type_view_service">Loại dịch vụ</label>
+                                    <select id="type_view_service" class="js-select2-custom1 custom-select"
+                                        size="1" style="opacity: 0;"
+                                        data-hs-select2-options='{
           "minimumResultsForSearch": "Infinity"
         }'>
-                                    <option value="1003">Miễn phí</option>
-                                    <option value="1002">Có phí</option>
-                                </select>
+                                        <option value="1003">Miễn phí</option>
+                                        <option value="1002">Có phí</option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label for="name_place">Tên địa điểm</label>
+                                    <input type="text" name="name_view_place" id="name_view_place"
+                                        class="form-control" placeholder="Nhập vào tên địa điểm" required>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label for="label_address_place">Địa chỉ</label>
+                                    <input type="text" name="address_view_place" id="address_view_place"
+                                        class="form-control" placeholder="Nhập vào địa chỉ" required>
+                                </div>
                             </div>
-                            <div class="form-group col-md-4">
-                                <label for="name_place">Tên địa điểm</label>
-                                <input type="text" name="name_place" id="name_place" class="form-control"
-                                    placeholder="Nhập vào tên địa điểm" required>
+                            <div class="form-row">
+                                <div class="form-group col-md-4">
+                                    <label for="label_phone_place">Số điện thoại</label>
+                                    <input type="text" name="phone_view_place" id="phone_view_place"
+                                        class="form-control" placeholder="Nhập vào số điện thoại" required>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label for="start_time">Thời gian mở cửa</label>
+                                    <input type="text" name="start_view_time" id="start_view_time"
+                                        class="form-control" placeholder="Nhập thời gian mở cửa" required>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label for="end_time">Thời gian đóng cửa</label>
+                                    <input type="text" name="end_view_time" id="end_view_time"
+                                        class="form-control" placeholder="Nhập thời gian đóng cửa" required>
+                                </div>
                             </div>
-                            <div class="form-group col-md-4">
-                                <label for="address_place">Địa chỉ</label>
-                                <input type="text" name="address_place" id="address_place" class="form-control"
-                                    placeholder="Nhập vào địa chỉ" required>
+                            <div class="form-group">
+                                <label for="email_contact_place">Email</label>
+                                <input type="email" name="email_view_contact_place" id="email_view_contact_place"
+                                    class="form-control" placeholder="Nhập vào email" required>
                             </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group col-md-4">
-                                <label for="phone_place">Số điện thoại</label>
-                                <input type="text" name="phone_place" id="phone_place" class="form-control"
-                                    placeholder="Nhập vào số điện thoại" required>
+                            <div class="form-group">
+                                <label for="describe_place">Mô tả</label>
+                                <textarea id="viewCKeditor" class="form-control" name="describe_view_place"></textarea>
                             </div>
-                            <div class="form-group col-md-4">
-                                <label for="start_time">Thời gian mở cửa</label>
-                                <input type="text" name="start_time" id="start_time" class="form-control"
-                                    placeholder="Nhập thời gian mở cửa" required>
-                            </div>
-                            <div class="form-group col-md-4">
-                                <label for="end_time">Thời gian đóng cửa</label>
-                                <input type="text" name="end_time" id="end_time" class="form-control"
-                                    placeholder="Nhập thời gian đóng cửa" required>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="email_contact_place">Email</label>
-                            <input type="email" name="email_contact_place" id="email_contact_place"
-                                class="form-control" placeholder="Nhập vào email" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="describe_place">Mô tả</label>
-                            <textarea id="editCKeditor" class="form-control" name="describe_place"></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label for="file_input">Upload file</label>
-                            <input class="js-dropzone dropzone-custom custom-file-boxed dz-clickable" id="file_input"
-                                type="file" name="image">
-                        </div>
-                        <div class="form-group">
-                            <button data-modal-hide="defaultModal" type="submit" class="btn btn-primary">I
-                                accept</button>
-                        </div>
-                    </form>
+                            {{-- <div class="form-group">
+                                <label for="file_input">Upload file</label>
+                                <input class="js-dropzone dropzone-custom custom-file-boxed dz-clickable"
+                                    id="file_view_input" type="file" name="image">
+                            </div> --}}
+                            {{-- <div class="form-group">
+                                <button data-modal-hide="defaultModal" type="submit" class="btn btn-primary">I
+                                    accept</button>
+                            </div> --}}
+                        </form>
+                    </div>
 
                 </div>
             </div>
@@ -370,26 +371,26 @@
 
     <!-- Modal Edit -->
     <!-- Modal -->
-    {{-- <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="editPlaceModal"
+    <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="editPlaceModal"
         aria-hidden="true" id="editPlaceModal">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
-
                 <div class="modal-header">
-                    <h5 class="modal-title h4" id="editPlaceModal">Large modal</h5>
+                    <h5 class="modal-title h4" id="editPlaceModal">Chỉnh sửa địa điểm</h5>
                     <button type="button" class="btn btn-xs btn-icon btn-ghost-secondary" data-dismiss="modal"
                         aria-label="Close">
                         <i class="tio-clear tio-lg"></i>
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form action="/admin/place/add" class="" method="POST" id="addPlace"
+                    <form action="#" class="" method="POST" id="editPlace"
                         enctype="multipart/form-data">
                         @csrf
+                        @method('PUT')
                         <div class="form-row">
                             <div class="form-group col-md-4">
                                 <label for="id_area">Khu vực</label>
-                                <select id="id_area" name="id_area" class="js-select2-custom custom-select"
+                                <select id="id_edit_area" name="id_edit_area" class="js-select2-custom custom-select"
                                     size="1" style="opacity: 0;"
                                     data-hs-select2-options='{
           "minimumResultsForSearch": "Infinity"
@@ -406,8 +407,8 @@
                             </div>
                             <div class="form-group col-md-4">
                                 <label for="id_price">Loại giá</label>
-                                <select id="id_price" name="id_price" class="js-select2-custom custom-select"
-                                    size="1" style="opacity: 0;"
+                                <select id="id_edit_price" name="id_edit_price"
+                                    class="js-select2-custom custom-select" size="1" style="opacity: 0;"
                                     data-hs-select2-options='{
           "minimumResultsForSearch": "Infinity"
         }'>
@@ -417,7 +418,7 @@
                             </div>
                             <div class="form-group col-md-4">
                                 <label for="id_type">Loại dịch vụ</label>
-                                <select id="id_type" name="id_type" class="js-select2-custom custom-select"
+                                <select id="id_edit_type" name="id_edit_type" class="js-select2-custom custom-select"
                                     size="1" style="opacity: 0;"
                                     data-hs-select2-options='{
           "minimumResultsForSearch": "Infinity"
@@ -433,7 +434,7 @@
                         <div class="form-row">
                             <div class="form-group col-md-4">
                                 <label for="type_service">Loại dịch vụ</label>
-                                <select id="type_service" class="js-select2-custom custom-select" size="1"
+                                <select id="type_edit_service" class="js-select2-custom custom-select" size="1"
                                     style="opacity: 0;"
                                     data-hs-select2-options='{
           "minimumResultsForSearch": "Infinity"
@@ -444,56 +445,56 @@
                             </div>
                             <div class="form-group col-md-4">
                                 <label for="name_place">Tên địa điểm</label>
-                                <input type="text" name="name_place" id="name_place" class="form-control"
-                                    placeholder="Nhập vào tên địa điểm" required>
+                                <input type="text" name="name_edit_place" id="name_edit_place"
+                                    class="form-control" placeholder="Nhập vào tên địa điểm" required>
                             </div>
                             <div class="form-group col-md-4">
                                 <label for="address_place">Địa chỉ</label>
-                                <input type="text" name="address_place" id="address_place" class="form-control"
-                                    placeholder="Nhập vào địa chỉ" required>
+                                <input type="text" name="address_edit_place" id="address_edit_place"
+                                    class="form-control" placeholder="Nhập vào địa chỉ" required>
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="form-group col-md-4">
                                 <label for="phone_place">Số điện thoại</label>
-                                <input type="text" name="phone_place" id="phone_place" class="form-control"
-                                    placeholder="Nhập vào số điện thoại" required>
+                                <input type="text" name="phone_edit_place" id="phone_edit_place"
+                                    class="form-control" placeholder="Nhập vào số điện thoại" required>
                             </div>
                             <div class="form-group col-md-4">
                                 <label for="start_time">Thời gian mở cửa</label>
-                                <input type="text" name="start_time" id="start_time" class="form-control"
-                                    placeholder="Nhập thời gian mở cửa" required>
+                                <input type="text" name="start_edit_time" id="start_edit_time"
+                                    class="form-control" placeholder="Nhập thời gian mở cửa" required>
                             </div>
                             <div class="form-group col-md-4">
                                 <label for="end_time">Thời gian đóng cửa</label>
-                                <input type="text" name="end_time" id="end_time" class="form-control"
+                                <input type="text" name="end_edit_time" id="end_edit_time" class="form-control"
                                     placeholder="Nhập thời gian đóng cửa" required>
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="email_contact_place">Email</label>
-                            <input type="email" name="email_contact_place" id="email_contact_place"
+                            <input type="email" name="email_edit_contact_place" id="email_edit_contact_place"
                                 class="form-control" placeholder="Nhập vào email" required>
                         </div>
                         <div class="form-group">
                             <label for="describe_place">Mô tả</label>
-                            <textarea id="editor" class="form-control" name="describe_place"></textarea>
+                            <textarea id="editCKeditor" class="form-control" name="describe_edit_place"></textarea>
                         </div>
                         <div class="form-group">
                             <label for="file_input">Upload file</label>
-                            <input class="js-dropzone dropzone-custom custom-file-boxed dz-clickable" id="file_input"
-                                type="file" name="image">
+                            <input class="js-dropzone dropzone-custom custom-file-boxed dz-clickable"
+                                id="file_edit_input" type="file" name="image">
                         </div>
                         <div class="form-group">
-                            <button data-modal-hide="defaultModal" type="submit" class="btn btn-primary">I
-                                accept</button>
+                            <button data-modal-hide="defaultModal" type="submit" class="btn btn-primary">Chỉnh
+                                sửa</button>
                         </div>
                     </form>
 
                 </div>
             </div>
         </div>
-    </div> --}}
+    </div>
     <!-- End Modal -->
 
     <!-- JS Implementing Plugins -->
@@ -659,11 +660,11 @@
                     console.error(error);
                 });
 
-            ClassicEditor
-                .create(document.querySelector('#editCKeditor'))
-                .catch(error => {
-                    console.error(error);
-                });
+            // ClassicEditor
+            //     .create(document.querySelector('#editCKeditor'))
+            //     .catch(error => {
+            //         console.error(error);
+            //     });
 
             // INITIALIZATION OF CLIPBOARD
             // =======================================================
@@ -674,6 +675,38 @@
     </script>
 
     <script>
+        $(document).ready(function() {
+            $('#editPlace').submit(function(event) {
+                event.preventDefault(); // Ngăn chặn hành vi submit mặc định của form
+                var csrfToken = $('input[name="_token"]').val();
+                // Lấy dữ liệu từ form
+                var formData = new FormData(this);
+                console.log(formData.get('describe_edit_place'));
+                // console.log(formData.get('name_edit_place'));
+                $.ajax({
+                    url: '/admin/place/edit/' + id, // Đường dẫn URL để gửi Ajax request
+                    data: formData,
+                    type: 'POST',
+                    enctype: 'multipart/form-data',
+                    processData: false,
+                    contentType: false,
+                    headers: {
+                        'X-CSRF-TOKEN': csrfToken // Thiết lập CSRF token trong header của yêu cầu
+                    },
+                    success: function(response) {
+                        // Xử lý kết quả thành công
+                        console.log('Success:', response);
+                        // Thực hiện các xử lý bổ sung (nếu cần)
+                    },
+                    error: function(xhr, status, error) {
+                        // Xử lý lỗi
+                        console.log('Error:', error);
+                    }
+                });
+                console.log(formData.get('name_edit_place'));
+            });
+        });
+
         function deletePlace(id) {
             $.ajax({
                 url: '/admin/place/delete/' + id,
@@ -687,104 +720,114 @@
             });
         }
 
-        function getdetailPlace(id) {
+        var myEditorSend;
+        var myViewSend;
+        //Get View Modal
+        function getDetailPlace(event, element) {
+            event.preventDefault();
+            var url = $(element).attr('href');
+
+            // Tạo CKEditor nếu chưa tồn tại
+            if (!myViewSend) {
+                ClassicEditor
+                    .create(document.querySelector('#viewCKeditor'))
+                    .then(newEditor1 => {
+                        myViewSend = newEditor1;
+                        fetchDetailData(url);
+                    })
+                    .catch(error => {
+                        console.error(error);
+                    });
+            } else {
+                fetchDetailData(url);
+            }
+        }
+
+        function fetchDetailData(url) {
             $.ajax({
-                url: '/admin/place/detail/' + id,
+                url: url,
                 type: 'GET',
                 success: function(response) {
-                    console.log(response);
+                    // console.log(response);
+                    var detailData = response.vlplace[0];
+
+                    // $('#id_view_price').val(detailData.id_price);
+                    // console.log(detailData.id_area);
+                    $('#id_view_price').val(detailData.id_price).trigger('change');
+                    $('#id_view_area').val(detailData.id_area).trigger('change');
+                    $('#id_view_type').val(detailData.id_type).trigger('change');
+                    $('#type_view_service').val(detailData.type_service).trigger('change');
+                    $('#name_view_place').val(detailData.name_place);
+                    $('#address_view_place').val(detailData.address_place);
+                    $('#phone_view_place').val(detailData.phone_place);
+                    $('#start_view_time').val(detailData.start_time);
+                    $('#end_view_time').val(detailData.end_time);
+                    $('#email_view_contact_place').val(detailData.email_contact_place);
+                    // Gán dữ liệu vào CKEditor
+                    myViewSend.setData(detailData.describe_place);
+
+                    $('#detailPlaceModal').modal('show');
                 },
                 error: function() {
-                    // Xử lý lỗi
+                    // Xử lý lỗi (nếu cần)
+                }
+            });
+        }
+
+        //Get Edit Modal
+        function getEditDetailPlace(event, element, id) {
+            event.preventDefault();
+            var url = $(element).attr('href');
+            // Tạo CKEditor nếu chưa tồn tại
+            if (!myEditorSend) {
+                ClassicEditor
+                    .create(document.querySelector('#editCKeditor'))
+                    .then(newEditor => {
+                        fetchEditDetailData(url);
+                        myEditorSend = newEditor;
+                        // fetchEditDetailData(url);
+                    })
+                    .catch(error => {
+                        console.error(error);
+                    });
+            } else {
+                fetchEditDetailData(url);
+            }
+        }
+
+        function fetchEditDetailData(url) {
+            $.ajax({
+                url: url,
+                type: 'GET',
+                success: function(response) {
+                    // console.log(response);
+                    var detailData = response.vlplace[0];
+
+                    // $('#id_view_price').val(detailData.id_price);
+                    // console.log(detailData.id_area);
+                    id = detailData.id_place;
+                    $('#id_edit_price').val(detailData.id_price).trigger('change');
+                    $('#id_edit_area').val(detailData.id_area).trigger('change');
+                    $('#id_edit_type').val(detailData.id_type).trigger('change');
+                    $('#type_edit_service').val(detailData.type_service).trigger('change');
+                    $('#name_edit_place').val(detailData.name_place);
+                    $('#address_edit_place').val(detailData.address_place);
+                    $('#phone_edit_place').val(detailData.phone_place);
+                    $('#start_edit_time').val(detailData.start_time);
+                    $('#end_edit_time').val(detailData.end_time);
+                    $('#email_edit_contact_place').val(detailData.email_contact_place);
+                    // Gán dữ liệu vào CKEditor
+                    myEditorSend.setData(detailData.describe_place);
+
+                    $('#editPlaceModal').modal('show');
+                },
+                error: function() {
+                    // Xử lý lỗi (nếu cần)
                 }
             });
         }
     </script>
 
-    {{-- <script>
-        $('#detailPlaceModal').on('show.bs.modal', function(event) {
-            var button = $(event.relatedTarget);
-            var itemId = button.data('id');
-
-            var ngaytao = $('#detailPlaceModal #dtngaytao');
-            var sohoadon = $('#detailPlaceModal #dtsohoadon');
-            var trangthai = $('#detailPlaceModal #dttrangthai');
-            var filelink = $('#detailPlaceModal #dtfilelink');
-            var khachhang = $('#detailPlaceModal #dtkhachhang');
-            var dienthoai = $('#detailPlaceModal #dtdienthoai');
-            var diachi = $('#detailPlaceModal #dtdiachi');
-            var sohopdong = $('#detailPlaceModal #dtsohopdong');
-            var goithau = $('#detailPlaceModal #dtgoithau');
-            var duan = $('#detailPlaceModal #dtduan');
-            var nguoitao = $('#detailPlaceModal #dtnguoitao');
-            var nguoimuahang = $('#detailPlaceModal #dtnguoimuahang');
-            var tongtien = $('#detailPlaceModal #dttongtien');
-            var thuesuat = $('#detailPlaceModal #dtthuesuat');
-            var tienthue = $('#detailPlaceModal #dttienthue');
-            var tongtiencothue = $('#detailPlaceModal #dttongtiencothue');
-            var sotienbangchu = $('#detailPlaceModal #dtsotienbangchu');
-            var xuathoadon = $('#detailPlaceModal #dtbtnxuatpdf');
-            // Make an AJAX request to get the item details
-            $.ajax({
-                url: '/gethoadon/' + itemId,
-                type: 'GET',
-                success: function(response) {
-                    var hoadon = response.hoadon2;
-                    var cthd = response.chitiethoadon2;
-                    var cntcthd = response.cntcthd;
-
-                    ngaytao.text(hoadon.HOADON_NGAYTAO);
-                    sohoadon.text(hoadon.HOADON_SO);
-                    if (hoadon.HOADON_TRANGTHAI == 1) {
-                        trangthai.css('color', 'green');
-                        trangthai.text("Đã thanh toán");
-                    } else {
-                        trangthai.css('color', 'red');
-                        trangthai.text("Chưa thanh toán");
-                    }
-                    filelink.attr('href', '{{ asset('storage/') }}' + "/" + hoadon
-                        .HOADON_FILE);
-                    filelink.text(hoadon.HOADON_FILE);
-                    khachhang.attr('href', 'khachhang' + "/" + hoadon.KHACHHANG_ID);
-                    khachhang.text(hoadon.KHACHHANG_TEN);
-                    dienthoai.text(hoadon.KHACHHANG_SDT);
-                    diachi.text(hoadon.KHACHHANG_DIACHI);
-                    sohopdong.attr('href', '/hopdong' + "/" + hoadon.HOPDONG_SO);
-                    sohopdong.text(hoadon.HOPDONG_SO);
-                    goithau.text(hoadon.HOPDONG_TENGOITHAU);
-                    duan.text(hoadon.HOPDONG_TENDUAN);
-                    nguoitao.text(hoadon.HOADON_NGUOITAO);
-                    nguoimuahang.text(hoadon.HOADON_NGUOIMUAHANG);
-                    tongtien.text(hoadon.HOADON_TONGTIEN);
-                    thuesuat.text(hoadon.HOADON_THUESUAT);
-                    tienthue.text(hoadon.HOADON_TIENTHUE);
-                    tongtiencothue.text(hoadon.HOADON_TONGTIEN_COTHUE);
-                    sotienbangchu.text(hoadon.HOADON_SOTIENBANGCHU);
-
-                    for (var i = 0; i < cthd.length; i++) {
-                        var item = cthd[i];
-                        var tr = $("<tr>");
-                        var tdSTT = $("<td>").text(item.STT);
-                        tr.append(tdSTT);
-                        var tdNOIDUNG = $("<td>").text(item.NOIDUNG);
-                        tr.append(tdNOIDUNG);
-                        var tdSOLUONG = $("<td>").text(item.SOLUONG);
-                        tr.append(tdSOLUONG);
-                        var tdDVT = $("<td>").text(item.DVT);
-                        tr.append(tdDVT);
-                        var tdDONGIA = $("<td>").text(item.DONGIA);
-                        tr.append(tdDONGIA);
-                        var tdTHANHTIEN = $("<td>").text(item.THANHTIEN);
-                        tr.append(tdTHANHTIEN);
-                        $("#dtcthd").append(tr);
-                    }
-
-                    xuathoadon.attr('href', '/hoadon' + "/" + hoadon.HOADON_ID + "/" +
-                        "pdf");
-                }
-            });
-        });
-    </script> --}}
     <!-- IE Support -->
     <script>
         if (/MSIE \d|Trident.*rv:/.test(navigator.userAgent)) document.write(

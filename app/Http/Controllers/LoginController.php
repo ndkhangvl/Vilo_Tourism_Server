@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 // use Kreait\Firebase\Factory;
 // use Kreait\Firebase\ServiceAccount;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Session;
 
 
 class LoginController extends Controller
@@ -57,9 +58,10 @@ class LoginController extends Controller
 
         if ($user != '[]' && Hash::check($request->password, $user->password)) {
             $token = $user->createToken('Personal Access Token')->plainTextToken;
-            // $token->token->expires_at = now()->addHour(); // Thiết lập thời hạn cho token
-            // $token->token->save();
-            // $response = ['status' => 200, 'token' => $token, 'user' => $user, 'message' => 'Successfully Login! Welcome Back'];
+
+            Session::put('authorization', 'Bearer ' . $token);
+            // $request->session()->put('authorization', 'Bearer ' . $token);
+            // dd(Session::get('authorization'));
             return response()->json([
                 'access_token' => $token,
                 'token_type' => 'Bearer',
@@ -78,6 +80,23 @@ class LoginController extends Controller
     public function me(Request $request)
     {
         return $request->user();
+    }
+
+    public function logout()
+    {
+        // // Lấy đối tượng người dùng hiện tại
+        // $user = Auth::user();
+
+        // // Giải phóng toàn bộ token của người dùng
+        // $user->currentAccessToken()->delete();
+
+        // // Đăng xuất người dùng
+        // Auth::logout();
+
+        // Xóa toàn bộ session của người dùng
+        session()->flush();
+
+        // Chuyển hướng hoặc trả về phản hồi khi cần
     }
 }
 

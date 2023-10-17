@@ -3,7 +3,7 @@
      <div class="navbar-nav-wrap">
          <div class="navbar-brand-wrapper">
              <!-- Logo -->
-             <a class="navbar-brand" href="index.html" aria-label="Front">
+             <a class="navbar-brand" href="/admin" aria-label="Front">
                  <img class="navbar-brand-logo"
                      src="https://dulichmedia.dalat.vn//Images/VLG/superadminportal.vlg/Logo/logongangvinhlong214x74_vlg_636838381478241361.png"
                      alt="Logo">
@@ -117,7 +117,7 @@
                      <!-- Dashboards -->
                      <li class="navbar-vertical-aside-has-menu {{ request()->is('admin/place') ? 'show' : '' }}">
                          <a class="js-navbar-vertical-aside-menu-link nav-link {{ request()->is('tintuc') ? 'active' : '' }}"
-                             href="/admin/place" title="Dashboards">
+                             href="/admin/place" title="Place">
                              <i class="tio-car nav-icon"></i>
                              <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">Điểm
                                  du lịch</span>
@@ -127,7 +127,7 @@
 
                      <!-- News -->
                      <li class="navbar-vertical-aside-has-menu {{ request()->is('admin/news') ? 'show' : '' }}">
-                         <a class="js-navbar-vertical-aside-menu-link nav-link" href="/admin/news" title="Pages">
+                         <a class="js-navbar-vertical-aside-menu-link nav-link" href="/admin/news" title="News">
                              <i class="tio-new-message nav-icon"></i>
                              <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">Tin
                                  tức</span>
@@ -137,8 +137,8 @@
                      <!-- End News -->
 
                      <!-- User -->
-                     <li class=navbar-vertical-aside-has-menu {{ request()->is('admin/users') ? 'show' : '' }}">
-                         <a class="js-navbar-vertical-aside-menu-link nav-link" href="/admin/users" title="Pages">
+                     <li class="navbar-vertical-aside-has-menu {{ request()->is('admin/users') ? 'show' : '' }}">
+                         <a class="js-navbar-vertical-aside-menu-link nav-link" href="/admin/users" title="Users">
                              <i class="tio-user-outlined nav-icon"></i>
                              <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">Người
                                  dùng</span>

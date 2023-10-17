@@ -27,11 +27,15 @@ use Illuminate\Support\Facades\Route;
 
 //Index
 Route::get('/', [HomeController::class, 'index']);
-Route::get('/list-place', [HomeController::class, 'index']);
+Route::get('/list-place', [HomeController::class, 'listPlace']);
 Route::get('/detailplace/{id}', [HomeController::class, 'detail_place']);
 
 Route::get('/map', function () {
     return view('home.map');
+});
+
+Route::get('/test', function () {
+    return view('home.test');
 });
 
 Route::get('/routing', function () {
@@ -47,11 +51,11 @@ Route::get('/autosearch', function () {
 });
 
 
-Route::get('/place', [PlaceController::class, 'index']);
+Route::get('/place', [HomeController::class, 'getPlaceAPI']);
 Route::get('/login', [LoginController::class, 'index']);
 Route::get('/register', [LoginController::class, 'register_view']);
 // Route::post('/login/auth', [LoginController::class, 'login']);
-Route::post('/login', [LoginController::class, 'login']);
+Route::post('/login', [LoginController::class, 'login'])->name('login');
 Route::post('/register', [LoginController::class, 'register']);
 
 Route::get('/image', function () {
@@ -59,18 +63,33 @@ Route::get('/image', function () {
 });
 Route::post('/upload', [ImageController::class, 'upload']);
 
+Route::get('/logout', [LoginController::class, 'logout']);
 
-Route::middleware('auth:sanctum')->group(function () {
-    Route::get('/me', [LoginController::class, 'me']);
-    //For Admin Type
-    Route::get('/admin', [AdminController::class, 'index']);
-    //Admin Place
-    Route::get('/admin/place', [AdminPlaceController::class, 'index']);
-    Route::post('/admin/place/add', [AdminPlaceController::class, 'store']);
-    Route::get('/admin/place/detail/{id}', [AdminPlaceController::class, 'getVLPlace']);
-    Route::delete('/admin/place/delete/{id}', [AdminPlaceController::class, 'delete']);
-    //Admin News
-    Route::get('/admin/news', [AdminNewsController::class, 'index']);
-    //Admin User
-    Route::get('/admin/users', [AdminUserController::class, 'index']);
-});
+Route::get('/me', [LoginController::class, 'me']);
+
+//For Admin Type
+Route::get('/admin', [AdminController::class, 'index']);
+//Admin Place
+Route::get('/admin/place', [AdminPlaceController::class, 'index']);
+Route::post('/admin/place/add', [AdminPlaceController::class, 'store']);
+Route::put('/admin/place/edit/{id}', [AdminPlaceController::class, 'update']);
+Route::get('/admin/place/detail/{id}', [AdminPlaceController::class, 'getVLPlace']);
+Route::delete('/admin/place/delete/{id}', [AdminPlaceController::class, 'delete']);
+//Admin News
+Route::get('/admin/news', [AdminNewsController::class, 'index']);
+//Admin User
+Route::get('/admin/users', [AdminUserController::class, 'index']);
+// Route::middleware('auth:sanctum')->group(function () {
+//     Route::get('/me', [LoginController::class, 'me']);
+//     //For Admin Type
+//     Route::get('/admin', [AdminController::class, 'index']);
+//     //Admin Place
+//     Route::get('/admin/place', [AdminPlaceController::class, 'index']);
+//     Route::post('/admin/place/add', [AdminPlaceController::class, 'store']);
+//     Route::get('/admin/place/detail/{id}', [AdminPlaceController::class, 'getVLPlace']);
+//     Route::delete('/admin/place/delete/{id}', [AdminPlaceController::class, 'delete']);
+//     //Admin News
+//     Route::get('/admin/news', [AdminNewsController::class, 'index']);
+//     //Admin User
+//     Route::get('/admin/users', [AdminUserController::class, 'index']);
+// });

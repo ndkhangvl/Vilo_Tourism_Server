@@ -47,14 +47,14 @@
     <!-- ========== MAIN CONTENT ========== -->
     <main id="content" role="main" class="main pointer-event">
         <div class="p-2">
-            <button data-toggle="modal" data-target="#addPlaceModal" class="btn btn-primary btn-lg px-3 py-2">
+            {{-- <button data-toggle="modal" data-target="#addPlaceModal" class="btn btn-primary btn-lg px-3 py-2">
                 <i class="tio-add"></i>
                 Thêm mới
             </button>
             <button data-toggle="modal" data-target="#detailPlaceModal" class="btn btn-primary btn-lg px-3 py-2">
                 <i class="tio-add"></i>
                 Thêm mới
-            </button>
+            </button> --}}
         </div>
         <div class="container-fluid p-3">
             <div class="table-responsive">

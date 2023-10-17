@@ -20,7 +20,7 @@ class AdminPlaceController extends Controller
 
     public function getVLPlace($id)
     {
-        $vlplace = DB::select('select * from VLPlace where id_place=', [$id]);
+        $vlplace = DB::select('select * from VLPlace where id_place=?', [$id]);
         return response()->json([
             'success' => true,
             'vlplace' => $vlplace,
@@ -37,7 +37,7 @@ class AdminPlaceController extends Controller
 
         if ($request->hasFile('image')) {
             $image = $request->file('image');
-            $fileName = $image->getClientOriginalName();
+            $fileName = $request->name_place . '.' . $image->getClientOriginalExtension();
 
             // Tải hình lên Firebase
             $factory = (new Factory)->withServiceAccount('../vilo-tourism-firebase-adminsdk-jgppv-ee7114cf39.json');
@@ -76,8 +76,83 @@ class AdminPlaceController extends Controller
         ]);
     }
 
+    public function update(Request $request, $id)
+    {
+        // $request->validate([
+        //     'name_place' => 'required',
+        // ], [
+        //     'name_place.required' => 'Trường tên địa điểm là bắt buộc.',
+        // ]);
+        // dd($request->all());
+        $vlplace = VLPlace::findOrFail($id);
+        $vlplace->id_area = $request->id_edit_area;
+        $vlplace->id_service = $request->id_service;
+        $vlplace->id_price = $request->id_edit_price;
+        $vlplace->id_type = $request->id_edit_type;
+        $vlplace->name_place = $request->name_edit_place;
+        $vlplace->address_place = $request->address_edit_place;
+        $vlplace->start_time = $request->start_edit_time;
+        $vlplace->end_time = $request->end_edit_time;
+        $vlplace->phone_place = $request->phone_edit_place;
+        $vlplace->email_contact_place = $request->email_edit_contact_place;
+        $vlplace->describe_place = $request->describe_edit_place;
+
+        $parts = parse_url($vlplace->image_url);
+        $path = ltrim($parts['path'], '/');
+        $imgNamePicture = basename($path);
+        // if ($request->hasFile('image')) {
+        //     $image = $request->file('image');
+        //     $fileName = $image->getClientOriginalName();
+
+        //     // Tải hình lên Firebase
+        //     $factory = (new Factory)->withServiceAccount('../vilo-tourism-firebase-adminsdk-jgppv-ee7114cf39.json');
+        //     $storage = $factory->createStorage();
+        //     $bucket = $storage->getBucket();
+        //     $bucket->upload(file_get_contents($image->getPathname()), [
+        //         'name' => $fileName
+        //     ]);
+
+        //     // Lấy đường dẫn tới hình từ Firebase
+        //     $imageUrl = $bucket->object($fileName)->signedUrl(new \DateTime('2500-01-01T00:00:00Z'));
+
+        //     $vlplace->image_url = $imageUrl;
+        // }
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $fileName = $request->name_edit_place . '.' . $image->getClientOriginalExtension();
+
+            $storage = (new Factory)->withServiceAccount('../vilo-tourism-firebase-adminsdk-jgppv-ee7114cf39.json')->createStorage();
+            $bucket = $storage->getBucket();
+            $bucket->object($imgNamePicture)->delete();
+
+            $bucket->upload(file_get_contents($image->getPathname()), [
+                'name' => $fileName
+            ]);
+
+            $imageUrl = $bucket->object($fileName)->signedUrl(new \DateTime('2500-01-01T00:00:00Z'));
+
+            $vlplace->image_url = $imageUrl;
+        }
+
+        $vlplace->save();
+
+        return response()->json([
+            'success' => true,
+            'input' => $request->all()
+        ]);
+    }
+
     public function delete($id)
     {
+        $vlplace = VLPlace::findOrFail($id);
+
+        $parts = parse_url($vlplace->image_url);
+        $path = ltrim($parts['path'], '/');
+        $imgDelete = basename($path);
+
+        $storage = (new Factory)->withServiceAccount('../vilo-tourism-firebase-adminsdk-jgppv-ee7114cf39.json')->createStorage();
+        $bucket = $storage->getBucket();
+        $bucket->object($imgDelete)->delete();
         $results = DB::statement('EXEC DeleteVLPlaceById ?;', [$id]);
         // return response()->json([
         //     'success' => true,
