@@ -146,18 +146,25 @@ class AdminPlaceController extends Controller
     {
         $vlplace = VLPlace::findOrFail($id);
 
-        $parts = parse_url($vlplace->image_url);
-        $path = ltrim($parts['path'], '/');
-        $imgDelete = basename($path);
+        if ($vlplace->image_url != null) {
+            $parts = parse_url($vlplace->image_url);
+            $path = ltrim($parts['path'], '/');
+            $imgDelete = basename($path);
 
-        $storage = (new Factory)->withServiceAccount('../vilo-tourism-firebase-adminsdk-jgppv-ee7114cf39.json')->createStorage();
-        $bucket = $storage->getBucket();
-        $bucket->object($imgDelete)->delete();
-        $results = DB::statement('EXEC DeleteVLPlaceById ?;', [$id]);
+            $storage = (new Factory)->withServiceAccount('../vilo-tourism-firebase-adminsdk-jgppv-ee7114cf39.json')->createStorage();
+            $bucket = $storage->getBucket();
+            $bucket->object($imgDelete)->delete();
+            $results = DB::statement('EXEC DeleteVLPlaceById ?;', [$id]);
+        } else {
+            $results = DB::statement('EXEC DeleteVLPlaceById ?;', [$id]);
+        }
         // return response()->json([
         //     'success' => true,
         //     'data' => 'Thành công xóa',
         // ]);
-        return redirect('admin');
+        return response()->json([
+            'success' => true,
+            'data' => $results,
+        ]);
     }
 }

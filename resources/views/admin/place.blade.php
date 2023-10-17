@@ -22,6 +22,12 @@
     <link rel="stylesheet" href="{{ asset('/../assets/css/vendor.min.css') }}">
     <link rel="stylesheet" href="{{ asset('/../assets/vendor/icon-set/style.css') }}">
     <link rel="stylesheet" href="../node_modules/select2/dist/css/select2.min.css">
+    {{-- <!-- SweetAlert2 CSS -->
+    <link rel="stylesheet" href="{{ asset('css/sweetalert2.min.css') }}">
+
+    <!-- SweetAlert2 JS -->
+    <script src="{{ asset('js/app.js') }}"></script> --}}
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     {{-- <link rel="stylesheet" href="{{ asset('css/select2.min.css') }}">
     <script src="{{ asset('js/select2.min.js') }}"></script> --}}
 
@@ -96,8 +102,10 @@
                                         action="/admin/place/delete/{{ $vlplace->id_place }}" method="POST">
                                         @method('DELETE')
                                         @csrf
-                                        <button type="submit" id="submitDel" class="btn btn-link p-0"
-                                            style="margin: 0 1px;" data-toggle="tooltip" data-original-title="Delete">
+                                        <button type="submit" id="submitDel"
+                                            onclick="deletePlace('{{ $vlplace->id_place }}','{{ $vlplace->name_place }}')"
+                                            class="btn btn-link p-0" style="margin: 0 1px;" data-toggle="tooltip"
+                                            data-original-title="Delete">
                                             <i class="tio-delete-outlined text-danger"></i>
                                         </button>
                                     </form>
@@ -677,7 +685,7 @@
     <script>
         $(document).ready(function() {
             $('#editPlace').submit(function(event) {
-                event.preventDefault(); // Ngăn chặn hành vi submit mặc định của form
+                event.preventDefault();
                 var csrfToken = $('input[name="_token"]').val();
                 // Lấy dữ liệu từ form
                 var formData = new FormData(this);
@@ -691,15 +699,12 @@
                     processData: false,
                     contentType: false,
                     headers: {
-                        'X-CSRF-TOKEN': csrfToken // Thiết lập CSRF token trong header của yêu cầu
+                        'X-CSRF-TOKEN': csrfToken
                     },
                     success: function(response) {
-                        // Xử lý kết quả thành công
                         console.log('Success:', response);
-                        // Thực hiện các xử lý bổ sung (nếu cần)
                     },
                     error: function(xhr, status, error) {
-                        // Xử lý lỗi
                         console.log('Error:', error);
                     }
                 });
@@ -707,19 +712,137 @@
             });
         });
 
-        function deletePlace(id) {
-            $.ajax({
-                url: '/admin/place/delete/' + id,
-                type: 'DELETE',
-                success: function(response) {
-                    // Xử lý thành công
-                },
-                error: function() {
-                    // Xử lý lỗi
+        // function deletePlace(id) {
+        //     var form = $('#deleteForm-' + id);
+        //     var url = form.attr('action');
+        //     Swal.fire({
+        //         title: 'Xóa địa điểm này?',
+        //         text: "Thông tin địa diểm sẽ được xóa!",
+        //         icon: 'warning',
+        //         showCancelButton: true,
+        //         confirmButtonColor: '#0d6efd',
+        //         cancelButtonColor: '#6c757d',
+        //         confirmButtonText: 'Xóa',
+        //         cancelButtonText: 'Hủy'
+        //     }).then((result) => {
+        //         if (result.isConfirmed) {
+        //             Swal.fire({
+        //                 title: 'Đang xử lý...',
+        //                 allowOutsideClick: false,
+        //                 allowEscapeKey: false,
+        //                 allowEnterKey: false,
+        //                 onBeforeOpen: () => {
+        //                     Swal.showLoading();
+        //                 },
+        //                 onClose: () => {
+        //                     Swal.hideLoading();
+        //                 }
+        //             });
+        //             $.ajax({
+        //                 url: url,
+        //                 type: 'DELETE',
+        //                 beforeSend: function() {
+        //                     Swal.fire({
+        //                         title: 'Đang xử lý...',
+        //                         allowOutsideClick: false,
+        //                         allowEscapeKey: false,
+        //                         allowEnterKey: false,
+        //                         onBeforeOpen: () => {
+        //                             Swal.showLoading();
+        //                         },
+        //                         onClose: () => {
+        //                             Swal.hideLoading();
+        //                         }
+        //                     });
+        //                 },
+        //                 success: function(response) {
+        //                     Swal.close();
+        //                     if (response.success == true) {
+        //                         Swal.fire({
+        //                             icon: 'success',
+        //                             title: 'Đã cập nhật!',
+        //                             text: 'Xóa địa điểm thành công'
+        //                         }).then(() => {
+        //                             location.reload();
+        //                         });
+        //                     } else {
+        //                         Swal.fire({
+        //                             icon: 'error',
+        //                             title: 'Không thể xóa địa điểm!',
+        //                             text: 'Đã xảy ra lỗi, vui lòng kiểm tra lại.'
+        //                         });
+        //                     }
+        //                 },
+        //                 error: function(xhr) {
+        //                     console.log(xhr)
+        //                 }
+        //             });
+        //         }
+        //     });
+        // }
+
+        function deletePlace(id, name_place) {
+            event.preventDefault();
+            var form = $('#deleteForm-' + id);
+            var url = form.attr('action');
+            var csrfToken = $('input[name="_token"]').val();
+            Swal.fire({
+                title: 'Xóa địa điểm này?',
+                text: "Thông tin địa điểm " + name_place + " sẽ được xóa!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#6c757d',
+                confirmButtonText: 'Xóa',
+                cancelButtonText: 'Hủy'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.fire({
+                        title: 'Đang xử lý...',
+                        allowOutsideClick: false,
+                        allowEscapeKey: false,
+                        allowEnterKey: false,
+                        onBeforeOpen: () => {
+                            Swal.showLoading();
+                        },
+                        onClose: () => {
+                            Swal.hideLoading();
+                        }
+                    });
+                    $.ajax({
+                        url: url,
+                        type: 'DELETE',
+                        headers: {
+                            'X-CSRF-TOKEN': csrfToken
+                        },
+                        beforeSend: function() {
+                            Swal.showLoading();
+                        },
+                        success: function(response) {
+                            Swal.close();
+                            if (response.success) {
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'Đã xóa!',
+                                    text: 'Xóa địa điểm thành công'
+                                }).then(() => {
+                                    location.reload();
+                                });
+                            } else {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Không thể xóa địa điểm!',
+                                    text: 'Đã xảy ra lỗi, vui lòng kiểm tra lại.'
+                                });
+                            }
+                        },
+                        error: function(xhr) {
+                            console.log(xhr);
+                        }
+                    });
                 }
             });
         }
-
         var myEditorSend;
         var myViewSend;
         //Get View Modal
