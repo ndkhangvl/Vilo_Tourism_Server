@@ -824,9 +824,7 @@
                     $('#detailPlaceModal').modal('show');
 
                 },
-                error: function() {
-                    // Xử lý lỗi (nếu cần)
-                }
+                error: function() {}
             });
         }
 
@@ -834,7 +832,6 @@
         function getEditDetailPlace(event, element, id) {
             event.preventDefault();
             var url = $(element).attr('href');
-            // Tạo CKEditor nếu chưa tồn tại
             fetchEditDetailData(url);
         }
 
