@@ -57,15 +57,15 @@
                                              alt="Image Description">
                                      </div>
                                      <div class="media-body">
-                                         <span class="card-title h5">Nothing</span>
-                                         <span class="card-text">Nothing</span>
+                                         <span class="card-title h5">{{ auth()->user()->name }}</span>
+                                         <span class="card-text">{{ auth()->user()->email }}</span>
                                      </div>
                                  </div>
                              </div>
 
                              <div class="dropdown-divider"></div>
 
-                             <a class="dropdown-item" href="#">
+                             <a class="dropdown-item" href="/logout">
                                  <span class="text-truncate pr-2" title="Sign out">Sign out</span>
                              </a>
                          </div>

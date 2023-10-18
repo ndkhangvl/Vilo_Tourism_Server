@@ -486,7 +486,7 @@
                         </div>
                         <div class="form-group">
                             <label for="describe_place">Mô tả</label>
-                            <textarea id="editCKeditor" class="form-control" name="describe_edit_place"></textarea>
+                            <textarea id="editCKeditor" class="form-control" name="editCKeditor"></textarea>
                         </div>
                         <div class="form-group">
                             <label for="file_input">Upload file</label>
@@ -689,7 +689,8 @@
                 var csrfToken = $('input[name="_token"]').val();
                 // Lấy dữ liệu từ form
                 var formData = new FormData(this);
-                console.log(formData.get('describe_edit_place'));
+                var ckEditorData = myEditorSend.getData();
+                formData.append('describe_edit_place', ckEditorData);
                 // console.log(formData.get('name_edit_place'));
                 $.ajax({
                     url: '/admin/place/edit/' + id, // Đường dẫn URL để gửi Ajax request
@@ -711,75 +712,6 @@
                 console.log(formData.get('name_edit_place'));
             });
         });
-
-        // function deletePlace(id) {
-        //     var form = $('#deleteForm-' + id);
-        //     var url = form.attr('action');
-        //     Swal.fire({
-        //         title: 'Xóa địa điểm này?',
-        //         text: "Thông tin địa diểm sẽ được xóa!",
-        //         icon: 'warning',
-        //         showCancelButton: true,
-        //         confirmButtonColor: '#0d6efd',
-        //         cancelButtonColor: '#6c757d',
-        //         confirmButtonText: 'Xóa',
-        //         cancelButtonText: 'Hủy'
-        //     }).then((result) => {
-        //         if (result.isConfirmed) {
-        //             Swal.fire({
-        //                 title: 'Đang xử lý...',
-        //                 allowOutsideClick: false,
-        //                 allowEscapeKey: false,
-        //                 allowEnterKey: false,
-        //                 onBeforeOpen: () => {
-        //                     Swal.showLoading();
-        //                 },
-        //                 onClose: () => {
-        //                     Swal.hideLoading();
-        //                 }
-        //             });
-        //             $.ajax({
-        //                 url: url,
-        //                 type: 'DELETE',
-        //                 beforeSend: function() {
-        //                     Swal.fire({
-        //                         title: 'Đang xử lý...',
-        //                         allowOutsideClick: false,
-        //                         allowEscapeKey: false,
-        //                         allowEnterKey: false,
-        //                         onBeforeOpen: () => {
-        //                             Swal.showLoading();
-        //                         },
-        //                         onClose: () => {
-        //                             Swal.hideLoading();
-        //                         }
-        //                     });
-        //                 },
-        //                 success: function(response) {
-        //                     Swal.close();
-        //                     if (response.success == true) {
-        //                         Swal.fire({
-        //                             icon: 'success',
-        //                             title: 'Đã cập nhật!',
-        //                             text: 'Xóa địa điểm thành công'
-        //                         }).then(() => {
-        //                             location.reload();
-        //                         });
-        //                     } else {
-        //                         Swal.fire({
-        //                             icon: 'error',
-        //                             title: 'Không thể xóa địa điểm!',
-        //                             text: 'Đã xảy ra lỗi, vui lòng kiểm tra lại.'
-        //                         });
-        //                     }
-        //                 },
-        //                 error: function(xhr) {
-        //                     console.log(xhr)
-        //                 }
-        //             });
-        //         }
-        //     });
-        // }
 
         function deletePlace(id, name_place) {
             event.preventDefault();
@@ -855,8 +787,8 @@
                 ClassicEditor
                     .create(document.querySelector('#viewCKeditor'))
                     .then(newEditor1 => {
-                        myViewSend = newEditor1;
                         fetchDetailData(url);
+                        myViewSend = newEditor1;
                     })
                     .catch(error => {
                         console.error(error);
@@ -890,6 +822,7 @@
                     myViewSend.setData(detailData.describe_place);
 
                     $('#detailPlaceModal').modal('show');
+
                 },
                 error: function() {
                     // Xử lý lỗi (nếu cần)
@@ -902,19 +835,12 @@
             event.preventDefault();
             var url = $(element).attr('href');
             // Tạo CKEditor nếu chưa tồn tại
-            if (!myEditorSend) {
-                ClassicEditor
-                    .create(document.querySelector('#editCKeditor'))
-                    .then(newEditor => {
-                        fetchEditDetailData(url);
-                        myEditorSend = newEditor;
-                        // fetchEditDetailData(url);
-                    })
-                    .catch(error => {
-                        console.error(error);
-                    });
-            } else {
-                fetchEditDetailData(url);
+            fetchEditDetailData(url);
+        }
+
+        function setCKEditorData(data) {
+            if (myEditorSend) {
+                myEditorSend.setData(data);
             }
         }
 
@@ -940,8 +866,23 @@
                     $('#end_edit_time').val(detailData.end_time);
                     $('#email_edit_contact_place').val(detailData.email_contact_place);
                     // Gán dữ liệu vào CKEditor
-                    myEditorSend.setData(detailData.describe_place);
-
+                    //myEditorSend.setData(detailData.describe_place);
+                    // console.log(myEditorSend.setData(detailData.describe_place));
+                    if (!myEditorSend) {
+                        ClassicEditor
+                            .create(document.querySelector('#editCKeditor'))
+                            .then(newEditor => {
+                                myEditorSend = newEditor;
+                                setCKEditorData(detailData.describe_place);
+                            })
+                            .catch(error => {
+                                console.error(error);
+                            });
+                        // console.log(myEditorSend.getData());
+                    } else {
+                        setCKEditorData(detailData.describe_place);
+                        // console.log(myEditorSend.getData());
+                    }
                     $('#editPlaceModal').modal('show');
                 },
                 error: function() {

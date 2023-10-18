@@ -38,7 +38,7 @@ class LoginController extends Controller
             $cred->name = $R->name;
             $cred->email = $R->email;
             $cred->password = Hash::make($R->password);
-            $cred->role = 'user';
+            $cred->role = 0;
             $cred->save();
             // $response = ['status' => 200, 'message' => 'Register Successfully! Welcome to Our Community'];
             return redirect('/login');
@@ -48,6 +48,29 @@ class LoginController extends Controller
     }
 
     function login(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required'
+        ]);
+
+        $credentials = [
+            'email' => $request->email,
+            'password' => $request->password,
+        ];
+
+        if (Auth::attempt($credentials)) {
+            if (auth()->user()->role == 'super_admin') {
+                return redirect('/admin');
+            } else if (auth()->user()->role == 'admin') {
+                return redirect('/admin');
+            } else {
+                return redirect('/');
+            }
+        }
+    }
+
+    function loginAPI(Request $request)
     {
         $request->validate([
             'email' => 'required|email',
@@ -84,19 +107,8 @@ class LoginController extends Controller
 
     public function logout()
     {
-        // // Lấy đối tượng người dùng hiện tại
-        // $user = Auth::user();
-
-        // // Giải phóng toàn bộ token của người dùng
-        // $user->currentAccessToken()->delete();
-
-        // // Đăng xuất người dùng
-        // Auth::logout();
-
-        // Xóa toàn bộ session của người dùng
-        session()->flush();
-
-        // Chuyển hướng hoặc trả về phản hồi khi cần
+        Auth::logout();
+        return redirect('/');
     }
 }
 
