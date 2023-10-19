@@ -6,6 +6,7 @@ use App\Models\VLPlace;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Kreait\Firebase\Factory;
+use Illuminate\Support\Str;
 
 class AdminPlaceController extends Controller
 {
@@ -35,24 +36,6 @@ class AdminPlaceController extends Controller
             'name_place.required' => 'Trường tên địa điểm là bắt buộc.',
         ]);
 
-        if ($request->hasFile('image')) {
-            $image = $request->file('image');
-            $fileName = $request->name_place . '.' . $image->getClientOriginalExtension();
-
-            // Tải hình lên Firebase
-            $factory = (new Factory)->withServiceAccount('../vilo-tourism-firebase-adminsdk-jgppv-ee7114cf39.json');
-            $storage = $factory->createStorage();
-            $bucket = $storage->getBucket();
-            $bucket->upload(file_get_contents($image->getPathname()), [
-                'name' => $fileName
-            ]);
-
-            // Lấy đường dẫn tới hình từ Firebase
-            $imageUrl = $bucket->object($fileName)->signedUrl(new \DateTime('2500-01-01T00:00:00Z'));
-
-            // Lưu đường dẫn hình vào SQL Server
-            //$vlplace->image_url = $imageUrl;
-        }
 
         $vlplace = new VLPlace;
         $vlplace->id_area = $request->id_area;
@@ -66,7 +49,27 @@ class AdminPlaceController extends Controller
         $vlplace->phone_place = $request->phone_place;
         $vlplace->email_contact_place = $request->email_contact_place;
         $vlplace->describe_place = $request->describe_place;
-        $vlplace->image_url = $imageUrl;
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+
+            $nonAccentText = Str::slug($request->name_edit_place, '');
+            $fileName = $nonAccentText . '.' . $image->getClientOriginalExtension();
+
+            // Tải hình lên Firebase
+            $factory = (new Factory)->withServiceAccount('../vilo-tourism-firebase-adminsdk-jgppv-ee7114cf39.json');
+            $storage = $factory->createStorage();
+            $bucket = $storage->getBucket();
+            $bucket->upload(file_get_contents($image->getPathname()), [
+                'name' => $fileName
+            ]);
+
+            // Lấy đường dẫn tới hình từ Firebase
+            $imageUrl = $bucket->object($fileName)->signedUrl(new \DateTime('2500-01-01T00:00:00Z'));
+
+            // Lưu đường dẫn hình vào SQL Server
+            $vlplace->image_url = $imageUrl;
+        }
+        // $vlplace->image_url = $imageUrl;
 
         $vlplace->save();
 
@@ -96,42 +99,50 @@ class AdminPlaceController extends Controller
         $vlplace->phone_place = $request->phone_edit_place;
         $vlplace->email_contact_place = $request->email_edit_contact_place;
         $vlplace->describe_place = $request->describe_edit_place;
+        if ($vlplace->image_url == null) {
+            if ($request->hasFile('image')) {
+                $image = $request->file('image');
 
-        $parts = parse_url($vlplace->image_url);
-        $path = ltrim($parts['path'], '/');
-        $imgNamePicture = basename($path);
-        // if ($request->hasFile('image')) {
-        //     $image = $request->file('image');
-        //     $fileName = $image->getClientOriginalName();
+                $nonAccentText = Str::slug($request->name_edit_place, '');
+                $fileName = $nonAccentText . '.' . $image->getClientOriginalExtension();
+                // $cleanedText = preg_replace('/\s+/', '', $nonAccentText);
 
-        //     // Tải hình lên Firebase
-        //     $factory = (new Factory)->withServiceAccount('../vilo-tourism-firebase-adminsdk-jgppv-ee7114cf39.json');
-        //     $storage = $factory->createStorage();
-        //     $bucket = $storage->getBucket();
-        //     $bucket->upload(file_get_contents($image->getPathname()), [
-        //         'name' => $fileName
-        //     ]);
+                $factory = (new Factory)->withServiceAccount('../vilo-tourism-firebase-adminsdk-jgppv-ee7114cf39.json');
+                $storage = $factory->createStorage();
+                $bucket = $storage->getBucket();
+                $bucket->upload(file_get_contents($image->getPathname()), [
+                    'name' => $fileName
+                ]);
 
-        //     // Lấy đường dẫn tới hình từ Firebase
-        //     $imageUrl = $bucket->object($fileName)->signedUrl(new \DateTime('2500-01-01T00:00:00Z'));
+                $imageUrl = $bucket->object($fileName)->signedUrl(new \DateTime('2500-01-01T00:00:00Z'));
 
-        //     $vlplace->image_url = $imageUrl;
-        // }
-        if ($request->hasFile('image')) {
-            $image = $request->file('image');
-            $fileName = $request->name_edit_place . '.' . $image->getClientOriginalExtension();
+                $vlplace->image_url = $imageUrl;
+            }
+        } else {
+            if ($request->hasFile('image')) {
+                $image = $request->file('image');
 
-            $storage = (new Factory)->withServiceAccount('../vilo-tourism-firebase-adminsdk-jgppv-ee7114cf39.json')->createStorage();
-            $bucket = $storage->getBucket();
-            $bucket->object($imgNamePicture)->delete();
+                $nonAccentText = Str::slug($request->name_edit_place, '');
+                $fileName = $nonAccentText . '.' . $image->getClientOriginalExtension();
 
-            $bucket->upload(file_get_contents($image->getPathname()), [
-                'name' => $fileName
-            ]);
+                // dd($vlplace->image_url);
+                $parts = parse_url($vlplace->image_url);
+                $path = ltrim($parts['path'], '/');
+                $imgNamePicture = basename($path);
+                // dd($imgNamePicture);
 
-            $imageUrl = $bucket->object($fileName)->signedUrl(new \DateTime('2500-01-01T00:00:00Z'));
+                $storage = (new Factory)->withServiceAccount('../vilo-tourism-firebase-adminsdk-jgppv-ee7114cf39.json')->createStorage();
+                $bucket = $storage->getBucket();
+                $bucket->object($imgNamePicture)->delete();
 
-            $vlplace->image_url = $imageUrl;
+                $bucket->upload(file_get_contents($image->getPathname()), [
+                    'name' => $fileName
+                ]);
+
+                $imageUrl = $bucket->object($fileName)->signedUrl(new \DateTime('2500-01-01T00:00:00Z'));
+
+                $vlplace->image_url = $imageUrl;
+            }
         }
 
         $vlplace->save();

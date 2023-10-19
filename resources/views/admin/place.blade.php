@@ -21,7 +21,14 @@
     <!-- CSS Implementing Plugins -->
     <link rel="stylesheet" href="{{ asset('/../assets/css/vendor.min.css') }}">
     <link rel="stylesheet" href="{{ asset('/../assets/vendor/icon-set/style.css') }}">
-    <link rel="stylesheet" href="../node_modules/select2/dist/css/select2.min.css">
+
+    <!-- Magnific Popup Picture -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/lightbox2@2.11.4/dist/js/lightbox.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/lightbox2@2.11.4/dist/css/lightbox.min.css" rel="stylesheet">
+
+    {{-- <link rel="stylesheet" href="../node_modules/select2/dist/css/select2.min.css"> --}}
     {{-- <!-- SweetAlert2 CSS -->
     <link rel="stylesheet" href="{{ asset('css/sweetalert2.min.css') }}">
 
@@ -121,21 +128,20 @@
     <!-- ========== END MAIN CONTENT ========== -->
 
     <!-- Modal Add -->
-    <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="addModal"
+    <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="addPlaceModal"
         aria-hidden="true" id="addPlaceModal">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
 
                 <div class="modal-header">
-                    <h5 class="modal-title h4" id="addModal">Large modal</h5>
+                    <h5 class="modal-title h4" id="addModal">Thêm mới địa điểm</h5>
                     <button type="button" class="btn btn-xs btn-icon btn-ghost-secondary" data-dismiss="modal"
                         aria-label="Close">
                         <i class="tio-clear tio-lg"></i>
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form action="/admin/place/add" class="" method="POST" id="addPlace"
-                        enctype="multipart/form-data">
+                    <form action="#" class="" method="POST" id="addPlace" enctype="multipart/form-data">
                         @csrf
                         <div class="form-row">
                             <div class="form-group col-md-4">
@@ -236,8 +242,8 @@
                                 type="file" name="image">
                         </div>
                         <div class="form-group">
-                            <button data-modal-hide="defaultModal" type="submit" class="btn btn-primary">I
-                                accept</button>
+                            <button data-modal-hide="defaultModal" type="submit" class="btn btn-primary">Thêm
+                                mới</button>
                         </div>
                     </form>
 
@@ -251,9 +257,8 @@
     <!-- Modal -->
     <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="detailModal"
         aria-hidden="true" id="detailPlaceModal">
-        <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-dialog modal-xl" role="document">
             <div class="modal-content">
-
                 <div class="modal-header">
                     <h5 class="modal-title h4" id="detailModal">Chi tiết địa điểm</h5>
                     <button type="button" class="btn btn-xs btn-icon btn-ghost-secondary" data-dismiss="modal"
@@ -263,111 +268,141 @@
                 </div>
                 <div class="modal-body">
                     <div id="detailContent">
-                        <form action="/admin/place/add" class="" method="POST" id="viewPlace"
+                        <form action="" class="" method="POST" id="viewPlace"
                             enctype="multipart/form-data">
                             @csrf
                             <div class="form-row">
-                                <div class="form-group col-md-4">
-                                    <label for="label_view_area">Khu vực</label>
-                                    <select id="id_view_area" name="id_view_area"
-                                        class="js-select2-custom1 custom-select" size="1" style="opacity: 0;"
-                                        data-hs-select2-options='{
+                                <div class="col-md-6">
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                            <label for="label_view_area"><span class="font-weight-bold">Khu
+                                                    vực</span></label>
+                                            <select id="id_view_area" name="id_view_area"
+                                                class="js-select2-custom1 custom-select" size="1"
+                                                style="opacity: 0;"
+                                                data-hs-select2-options='{
           "minimumResultsForSearch": "Infinity"
-        }'>
-                                        <option value="1000">Huyện Bình Tân</option>
-                                        <option value="1001">Huyện Long Hồ</option>
-                                        <option value="1002">Huyện Mang Thít</option>
-                                        <option value="1003">Huyện Tam Bình</option>
-                                        <option value="1004">Huyện Trà Ôn</option>
-                                        <option value="1005">Huyện Vũng Liêm</option>
-                                        <option value="1006">Thành phố Vĩnh Long</option>
-                                        <option value="1007">Thị xã Bình Minh</option>
-                                    </select>
-                                </div>
-                                <div class="form-group col-md-4">
-                                    <label for="id_view_price">Loại giá</label>
-                                    <select id="id_view_price" name="id_view_price"
-                                        class="js-select2-custom1 custom-select" size="1" style="opacity: 0;"
-                                        data-hs-select2-options='{
+        }'
+                                                disabled>
+                                                <option value="1000">Huyện Bình Tân</option>
+                                                <option value="1001">Huyện Long Hồ</option>
+                                                <option value="1002">Huyện Mang Thít</option>
+                                                <option value="1003">Huyện Tam Bình</option>
+                                                <option value="1004">Huyện Trà Ôn</option>
+                                                <option value="1005">Huyện Vũng Liêm</option>
+                                                <option value="1006">Thành phố Vĩnh Long</option>
+                                                <option value="1007">Thị xã Bình Minh</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label for="id_view_price"><span class="font-weight-bold">Loại
+                                                    giá</span></label>
+                                            <select id="id_view_price" name="id_view_price"
+                                                class="js-select2-custom1 custom-select" size="1"
+                                                style="opacity: 0;"
+                                                data-hs-select2-options='{
           "minimumResultsForSearch": "Infinity"
-        }'>
-                                        <option value="3000">Miễn phí</option>
-                                        <option value="3001">Có phí</option>
-                                    </select>
-                                </div>
-                                <div class="form-group col-md-4">
-                                    <label for="id_view_type">Loại dịch vụ</label>
-                                    <select id="id_view_type" name="id_view_type"
-                                        class="js-select2-custom1 custom-select" size="1" style="opacity: 0;"
-                                        data-hs-select2-options='{
+        }'
+                                                disabled>
+                                                <option value="3000">Miễn phí</option>
+                                                <option value="3001">Có phí</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                            <label for="id_view_type"><span class="font-weight-bold">Loại hình dịch
+                                                    vụ</span></label>
+                                            <select id="id_view_type" name="id_view_type"
+                                                class="js-select2-custom1 custom-select" size="1"
+                                                style="opacity: 0;"
+                                                data-hs-select2-options='{
           "minimumResultsForSearch": "Infinity"
-        }'>
-                                        <option value="4000">Du lịch sinh thái</option>
-                                        <option value="4001">Du lịch làng nghề</option>
-                                        <option value="4002">Du lịch lịch sử - văn hóa</option>
-                                        <option value="4003">Du lịch tâm linh</option>
-                                        <option value="4004">Du lịch trở về nguồn cội</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="form-row">
-                                <div class="form-group col-md-4">
-                                    <label for="type_view_service">Loại dịch vụ</label>
-                                    <select id="type_view_service" class="js-select2-custom1 custom-select"
-                                        size="1" style="opacity: 0;"
-                                        data-hs-select2-options='{
+        }'
+                                                disabled>
+                                                <option value="4000">Du lịch sinh thái</option>
+                                                <option value="4001">Du lịch làng nghề</option>
+                                                <option value="4002">Du lịch lịch sử - văn hóa</option>
+                                                <option value="4003">Du lịch tâm linh</option>
+                                                <option value="4004">Du lịch trở về nguồn cội</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label for="type_view_service"><span class="font-weight-bold">Loại du
+                                                    lịch</span></label>
+                                            <select id="type_view_service" class="js-select2-custom1 custom-select"
+                                                size="1" style="opacity: 0;"
+                                                data-hs-select2-options='{
           "minimumResultsForSearch": "Infinity"
-        }'>
-                                        <option value="1003">Miễn phí</option>
-                                        <option value="1002">Có phí</option>
-                                    </select>
+        }'
+                                                disabled>
+                                                <option value="2000">Trò chơi trong nhà</option>
+                                                <option value="2001">Chèo xuồng</option>
+                                                <option value="2002">Tát ao bắt cá</option>
+                                                <option value="2003">Đạp vịt</option>
+                                                <option value="2004">Cửa hàng lưu niệm</option>
+                                                <option value="2005">Câu cá sấu</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                            <label for="name_place"><span class="font-weight-bold">Tên địa
+                                                    điểm</span></label>
+                                            <input type="text" name="name_view_place" id="name_view_place"
+                                                class="form-control" placeholder="Nhập vào tên địa điểm" readonly>
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label for="label_address_place"><span class="font-weight-bold">Địa
+                                                    chỉ</span></label>
+                                            <input type="text" name="address_view_place" id="address_view_place"
+                                                class="form-control" placeholder="Nhập vào địa chỉ" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                            <label for="start_time"><span class="font-weight-bold">Thời gian mở
+                                                    cửa</span></label>
+                                            <input type="text" name="start_view_time" id="start_view_time"
+                                                class="form-control" placeholder="Nhập thời gian mở cửa" readonly>
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label for="end_time"><span class="font-weight-bold">Thời gian đóng
+                                                    cửa</span></label>
+                                            <input type="text" name="end_view_time" id="end_view_time"
+                                                class="form-control" placeholder="Nhập thời gian đóng cửa" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                            <label for="label_phone_place"><span class="font-weight-bold">Số điện
+                                                    thoại</span></label>
+                                            <input type="text" name="phone_view_place" id="phone_view_place"
+                                                class="form-control" placeholder="Nhập vào số điện thoại" readonly>
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label for="email_contact_place"><span
+                                                    class="font-weight-bold">Email</span></label>
+                                            <input type="email" name="email_view_contact_place"
+                                                id="email_view_contact_place" class="form-control"
+                                                placeholder="Nhập vào email" readonly>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="form-group col-md-4">
-                                    <label for="name_place">Tên địa điểm</label>
-                                    <input type="text" name="name_view_place" id="name_view_place"
-                                        class="form-control" placeholder="Nhập vào tên địa điểm" required>
-                                </div>
-                                <div class="form-group col-md-4">
-                                    <label for="label_address_place">Địa chỉ</label>
-                                    <input type="text" name="address_view_place" id="address_view_place"
-                                        class="form-control" placeholder="Nhập vào địa chỉ" required>
+                                <div class="col-md-6">
+                                    <a class="example-image-link picture-from-firebase" href=""
+                                        data-lightbox="example-set" data-title=""><img class="example-image"
+                                            src="" alt="" style="width: 50px; height: 50px" /></a>
+                                    <div class="form-group">
+                                        <label for="describe_place">Mô tả</label>
+                                        {{-- <textarea id="viewCKeditor" class="form-control" name="describe_view_place"></textarea> --}}
+                                        <div id="showDescribe" class="p-2 border rounded-sm"
+                                            style="height: 425px; overflow: auto;">
+
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="form-row">
-                                <div class="form-group col-md-4">
-                                    <label for="label_phone_place">Số điện thoại</label>
-                                    <input type="text" name="phone_view_place" id="phone_view_place"
-                                        class="form-control" placeholder="Nhập vào số điện thoại" required>
-                                </div>
-                                <div class="form-group col-md-4">
-                                    <label for="start_time">Thời gian mở cửa</label>
-                                    <input type="text" name="start_view_time" id="start_view_time"
-                                        class="form-control" placeholder="Nhập thời gian mở cửa" required>
-                                </div>
-                                <div class="form-group col-md-4">
-                                    <label for="end_time">Thời gian đóng cửa</label>
-                                    <input type="text" name="end_view_time" id="end_view_time"
-                                        class="form-control" placeholder="Nhập thời gian đóng cửa" required>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="email_contact_place">Email</label>
-                                <input type="email" name="email_view_contact_place" id="email_view_contact_place"
-                                    class="form-control" placeholder="Nhập vào email" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="describe_place">Mô tả</label>
-                                <textarea id="viewCKeditor" class="form-control" name="describe_view_place"></textarea>
-                            </div>
-                            {{-- <div class="form-group">
-                                <label for="file_input">Upload file</label>
-                                <input class="js-dropzone dropzone-custom custom-file-boxed dz-clickable"
-                                    id="file_view_input" type="file" name="image">
-                            </div> --}}
-                            {{-- <div class="form-group">
-                                <button data-modal-hide="defaultModal" type="submit" class="btn btn-primary">I
-                                    accept</button>
-                            </div> --}}
                         </form>
                     </div>
 
@@ -489,6 +524,14 @@
                             <textarea id="editCKeditor" class="form-control" name="editCKeditor"></textarea>
                         </div>
                         <div class="form-group">
+                            <label for="image_url">Đường dẫn hình</label>
+                            {{-- <input type="text" name="image_edit_url" id="image_edit_url" class="form-control"
+                                placeholder=""> --}}
+                            <a class="example-image-link picture-from-firebase" href=""
+                                data-lightbox="example-set" data-title=""><img class="example-image" src=""
+                                    alt="" style="width: 50px; height: 50px" /></a>
+                        </div>
+                        <div class="form-group">
                             <label for="file_input">Upload file</label>
                             <input class="js-dropzone dropzone-custom custom-file-boxed dz-clickable"
                                 id="file_edit_input" type="file" name="image">
@@ -510,13 +553,13 @@
     <script src="\..\assets\vendor\chart.js\dist\Chart.min.js"></script>
     <script src="\..\assets\vendor\chart.js.extensions\chartjs-extensions.js"></script>
     <script src="\..\assets\vendor\chartjs-plugin-datalabels\dist\chartjs-plugin-datalabels.min.js"></script>
-    <script src="../node_modules/select2/dist/js/select2.full.min.js"></script>
+    {{-- <script src="../node_modules/select2/dist/js/select2.full.min.js"></script> --}}
 
 
 
     <!-- JS Front -->
     <script src="\..\assets\js\theme.min.js"></script>
-    <script src="\..\assets/js/hs.select2.js"></script>
+    {{-- <script src="\..\assets/js/hs.select2.js"></script> --}}
 
     <!-- JS Plugins Init. -->
     <script>
@@ -616,7 +659,6 @@
                 // var select2 = $(this).select2();
             });
 
-
             // INITIALIZATION OF DATATABLES
             // =======================================================
             var datatable = $.HSCore.components.HSDatatables.init($('#datatable'), {
@@ -683,6 +725,80 @@
     </script>
 
     <script>
+        //Ajax for Add Place 
+        $(document).ready(function() {
+            $(document).on('submit', '#addPlace', function(event) {
+                event.preventDefault();
+                var csrfToken = $('input[name="_token"]').val();
+                // Lấy dữ liệu từ form
+                var formData = new FormData(this);
+                // var ckEditorData = myEditorSend.getData();
+                // formData.append('describe_edit_place', ckEditorData);
+                Swal.fire({
+                    title: 'Xác nhận thêm thông tin địa điểm này?',
+                    // text: "Thông tin địa điểm " + $('#name_edit_place').val() +
+                    //     " sẽ được chỉnh sửa!",
+                    icon: 'info',
+                    showCancelButton: true,
+                    confirmButtonColor: '#35A745',
+                    cancelButtonColor: '#6c757d',
+                    confirmButtonText: 'Xác nhận',
+                    cancelButtonText: 'Hủy'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        Swal.fire({
+                            title: 'Đang xử lý...',
+                            allowOutsideClick: false,
+                            allowEscapeKey: false,
+                            allowEnterKey: false,
+                            onBeforeOpen: () => {
+                                Swal.showLoading();
+                            },
+                            onClose: () => {
+                                Swal.hideLoading();
+                            }
+                        });
+                        $.ajax({
+                            url: '/admin/place/add/',
+                            data: formData,
+                            type: 'POST',
+                            enctype: 'multipart/form-data',
+                            processData: false,
+                            contentType: false,
+                            beforeSend: function() {
+                                Swal.showLoading();
+                            },
+                            headers: {
+                                'X-CSRF-TOKEN': csrfToken
+                            },
+                            success: function(response) {
+                                Swal.close();
+                                if (response.success) {
+                                    Swal.fire({
+                                        icon: 'success',
+                                        title: 'Đã thêm!',
+                                        text: 'Thêm địa điểm thành công'
+                                    }).then(() => {
+                                        location.reload();
+                                    });
+                                } else {
+                                    Swal.fire({
+                                        icon: 'error',
+                                        title: 'Không thể thêm địa điểm!',
+                                        text: 'Đã xảy ra lỗi, vui lòng kiểm tra lại.'
+                                    });
+                                }
+                            },
+                            error: function(xhr) {
+                                console.log(xhr);
+                            }
+                        });
+                    }
+                });
+            });
+        });
+
+        //Ajax for Edit Place
         $(document).ready(function() {
             $('#editPlace').submit(function(event) {
                 event.preventDefault();
@@ -691,28 +807,72 @@
                 var formData = new FormData(this);
                 var ckEditorData = myEditorSend.getData();
                 formData.append('describe_edit_place', ckEditorData);
-                // console.log(formData.get('name_edit_place'));
-                $.ajax({
-                    url: '/admin/place/edit/' + id, // Đường dẫn URL để gửi Ajax request
-                    data: formData,
-                    type: 'POST',
-                    enctype: 'multipart/form-data',
-                    processData: false,
-                    contentType: false,
-                    headers: {
-                        'X-CSRF-TOKEN': csrfToken
-                    },
-                    success: function(response) {
-                        console.log('Success:', response);
-                    },
-                    error: function(xhr, status, error) {
-                        console.log('Error:', error);
+                Swal.fire({
+                    title: 'Chỉnh sửa thông tin địa điểm này?',
+                    text: "Thông tin địa điểm " + $('#name_edit_place').val() +
+                        " sẽ được chỉnh sửa!",
+                    icon: 'info',
+                    showCancelButton: true,
+                    confirmButtonColor: '#35A745',
+                    cancelButtonColor: '#6c757d',
+                    confirmButtonText: 'Xác nhận',
+                    cancelButtonText: 'Hủy'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        Swal.fire({
+                            title: 'Đang xử lý...',
+                            allowOutsideClick: false,
+                            allowEscapeKey: false,
+                            allowEnterKey: false,
+                            onBeforeOpen: () => {
+                                Swal.showLoading();
+                            },
+                            onClose: () => {
+                                Swal.hideLoading();
+                            }
+                        });
+                        $.ajax({
+                            url: '/admin/place/edit/' +
+                                id, // Đường dẫn URL để gửi Ajax request
+                            data: formData,
+                            type: 'POST',
+                            enctype: 'multipart/form-data',
+                            processData: false,
+                            contentType: false,
+                            beforeSend: function() {
+                                Swal.showLoading();
+                            },
+                            headers: {
+                                'X-CSRF-TOKEN': csrfToken
+                            },
+                            success: function(response) {
+                                Swal.close();
+                                if (response.success) {
+                                    Swal.fire({
+                                        icon: 'success',
+                                        title: 'Đã sửa!',
+                                        text: 'Chỉnh sửa địa điểm thành công'
+                                    }).then(() => {
+                                        location.reload();
+                                    });
+                                } else {
+                                    Swal.fire({
+                                        icon: 'error',
+                                        title: 'Không thể sửa địa điểm!',
+                                        text: 'Đã xảy ra lỗi, vui lòng kiểm tra lại.'
+                                    });
+                                }
+                            },
+                            error: function(xhr) {
+                                console.log(xhr);
+                            }
+                        });
                     }
                 });
-                console.log(formData.get('name_edit_place'));
             });
         });
 
+        //Function Ajax for Delete Place
         function deletePlace(id, name_place) {
             event.preventDefault();
             var form = $('#deleteForm-' + id);
@@ -775,27 +935,15 @@
                 }
             });
         }
+
+        //All Modal for Place Admin
         var myEditorSend;
         var myViewSend;
         //Get View Modal
         function getDetailPlace(event, element) {
             event.preventDefault();
             var url = $(element).attr('href');
-
-            // Tạo CKEditor nếu chưa tồn tại
-            if (!myViewSend) {
-                ClassicEditor
-                    .create(document.querySelector('#viewCKeditor'))
-                    .then(newEditor1 => {
-                        fetchDetailData(url);
-                        myViewSend = newEditor1;
-                    })
-                    .catch(error => {
-                        console.error(error);
-                    });
-            } else {
-                fetchDetailData(url);
-            }
+            fetchDetailData(url);
         }
 
         function fetchDetailData(url) {
@@ -818,8 +966,17 @@
                     $('#start_view_time').val(detailData.start_time);
                     $('#end_view_time').val(detailData.end_time);
                     $('#email_view_contact_place').val(detailData.email_contact_place);
+                    $('#showDescribe').html(detailData.describe_place);
+                    var thumbnailLink = $('.picture-from-firebase');
+                    if (!detailData.image_url) {
+                        thumbnailLink.hide();
+                    } else {
+                        thumbnailLink.attr('href', detailData.image_url);
+                        thumbnailLink.find('img').attr('src', detailData.image_url);
+                        thumbnailLink.show();
+                    }
                     // Gán dữ liệu vào CKEditor
-                    myViewSend.setData(detailData.describe_place);
+                    //myViewSend.setData(detailData.describe_place);
 
                     $('#detailPlaceModal').modal('show');
 
@@ -832,12 +989,22 @@
         function getEditDetailPlace(event, element, id) {
             event.preventDefault();
             var url = $(element).attr('href');
+            var fileInput = document.getElementById('file_edit_input');
+            fileInput.value = '';
             fetchEditDetailData(url);
+            // $('.picture-from-firebase').magnificPopup({
+            //     type: 'image'
+            //     // other options
+            // });
         }
 
         function setCKEditorData(data) {
             if (myEditorSend) {
-                myEditorSend.setData(data);
+                if (data !== null && data !== undefined) {
+                    myEditorSend.setData(data);
+                } else {
+                    myEditorSend.setData('');
+                }
             }
         }
 
@@ -848,9 +1015,6 @@
                 success: function(response) {
                     // console.log(response);
                     var detailData = response.vlplace[0];
-
-                    // $('#id_view_price').val(detailData.id_price);
-                    // console.log(detailData.id_area);
                     id = detailData.id_place;
                     $('#id_edit_price').val(detailData.id_price).trigger('change');
                     $('#id_edit_area').val(detailData.id_area).trigger('change');
@@ -862,6 +1026,15 @@
                     $('#start_edit_time').val(detailData.start_time);
                     $('#end_edit_time').val(detailData.end_time);
                     $('#email_edit_contact_place').val(detailData.email_contact_place);
+                    // $('#image_edit_url').val(detailData.image_url);
+                    var thumbnailLink = $('.picture-from-firebase');
+                    if (!detailData.image_url) {
+                        thumbnailLink.hide();
+                    } else {
+                        thumbnailLink.attr('href', detailData.image_url);
+                        thumbnailLink.find('img').attr('src', detailData.image_url);
+                        thumbnailLink.show();
+                    }
                     // Gán dữ liệu vào CKEditor
                     //myEditorSend.setData(detailData.describe_place);
                     // console.log(myEditorSend.setData(detailData.describe_place));
