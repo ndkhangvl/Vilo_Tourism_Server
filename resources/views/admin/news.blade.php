@@ -47,11 +47,11 @@
     <!-- ========== MAIN CONTENT ========== -->
     <main id="content" role="main" class="main pointer-event">
         <div class="p-2">
-            {{-- <button data-toggle="modal" data-target="#addPlaceModal" class="btn btn-primary btn-lg px-3 py-2">
+            <button data-toggle="modal" data-target="#addNews" class="btn btn-primary btn-lg px-3 py-2">
                 <i class="tio-add"></i>
                 Thêm mới
             </button>
-            <button data-toggle="modal" data-target="#detailPlaceModal" class="btn btn-primary btn-lg px-3 py-2">
+            {{-- <button data-toggle="modal" data-target="#detailPlaceModal" class="btn btn-primary btn-lg px-3 py-2">
                 <i class="tio-add"></i>
                 Thêm mới
             </button> --}}
@@ -109,19 +109,19 @@
 
     <!-- Modal Add -->
     <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="addModal"
-        aria-hidden="true" id="addPlaceModal">
+        aria-hidden="true" id="addNews">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
 
                 <div class="modal-header">
-                    <h5 class="modal-title h4" id="addModal">Large modal</h5>
+                    <h5 class="modal-title h4" id="addModal">Thêm mới tin</h5>
                     <button type="button" class="btn btn-xs btn-icon btn-ghost-secondary" data-dismiss="modal"
                         aria-label="Close">
                         <i class="tio-clear tio-lg"></i>
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form action="/admin/place/add" class="" method="POST" id="addPlace"
+                    <form action="/admin/news/add" class="" method="POST" id="addNews"
                         enctype="multipart/form-data">
                         @csrf
                         <div class="form-row">

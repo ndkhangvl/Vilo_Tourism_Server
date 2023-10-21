@@ -21,8 +21,7 @@
                     <div class="grid grid-cols-1 gap-6 lg:grid-cols-3 md:grid-cols-2">
                         @foreach ($vlplace as $vlplace)
                             <div class="relative shadow">
-                                <img src="https://dulichmedia.dalat.vn//Images/VLG/superadminportal.vlg/636541153470000144_images1813510_5.12.Duy.Xuan.AnhTPVinhLong1.jpg"
-                                    alt="" class="object-cover w-full h-64">
+                                <img src="{{ $vlplace->image_url }}" alt="" class="object-cover w-full h-64">
                                 <div class="p-3 bg-gray-50 dark:bg-gray-800">
                                     <a href=""
                                         class="text-xl font-bold tracking-tight text-gray-900 dark:text-gray-300">

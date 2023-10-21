@@ -14,6 +14,11 @@
         crossorigin=""></script>
     <script src="https://cdn.jsdelivr.net/npm/polyline-encoded@0.0.9/Polyline.encoded.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+    <script
+        src="
+                                                                                                                                                                                    https://cdn.jsdelivr.net/npm/geolib@3.3.4/lib/index.min.js
+                                                                                                                                                                                    ">
+    </script>
     @include('/components.constraint')
     <style>
         .devider {
@@ -29,6 +34,13 @@
             width: 100%;
             height: 400px;
         }
+
+        .distance-tooltip {
+            background-color: #fff;
+            border: 1px solid #ccc;
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
     </style>
 </head>
 
@@ -40,7 +52,7 @@
                 <div class="content w-3/4 pr-2">
                     <div class="pb-2 relative">
                         <img class="rounded-t-lg object-containt w-full" style="height:500px"
-                            src="https://baoxaydung.com.vn/stores/news_dataimages/2023/092023/12/18/image00220230912185146.jpg?rt=20230912185202">
+                            src="{{ $detail_place->image_url }}">
                         <div class="absolute bottom-0 left-0 w-full bg-black bg-opacity-50 text-white text-center">
                             <h1 class="text-4xl p-4 font-bold uppercase">{{ $detail_place->name_place }}</h1>
                         </div>
@@ -68,8 +80,10 @@
                             <h1 class="text-xl p-2"><i class="fas fa-envelope pr-2" style="color: #008f3a;"></i>Email:
                                 {{ $detail_place->email_contact_place }}</h1>
                         </div>
-                        <p class="text-sm italic p-2">{!! $detail_place->describe_place !!}
-                        </p>
+                        <div class="p-2">
+                            <p class="text-sm italic p-2">{!! $detail_place->describe_place !!}
+                            </p>
+                        </div>
                     </div>
                     <div class="center pt-2">
                         <div id="map"></div>
@@ -97,19 +111,24 @@
                 navigator.geolocation.getCurrentPosition(function(position) {
                     var latitude = position.coords.latitude;
                     var longitude = position.coords.longitude;
-                    markers.forEach(function(marker) {
-                        var newMarker = L.marker([latitude, longitude], {
-                                icon: marker.icon
-                            }).bindPopup(
-                                '<p style="color: green; font-weight: bold"> Vị trí hiện tại </p>')
-                            .addTo(map);
+                    // console.log('Latitude: ' + latitude);
+                    // console.log('Longitude: ' + longitude);
+
+                    var distance = geolib.getDistance({
+                        latitude: position.coords.latitude,
+                        longitude: position.coords.longitude
+                    }, {
+                        latitude: {{ $detail_place->latitude }},
+                        longitude: {{ $detail_place->longitude }}
                     });
-                    console.log('Latitude: ' + latitude);
-                    console.log('Longitude: ' + longitude);
+                    console.log("Khoảng cách là: " + distance / 1000 + " km");
+
                     $.ajax({
                         url: 'https://maps.vietmap.vn/api/route?point=' + latitude + ',' +
                             longitude +
-                            '&point=10.2450825,105.9856479&apikey=c3d0f188ff669f89042771a20656579073cffec5a8a69747',
+                            '&point=' + {{ $detail_place->latitude }} + ',' +
+                            {{ $detail_place->longitude }} +
+                            '&apikey=c3d0f188ff669f89042771a20656579073cffec5a8a69747',
                         type: 'get',
                         success: function(res) {
                             // console.log(res);
@@ -123,10 +142,10 @@
                                 var instructions = res.paths[i].instructions;
                                 // var points = res.paths[i].points.coordinates;
                                 var points = res.paths[i].points;
-                                console.log(points);
+                                // console.log(points);
                                 var polyline = L.Polyline.fromEncoded(points);
                                 var coordinates = polyline.getLatLngs();
-                                console.log(coordinates);
+                                // console.log(coordinates);
                             }
 
                             //draw line
@@ -140,9 +159,18 @@
                             var polyline = L.polyline(latlngs, {
                                 color: colors[colorIdx]
                             }).addTo(map);
-                            // zoom the map to the polyline
-                            map.fitBounds(polyline.getBounds());
 
+                            //Test
+                            var distanceTooltip = L.tooltip({
+                                permanent: true,
+                                direction: 'center',
+                                className: 'distance-tooltip'
+                            }).setContent(distance / 1000 + ' km');
+
+                            polyline.bindTooltip(distanceTooltip).openTooltip();
+
+                            // Zoom the map to the polyline and fit the polyline bounds
+                            map.fitBounds(polyline.getBounds()).addLayer(polyline);
                             var endIcon = L.icon({
                                 iconUrl: 'https://cdn-icons-png.flaticon.com/512/2775/2775994.png',
                                 iconSize: [35, 35], // size of the icon
@@ -159,11 +187,13 @@
                             });
 
                             L.marker(latlngs[0], {
-                                icon: startIcon
-                            }).addTo(map);
+                                icon: startIcon,
+                            }).bindPopup('<p style="color: green; font-weight: bold">' +
+                                "Vị trí hiện tại" + '</p>').addTo(map);
                             L.marker(latlngs[latlngs.length - 1], {
                                 icon: endIcon
-                            }).addTo(map);
+                            }).bindPopup('<p style="color: green; font-weight: bold">' +
+                                "{{ $detail_place->name_place }}" + '</p>').addTo(map);
 
                         }
                     })
@@ -172,53 +202,6 @@
                 console.log('Geolocation is not supported by this browser.');
             }
         })
-
-        var greenIcon = L.icon({
-            iconUrl: 'https://cdn-icons-png.flaticon.com/512/2775/2775994.png',
-
-            iconSize: [35, 35], // size of the icon
-            iconAnchor: [17, 17], // point of the icon which will correspond to marker's location
-            popupAnchor: [0, -17] // point from which the popup should open relative to the iconAnchor
-        });
-
-        var markers = [{
-                coordinates: [10.2450825, 105.9856479],
-                icon: greenIcon,
-                name: "Nhà gốm Tư Buôi"
-            },
-            // {
-            //     coordinates: [10.159404623604246, 106.09437396485744],
-            //     icon: greenIcon,
-            //     name: "Thánh Tịnh Ngọc Sơn Quang"
-            // },
-            // {
-            //     coordinates: [10.270603597725295, 105.95376759554469],
-            //     icon: greenIcon,
-            //     name: "Khu Du Lịch Vinh Sang"
-            // },
-            // {
-            //     coordinates: [10.24601303358093, 106.00493038205147],
-            //     icon: greenIcon,
-            //     name: "Khu Du Lịch Sinh Thái Hoàng Hảo"
-            // },
-            // {
-            //     coordinates: [10.271718469021256, 105.9871891090376],
-            //     icon: greenIcon,
-            //     name: "Nhà Dừa CocoHome"
-            // },
-            // {
-            //     coordinates: [10.263176661827437, 105.96914328205166],
-            //     icon: greenIcon,
-            //     name: "Chùa Tiên Châu"
-            // },
-            // Thêm các điểm đánh dấu khác vào đây nếu cần
-        ];
-
-        markers.forEach(function(marker) {
-            var newMarker = L.marker(marker.coordinates, {
-                icon: marker.icon
-            }).bindPopup('<p style="color: green; font-weight: bold">' + marker.name + '</p>').addTo(map);
-        });
     </script>
 </body>
 

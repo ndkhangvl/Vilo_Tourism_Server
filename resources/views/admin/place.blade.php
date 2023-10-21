@@ -390,8 +390,8 @@
                                     </div>
                                 </div>
                                 <div class="col-md-6">
-                                    <a class="example-image-link picture-from-firebase" href=""
-                                        data-lightbox="example-set" data-title=""><img class="example-image"
+                                    <a class="example-image-link picture-view-from-firebase" href=""
+                                        data-lightbox="example-set-1" data-title=""><img class="example-image"
                                             src="" alt="" style="width: 50px; height: 50px" /></a>
                                     <div class="form-group">
                                         <label for="describe_place">Mô tả</label>
@@ -967,13 +967,13 @@
                     $('#end_view_time').val(detailData.end_time);
                     $('#email_view_contact_place').val(detailData.email_contact_place);
                     $('#showDescribe').html(detailData.describe_place);
-                    var thumbnailLink = $('.picture-from-firebase');
+                    var thumbnailLinkView = $('.picture-view-from-firebase');
                     if (!detailData.image_url) {
-                        thumbnailLink.hide();
+                        thumbnailLinkView.hide();
                     } else {
-                        thumbnailLink.attr('href', detailData.image_url);
-                        thumbnailLink.find('img').attr('src', detailData.image_url);
-                        thumbnailLink.show();
+                        thumbnailLinkView.attr('href', detailData.image_url);
+                        thumbnailLinkView.find('img').attr('src', detailData.image_url);
+                        thumbnailLinkView.show();
                     }
                     // Gán dữ liệu vào CKEditor
                     //myViewSend.setData(detailData.describe_place);
