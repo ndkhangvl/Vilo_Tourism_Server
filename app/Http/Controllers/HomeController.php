@@ -10,10 +10,39 @@ class HomeController extends Controller
 {
     public function index(Request $request)
     {
-        $vlplaces = DB::table('VLPlace')->take(4)->get();
-        // dd(Session::all());
+        $vlplaces = DB::table('VLPlace')->take(5)->get();
+        $vlnews = DB::table('VLNews')->take(5)->get();
+        // $vlplacecoordinate = DB::select('Select * from VLPlaceCoordinate');
+        // $vlplacecoordinatejson = json_encode($vlplacecoordinate);
+        // dd(json_encode($vlplacecoordinate));
+        $vlplacecoordinate = DB::select('SELECT VLPlace.name_place, VLPlaceCoordinate.latitude, VLPlaceCoordinate.longitude
+            FROM VLPlace
+            JOIN VLPlaceCoordinate ON VLPlace.id_place = VLPlaceCoordinate.id_place');
+
+        $customJson = [];
+
+        foreach ($vlplacecoordinate as $item) {
+            $coordinates = [
+                (float) $item->latitude,
+                (float) $item->longitude
+            ];
+
+            $customItem = [
+                'coordinates' => $coordinates,
+                'name' => $item->name_place,
+            ];
+
+            $customJson[] = $customItem;
+        }
+
+        $vlplacecoordinatejson = json_encode($customJson, JSON_UNESCAPED_UNICODE);
+
+        // dd($vlplacecoordinatejson);
+        //dd($vlplaces);
         return view('home.home', [
             'vlplaces' => $vlplaces,
+            'vlnews' => $vlnews,
+            'vlplacecoordinate' => $vlplacecoordinatejson,
         ]);
     }
 
@@ -40,6 +69,7 @@ class HomeController extends Controller
         //     ]
         // );
         $detail_place = DB::select('EXEC GetVLPlaceID ?;', [$id]);
+        DB::table('VLPlace')->where('id_place', $id)->increment('view_place');
         // dd($detail_place);
         //dd($detail_place);
         return view('home.detail_place', [

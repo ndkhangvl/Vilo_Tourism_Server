@@ -5,6 +5,7 @@
     <!-- Required Meta Tags Always Come First -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
 
     <!-- Title -->
     <title>Travel &amp; Dashboard Template</title>
@@ -388,6 +389,19 @@
                                                 placeholder="Nhập vào email" readonly>
                                         </div>
                                     </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                            <label for="lat_view_place" class="font-weight-bold">Vĩ độ</label>
+                                            <input type="text" name="latitude_view_place" id="latitude_view_place"
+                                                class="form-control" placeholder="Nhập vĩ độ" readonly>
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label for="long_view_place" class="font-weight-bold">Kinh độ</label>
+                                            <input type="text" name="longitude_view_place"
+                                                id="longitude_view_place" class="form-control"
+                                                placeholder="Nhập kinh độ" readonly>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="col-md-6">
                                     <a class="example-image-link picture-view-from-firebase" href=""
@@ -398,7 +412,6 @@
                                         {{-- <textarea id="viewCKeditor" class="form-control" name="describe_view_place"></textarea> --}}
                                         <div id="showDescribe" class="p-2 border rounded-sm"
                                             style="height: 425px; overflow: auto;">
-
                                         </div>
                                     </div>
                                 </div>
@@ -518,6 +531,18 @@
                             <label for="email_contact_place">Email</label>
                             <input type="email" name="email_edit_contact_place" id="email_edit_contact_place"
                                 class="form-control" placeholder="Nhập vào email" required>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="start_time">Vĩ độ</label>
+                                <input type="text" name="latitude_place" id="latitude_place" class="form-control"
+                                    placeholder="Nhập vĩ độ" required>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="start_time">Kinh độ</label>
+                                <input type="text" name="longitude_place" id="longitude_place"
+                                    class="form-control" placeholder="Nhập kinh độ" required>
+                            </div>
                         </div>
                         <div class="form-group">
                             <label for="describe_place">Mô tả</label>
@@ -966,6 +991,10 @@
                     $('#start_view_time').val(detailData.start_time);
                     $('#end_view_time').val(detailData.end_time);
                     $('#email_view_contact_place').val(detailData.email_contact_place);
+
+                    $('#latitude_view_place').val(detailData.latitude);
+                    $('#longitude_view_place').val(detailData.longitude);
+
                     $('#showDescribe').html(detailData.describe_place);
                     var thumbnailLinkView = $('.picture-view-from-firebase');
                     if (!detailData.image_url) {
@@ -1026,6 +1055,9 @@
                     $('#start_edit_time').val(detailData.start_time);
                     $('#end_edit_time').val(detailData.end_time);
                     $('#email_edit_contact_place').val(detailData.email_contact_place);
+
+                    $('#latitude_place').val(detailData.latitude);
+                    $('#longitude_place').val(detailData.longitude);
                     // $('#image_edit_url').val(detailData.image_url);
                     var thumbnailLink = $('.picture-from-firebase');
                     if (!detailData.image_url) {

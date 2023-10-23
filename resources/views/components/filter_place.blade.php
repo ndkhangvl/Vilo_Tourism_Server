@@ -10,9 +10,16 @@
     </div>
     <div class="leading-7 text-left text-sm font-thin mt-2 w-4/5 mx-auto transition-all duration-300 transform origin-top"
         id="submenu">
-        <h1 class="cursor-pointer p-2 hover:bg-gray-700 rounded-md mt-1">Social</h1>
-        <h1 class="cursor-pointer p-2 hover:bg-gray-700 rounded-md mt-1">Personal</h1>
-        <h1 class="cursor-pointer p-2 hover:bg-gray-700 rounded-md mt-1">Friends</h1>
+        <div class="checkbox">
+            <input id="price-free" type="checkbox" name="price" value="0-0" />
+            <label class="pd-l-10" for="price-free">Miễn phí</label>
+            <span class="badge pull-right"></span>
+        </div>
+        <div class="checkbox">
+            <input id="price-free" type="checkbox" name="price" value="0-0" />
+            <label class="pd-l-10" for="price-free">Có phí</label>
+            <span class="badge pull-right"></span>
+        </div>
     </div>
 </div>
 
@@ -27,13 +34,26 @@
         </div>
     </div>
     <div class="leading-7 text-left text-sm font-thin mt-2 w-4/5 mx-auto" id="submenu1">
-        <div class="checkbox ">
+        <div class="checkbox">
             <input id="price-free" type="checkbox" name="price" value="0-0" />
-            <label class="pd-l-10" for="price-free">Miễn phí</label>
+            <label class="pd-l-10" for="price-free">Du lịch sinh thái - xanh</label>
             <span class="badge pull-right"></span>
         </div>
-        <h1 class="cursor-pointer p-2 hover:bg-gray-700 rounded-md mt-1">Personal</h1>
-        <h1 class="cursor-pointer p-2 hover:bg-gray-700 rounded-md mt-1">Friends</h1>
+        <div class="checkbox">
+            <input id="price-free" type="checkbox" name="price" value="0-0" />
+            <label class="pd-l-10" for="price-free">Du lịch nghỉ dưỡng</label>
+            <span class="badge pull-right"></span>
+        </div>
+        <div class="checkbox">
+            <input id="price-free" type="checkbox" name="price" value="0-0" />
+            <label class="pd-l-10" for="price-free">Du lịch làng nghề</label>
+            <span class="badge pull-right"></span>
+        </div>
+        <div class="checkbox">
+            <input id="price-free" type="checkbox" name="price" value="0-0" />
+            <label class="pd-l-10" for="price-free">Du lịch văn hóa tâm linh</label>
+            <span class="badge pull-right"></span>
+        </div>
     </div>
 </div>
 
@@ -48,9 +68,26 @@
         </div>
     </div>
     <div class="leading-7 text-left text-sm font-thin mt-2 w-4/5 mx-auto" id="submenu2">
-        <h1 class="cursor-pointer p-2 hover:bg-gray-700 rounded-md mt-1">Social</h1>
-        <h1 class="cursor-pointer p-2 hover:bg-gray-700 rounded-md mt-1">Personal</h1>
-        <h1 class="cursor-pointer p-2 hover:bg-gray-700 rounded-md mt-1">Friends</h1>
+        <div class="checkbox">
+            <input id="price-free" type="checkbox" name="price" value="0-0" />
+            <label class="pd-l-10" for="price-free">Các trò chơi dân gian</label>
+            <span class="badge pull-right"></span>
+        </div>
+        <div class="checkbox">
+            <input id="price-free" type="checkbox" name="price" value="0-0" />
+            <label class="pd-l-10" for="price-free">Câu cá sấu</label>
+            <span class="badge pull-right"></span>
+        </div>
+        <div class="checkbox">
+            <input id="price-free" type="checkbox" name="price" value="0-0" />
+            <label class="pd-l-10" for="price-free">Chèo xuồng</label>
+            <span class="badge pull-right"></span>
+        </div>
+        <div class="checkbox">
+            <input id="price-free" type="checkbox" name="price" value="0-0" />
+            <label class="pd-l-10" for="price-free">Cắm trại</label>
+            <span class="badge pull-right"></span>
+        </div>
     </div>
 </div>
 

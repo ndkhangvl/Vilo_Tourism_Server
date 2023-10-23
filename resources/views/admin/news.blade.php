@@ -5,6 +5,7 @@
     <!-- Required Meta Tags Always Come First -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
 
     <!-- Title -->
     <title>Travel &amp; Dashboard Template</title>
@@ -21,10 +22,24 @@
     <!-- CSS Implementing Plugins -->
     <link rel="stylesheet" href="{{ asset('/../assets/css/vendor.min.css') }}">
     <link rel="stylesheet" href="{{ asset('/../assets/vendor/icon-set/style.css') }}">
-    <link rel="stylesheet" href="../node_modules/select2/dist/css/select2.min.css">
-    {{-- <link rel="stylesheet" href="{{ asset('css/select2.min.css') }}">
-    <script src="{{ asset('js/select2.min.js') }}"></script> --}}
+    {{-- <link rel="stylesheet" href="../node_modules/select2/dist/css/select2.min.css"> --}}
+    {{-- {{-- <link rel="stylesheet" href="{{ asset('css/select2.min.css') }}"> --}}
 
+    <!-- Sweetalrt -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <!-- Lightbox -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lightbox2@2.11.4/dist/js/lightbox.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/lightbox2@2.11.4/dist/css/lightbox.min.css" rel="stylesheet">
+
+    {{-- <script src="{{ asset('js/select2.min.js') }}"></script> --}}
+    <style>
+        .ck.ck-content:not(.ck-comment__input *) {
+            min-height: 300px;
+            overflow-y: auto;
+        }
+    </style>
 
 
     <!-- CSS Front Template -->
@@ -47,7 +62,7 @@
     <!-- ========== MAIN CONTENT ========== -->
     <main id="content" role="main" class="main pointer-event">
         <div class="p-2">
-            <button data-toggle="modal" data-target="#addNews" class="btn btn-primary btn-lg px-3 py-2">
+            <button data-toggle="modal" data-target="#addNewsModal" class="btn btn-primary btn-lg px-3 py-2">
                 <i class="tio-add"></i>
                 Thêm mới
             </button>
@@ -63,9 +78,6 @@
                         <tr>
                             <th class="p-2 text-center" style="width: 5%">STT</th>
                             <th class="p-2 text-center">Tên tin</th>
-                            <!-- <th class="p-2 text-center">Địa chỉ</th> -->
-                            <!-- <th class="p-2 text-center">Thời gian mở cửa</th>
-                        <th class="p-2 text-center">Thời gian đóng cửa</th> -->
                             <th class="p-2 text-center">Nội dung</th>
                             <th class="p-2 text-center">Ngày viết</th>
                             <th class="p-2 text-center">Số lượt view</th>
@@ -75,24 +87,29 @@
                     <tbody>
                         @foreach ($vlnews as $vlnew)
                             <tr>
-                                <td class="text-center align-middle">{{ $vlnew->id_news }}</td>
-                                <td class="text-center align-middle">{{ $vlnew->title_news }}</td>
-                                <td class="text-center align-middle">{{ $vlnew->content_new }}</td>
-                                <td class="text-center align-middle">{{ $vlnew->ngay }}</td>
+                                <td class="text-center align-middle">{{ $vlnew->id_new }}</td>
+                                <td class="text-center text-truncate align-middle">{{ $vlnew->title_new }}</td>
+                                <td class="text-center text-truncate align-middle" style="max-width: 150px;">
+                                    {{ $vlnew->content_new }}</td>
+                                <td class="text-center align-middle">{{ $vlnew->date_post_new }}</td>
                                 <td class="text-center align-middle">{{ $vlnew->view_new }}</td>
                                 <td class="d-flex align-items-center">
-                                    <a href="/admin/place/{{ $vlnew->id_news }}" class="view flex-grow-1" title=""
-                                        data-toggle="tooltip" data-original-title="View" style="margin: 0 1px;"><i
+                                    <a href="/admin/news/detail/{{ $vlnew->id_new }}" class="view flex-grow-1"
+                                        title="" data-toggle="tooltip" data-original-title="View"
+                                        style="margin: 0 1px;" onclick="getDetailNews(event,this)"><i
                                             class="tio-visible-outlined"></i></a>
-                                    <a href="#" class="edit flex-grow-1" title="" data-toggle="tooltip"
-                                        data-original-title="Edit" style="margin: 0 1px;"
-                                        data-bs-target="#detailPlaceModal"><i class="tio-edit text-warning"></i></a>
-                                    <form id="deleteForm-{{ $vlnew->id_news }}"
-                                        action="/admin/place/delete/{{ $vlnew->id_news }}" method="POST">
+                                    <a href="/admin/news/detail/{{ $vlnew->id_new }}" class="edit flex-grow-1"
+                                        title="" data-toggle="tooltip" data-original-title="Edit"
+                                        style="margin: 0 1px;" onclick="getEditNews(event,this, {{ $vlnew->id_new }})"
+                                        data-id="{{ $vlnew->id_new }}"><i class="tio-edit text-warning"></i></a>
+                                    <form id="deleteForm-{{ $vlnew->id_new }}"
+                                        action="/admin/news/delete/{{ $vlnew->id_new }}" method="POST">
                                         @method('DELETE')
                                         @csrf
-                                        <button type="submit" id="submitDel" class="btn btn-link p-0"
-                                            style="margin: 0 1px;" data-toggle="tooltip" data-original-title="Delete">
+                                        <button type="submit" id="submitDel"
+                                            onclick="deleteNews('{{ $vlnew->id_new }}','{{ $vlnew->title_new }}')"
+                                            class="btn btn-link p-0" style="margin: 0 1px;" data-toggle="tooltip"
+                                            data-original-title="Delete">
                                             <i class="tio-delete-outlined text-danger"></i>
                                         </button>
                                     </form>
@@ -108,8 +125,8 @@
     <!-- ========== END MAIN CONTENT ========== -->
 
     <!-- Modal Add -->
-    <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="addModal"
-        aria-hidden="true" id="addNews">
+    <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="addNewsModal"
+        aria-hidden="true" id="addNewsModal">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
 
@@ -121,110 +138,27 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form action="/admin/news/add" class="" method="POST" id="addNews"
-                        enctype="multipart/form-data">
+                    <form action="#" class="" method="POST" id="addNews" enctype="multipart/form-data">
                         @csrf
                         <div class="form-row">
-                            <div class="form-group col-md-4">
-                                <label for="id_area">Khu vực</label>
-                                <select id="id_area" name="id_area" class="js-select2-custom custom-select"
-                                    size="1" style="opacity: 0;"
-                                    data-hs-select2-options='{
-          "minimumResultsForSearch": "Infinity"
-        }'>
-                                    <option value="1000">Huyện Bình Tân</option>
-                                    <option value="1001">Huyện Long Hồ</option>
-                                    <option value="1002">Huyện Mang Thít</option>
-                                    <option value="1003">Huyện Tam Bình</option>
-                                    <option value="1004">Huyện Trà Ôn</option>
-                                    <option value="1005">Huyện Vũng Liêm</option>
-                                    <option value="1006">Thành phố Vĩnh Long</option>
-                                    <option value="1007">Thị xã Bình Minh</option>
-                                </select>
-                            </div>
-                            <div class="form-group col-md-4">
-                                <label for="id_price">Loại giá</label>
-                                <select id="id_price" name="id_price" class="js-select2-custom custom-select"
-                                    size="1" style="opacity: 0;"
-                                    data-hs-select2-options='{
-          "minimumResultsForSearch": "Infinity"
-        }'>
-                                    <option value="3000">Miễn phí</option>
-                                    <option value="3001">Có phí</option>
-                                </select>
-                            </div>
-                            <div class="form-group col-md-4">
-                                <label for="id_type">Loại dịch vụ</label>
-                                <select id="id_type" name="id_type" class="js-select2-custom custom-select"
-                                    size="1" style="opacity: 0;"
-                                    data-hs-select2-options='{
-          "minimumResultsForSearch": "Infinity"
-        }'>
-                                    <option value="4000">Du lịch sinh thái</option>
-                                    <option value="4001">Du lịch làng nghề</option>
-                                    <option value="4002">Du lịch lịch sử - văn hóa</option>
-                                    <option value="4003">Du lịch tâm linh</option>
-                                    <option value="4004">Du lịch trở về nguồn cội</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group col-md-4">
-                                <label for="type_service">Loại dịch vụ</label>
-                                <select id="type_service" class="js-select2-custom custom-select" size="1"
-                                    style="opacity: 0;"
-                                    data-hs-select2-options='{
-          "minimumResultsForSearch": "Infinity"
-        }'>
-                                    <option value="1003">Miễn phí</option>
-                                    <option value="1002">Có phí</option>
-                                </select>
-                            </div>
-                            <div class="form-group col-md-4">
-                                <label for="name_place">Tên địa điểm</label>
-                                <input type="text" name="name_place" id="name_place" class="form-control"
-                                    placeholder="Nhập vào tên địa điểm" required>
-                            </div>
-                            <div class="form-group col-md-4">
-                                <label for="address_place">Địa chỉ</label>
-                                <input type="text" name="address_place" id="address_place" class="form-control"
-                                    placeholder="Nhập vào địa chỉ" required>
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group col-md-4">
-                                <label for="phone_place">Số điện thoại</label>
-                                <input type="text" name="phone_place" id="phone_place" class="form-control"
-                                    placeholder="Nhập vào số điện thoại" required>
-                            </div>
-                            <div class="form-group col-md-4">
-                                <label for="start_time">Thời gian mở cửa</label>
-                                <input type="text" name="start_time" id="start_time" class="form-control"
-                                    placeholder="Nhập thời gian mở cửa" required>
-                            </div>
-                            <div class="form-group col-md-4">
-                                <label for="end_time">Thời gian đóng cửa</label>
-                                <input type="text" name="end_time" id="end_time" class="form-control"
-                                    placeholder="Nhập thời gian đóng cửa" required>
+                            <div class="form-group col-md-12">
+                                <label for="label_title" class="font-weight-bold">Tên tin tức</label>
+                                <input type="text" name="title_news" id="title_news" class="form-control"
+                                    placeholder="Nhập vào tên tin tức" required>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="email_contact_place">Email</label>
-                            <input type="email" name="email_contact_place" id="email_contact_place"
-                                class="form-control" placeholder="Nhập vào email" required>
+                            <label for="content_news_label" class="font-weight-bold">Nội dung</label>
+                            <textarea id="addNewsCKEditor" class="form-control" name="content_news"></textarea>
                         </div>
                         <div class="form-group">
-                            <label for="describe_place">Mô tả</label>
-                            <textarea id="addCKeditor" class="form-control" name="describe_place"></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label for="file_input">Upload file</label>
+                            <label for="file_input" class="font-weight-bold">Hình thumbnail</label>
                             <input class="js-dropzone dropzone-custom custom-file-boxed dz-clickable" id="file_input"
                                 type="file" name="image">
                         </div>
                         <div class="form-group">
-                            <button data-modal-hide="defaultModal" type="submit" class="btn btn-primary">I
-                                accept</button>
+                            <button data-modal-hide="defaultModal" type="submit" class="btn btn-primary">Thêm
+                                mới</button>
                         </div>
                     </form>
 
@@ -235,124 +169,108 @@
     <!-- End Modal -->
 
     <!-- Modal View -->
-    <!-- Modal -->
     <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="detailModal"
-        aria-hidden="true" id="detailPlaceModal">
+        aria-hidden="true" id="detailNewsModal">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
 
                 <div class="modal-header">
-                    <h5 class="modal-title h4" id="detailModal">Chi tiết địa điểm</h5>
+                    <h5 class="modal-title h4" id="detailModal">Chi tiết tin tức</h5>
                     <button type="button" class="btn btn-xs btn-icon btn-ghost-secondary" data-dismiss="modal"
                         aria-label="Close">
                         <i class="tio-clear tio-lg"></i>
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form action="/admin/place/add" class="" method="POST" id="viewPlace"
+                    <form action="#" class="" method="POST" id="viewNews"
                         enctype="multipart/form-data">
                         @csrf
                         <div class="form-row">
-                            <div class="form-group col-md-4">
-                                <label for="id_view_area">Khu vực</label>
-                                <select id="id_view_area" name="id_view_area"
-                                    class="js-select2-custom1 custom-select" size="1" style="opacity: 0;"
-                                    data-hs-select2-options='{
-          "minimumResultsForSearch": "Infinity"
-        }'>
-                                    <option value="1000">Huyện Bình Tân</option>
-                                    <option value="1001">Huyện Long Hồ</option>
-                                    <option value="1002">Huyện Mang Thít</option>
-                                    <option value="1003">Huyện Tam Bình</option>
-                                    <option value="1004">Huyện Trà Ôn</option>
-                                    <option value="1005">Huyện Vũng Liêm</option>
-                                    <option value="1006">Thành phố Vĩnh Long</option>
-                                    <option value="1007">Thị xã Bình Minh</option>
-                                </select>
-                            </div>
-                            <div class="form-group col-md-4">
-                                <label for="id_view_price">Loại giá</label>
-                                <select id="id_view_price" name="id_view_price"
-                                    class="js-select2-custom1 custom-select" size="1" style="opacity: 0;"
-                                    data-hs-select2-options='{
-          "minimumResultsForSearch": "Infinity"
-        }'>
-                                    <option value="3000">Miễn phí</option>
-                                    <option value="3001">Có phí</option>
-                                </select>
-                            </div>
-                            <div class="form-group col-md-4">
-                                <label for="id_view_type">Loại dịch vụ</label>
-                                <select id="id_view_type" name="id_view_type"
-                                    class="js-select2-custom1 custom-select" size="1" style="opacity: 0;"
-                                    data-hs-select2-options='{
-          "minimumResultsForSearch": "Infinity"
-        }'>
-                                    <option value="4000">Du lịch sinh thái</option>
-                                    <option value="4001">Du lịch làng nghề</option>
-                                    <option value="4002">Du lịch lịch sử - văn hóa</option>
-                                    <option value="4003">Du lịch tâm linh</option>
-                                    <option value="4004">Du lịch trở về nguồn cội</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group col-md-4">
-                                <label for="type_view_service">Loại dịch vụ</label>
-                                <select id="type_view_service" class="js-select2-custom1 custom-select"
-                                    size="1" style="opacity: 0;"
-                                    data-hs-select2-options='{
-          "minimumResultsForSearch": "Infinity"
-        }'>
-                                    <option value="1003">Miễn phí</option>
-                                    <option value="1002">Có phí</option>
-                                </select>
-                            </div>
-                            <div class="form-group col-md-4">
-                                <label for="name_place">Tên địa điểm</label>
-                                <input type="text" name="name_place" id="name_place" class="form-control"
-                                    placeholder="Nhập vào tên địa điểm" required>
-                            </div>
-                            <div class="form-group col-md-4">
-                                <label for="address_place">Địa chỉ</label>
-                                <input type="text" name="address_place" id="address_place" class="form-control"
-                                    placeholder="Nhập vào địa chỉ" required>
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group col-md-4">
-                                <label for="phone_place">Số điện thoại</label>
-                                <input type="text" name="phone_place" id="phone_place" class="form-control"
-                                    placeholder="Nhập vào số điện thoại" required>
-                            </div>
-                            <div class="form-group col-md-4">
-                                <label for="start_time">Thời gian mở cửa</label>
-                                <input type="text" name="start_time" id="start_time" class="form-control"
-                                    placeholder="Nhập thời gian mở cửa" required>
-                            </div>
-                            <div class="form-group col-md-4">
-                                <label for="end_time">Thời gian đóng cửa</label>
-                                <input type="text" name="end_time" id="end_time" class="form-control"
-                                    placeholder="Nhập thời gian đóng cửa" required>
+                            <div class="form-group col-md-12">
+                                <label for="label_view_title" class="font-weight-bold">Tên tin tức</label>
+                                <input type="text" name="view_title_news" id="view_title_news"
+                                    class="form-control" placeholder="Nhập vào tên tin tức" readonly>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="email_contact_place">Email</label>
-                            <input type="email" name="email_contact_place" id="email_contact_place"
-                                class="form-control" placeholder="Nhập vào email" required>
+                            <label for="content_news_view_label" class="font-weight-bold">Nội dung</label>
+                            {{-- <textarea id="addNewCKEditor" class="form-control" name="content_news"></textarea> --}}
+                            <div id="showContent" class="p-2 border rounded-sm"
+                                style="height: 300px; overflow: auto;">
+                            </div>
                         </div>
                         <div class="form-group">
-                            <label for="describe_place">Mô tả</label>
-                            <textarea id="editCKeditor" class="form-control" name="describe_place"></textarea>
+                            <label for="file_input" class="font-weight-bold">Hình thumbnail</label>
+                            <a class="example-image-link picture-view-from-firebase" href=""
+                                data-lightbox="example-set-1" data-title=""><img class="example-image"
+                                    src="" alt="" style="width: 50px; height: 50px" /></a>
+                            {{-- <input class="js-dropzone dropzone-custom custom-file-boxed dz-clickable" id="file_input"
+                                type="file" name="image"> --}}
+                        </div>
+                        {{-- <div class="form-group">
+                            <button data-modal-hide="defaultModal" type="submit" class="btn btn-primary">Thêm
+                                mới</button>
+                        </div> --}}
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Modal -->
+
+    <!-- Modal Edit News -->
+    <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="editNewsModal"
+        aria-hidden="true" id="editNewsModal">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h5 class="modal-title h4" id="editNewsModal">Chi tiết tin tức</h5>
+                    <button type="button" class="btn btn-xs btn-icon btn-ghost-secondary" data-dismiss="modal"
+                        aria-label="Close">
+                        <i class="tio-clear tio-lg"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="#" class="" method="POST" id="editNews"
+                        enctype="multipart/form-data">
+                        @csrf
+                        @method('PUT')
+                        <div class="form-row">
+                            <div class="form-group col-md-12">
+                                <label for="label_view_title" class="font-weight-bold">Tên tin tức</label>
+                                <input type="text" name="edit_title_news" id="edit_title_news"
+                                    class="form-control" placeholder="Nhập vào tên tin tức">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="content_news_edit_label">Mô tả</label>
+                            <textarea id="editCKeditor" class="form-control" name="editCKeditor"></textarea>
+                        </div>
+                        {{-- <div class="form-group">
+                            <label for="content_news_view_label" class="font-weight-bold">Nội dung</label>
+                            <textarea id="addNewCKEditor" class="form-control" name="content_news"></textarea>
+                            <div id="showContent" class="p-2 border rounded-sm"
+                                style="height: 300px; overflow: auto;">
+                            </div>
+                        </div>  --}}
+                        <div class="form-group">
+                            <label for="file_input" class="font-weight-bold">Hình thumbnail</label>
+                            <a class="example-image-link picture-from-firebase" href=""
+                                data-lightbox="example-set" data-title=""><img class="example-image" src=""
+                                    alt="" style="width: 50px; height: 50px" /></a>
+                            {{-- <input class="js-dropzone dropzone-custom custom-file-boxed dz-clickable" id="file_input"
+                                type="file" name="image"> --}}
                         </div>
                         <div class="form-group">
                             <label for="file_input">Upload file</label>
-                            <input class="js-dropzone dropzone-custom custom-file-boxed dz-clickable" id="file_input"
-                                type="file" name="image">
+                            <input class="js-dropzone dropzone-custom custom-file-boxed dz-clickable"
+                                id="file_edit_input" type="file" name="image">
                         </div>
                         <div class="form-group">
-                            <button data-modal-hide="defaultModal" type="submit" class="btn btn-primary">I
-                                accept</button>
+                            <button data-modal-hide="defaultModal" type="submit" class="btn btn-primary">Chỉnh
+                                sửa</button>
                         </div>
                     </form>
 
@@ -367,13 +285,13 @@
     <script src="\..\assets\vendor\chart.js\dist\Chart.min.js"></script>
     <script src="\..\assets\vendor\chart.js.extensions\chartjs-extensions.js"></script>
     <script src="\..\assets\vendor\chartjs-plugin-datalabels\dist\chartjs-plugin-datalabels.min.js"></script>
-    <script src="../node_modules/select2/dist/js/select2.full.min.js"></script>
+    {{-- <script src="../node_modules/select2/dist/js/select2.full.min.js"></script> --}}
 
 
 
     <!-- JS Front -->
     <script src="\..\assets\js\theme.min.js"></script>
-    <script src="\..\assets/js/hs.select2.js"></script>
+    {{-- <script src="\..\assets/js/hs.select2.js"></script> --}}
 
     <!-- JS Plugins Init. -->
     <script>
@@ -520,16 +438,16 @@
 
             //CKEditor 
             ClassicEditor
-                .create(document.querySelector('#addCKeditor'))
+                .create(document.querySelector('#addNewsCKEditor'))
                 .catch(error => {
                     console.error(error);
                 });
 
-            ClassicEditor
-                .create(document.querySelector('#editCKeditor'))
-                .catch(error => {
-                    console.error(error);
-                });
+            // ClassicEditor
+            //     .create(document.querySelector('#editCKeditor'))
+            //     .catch(error => {
+            //         console.error(error);
+            //     });
 
             // INITIALIZATION OF CLIPBOARD
             // =======================================================
@@ -540,117 +458,339 @@
     </script>
 
     <script>
-        function deletePlace(id) {
-            $.ajax({
-                url: '/admin/place/delete/' + id,
-                type: 'DELETE',
-                success: function(response) {
-                    // Xử lý thành công
-                },
-                error: function() {
-                    // Xử lý lỗi
-                }
-            });
+        //Get Edit News Modal
+        var myEditorSend;
+
+        function getEditNews(event, element, id) {
+            event.preventDefault();
+            var url = $(element).attr('href');
+            var fileInput = document.getElementById('file_edit_input');
+            fileInput.value = '';
+            // console.log(id);
+            fetchEditDetailData(url);
         }
 
-        function getdetailPlace(id) {
-            $.ajax({
-                url: '/admin/place/detail/' + id,
-                type: 'GET',
-                success: function(response) {
-                    console.log(response);
-                },
-                error: function() {
-                    // Xử lý lỗi
+        function setCKEditorData(data) {
+            if (myEditorSend) {
+                if (data !== null && data !== undefined) {
+                    myEditorSend.setData(data);
+                } else {
+                    myEditorSend.setData('');
                 }
-            });
+            }
         }
-    </script>
 
-    {{-- <script>
-        $('#detailPlaceModal').on('show.bs.modal', function(event) {
-            var button = $(event.relatedTarget);
-            var itemId = button.data('id');
-
-            var ngaytao = $('#detailPlaceModal #dtngaytao');
-            var sohoadon = $('#detailPlaceModal #dtsohoadon');
-            var trangthai = $('#detailPlaceModal #dttrangthai');
-            var filelink = $('#detailPlaceModal #dtfilelink');
-            var khachhang = $('#detailPlaceModal #dtkhachhang');
-            var dienthoai = $('#detailPlaceModal #dtdienthoai');
-            var diachi = $('#detailPlaceModal #dtdiachi');
-            var sohopdong = $('#detailPlaceModal #dtsohopdong');
-            var goithau = $('#detailPlaceModal #dtgoithau');
-            var duan = $('#detailPlaceModal #dtduan');
-            var nguoitao = $('#detailPlaceModal #dtnguoitao');
-            var nguoimuahang = $('#detailPlaceModal #dtnguoimuahang');
-            var tongtien = $('#detailPlaceModal #dttongtien');
-            var thuesuat = $('#detailPlaceModal #dtthuesuat');
-            var tienthue = $('#detailPlaceModal #dttienthue');
-            var tongtiencothue = $('#detailPlaceModal #dttongtiencothue');
-            var sotienbangchu = $('#detailPlaceModal #dtsotienbangchu');
-            var xuathoadon = $('#detailPlaceModal #dtbtnxuatpdf');
-            // Make an AJAX request to get the item details
+        function fetchEditDetailData(url) {
             $.ajax({
-                url: '/gethoadon/' + itemId,
+                url: url,
                 type: 'GET',
                 success: function(response) {
-                    var hoadon = response.hoadon2;
-                    var cthd = response.chitiethoadon2;
-                    var cntcthd = response.cntcthd;
+                    // console.log(response);
+                    var detailData = response.vlnews[0];
+                    id = detailData.id_new;
+                    $('#edit_title_news').val(detailData.title_new);
 
-                    ngaytao.text(hoadon.HOADON_NGAYTAO);
-                    sohoadon.text(hoadon.HOADON_SO);
-                    if (hoadon.HOADON_TRANGTHAI == 1) {
-                        trangthai.css('color', 'green');
-                        trangthai.text("Đã thanh toán");
+                    // $('#email_edit_contact_place').val(detailData.email_contact_place);
+                    // $('#image_edit_url').val(detailData.image_url);
+                    var thumbnailLink = $('.picture-from-firebase');
+                    if (!detailData.image_url_new) {
+                        thumbnailLink.hide();
                     } else {
-                        trangthai.css('color', 'red');
-                        trangthai.text("Chưa thanh toán");
+                        thumbnailLink.attr('href', detailData.image_url_new);
+                        thumbnailLink.find('img').attr('src', detailData.image_url_new);
+                        thumbnailLink.show();
                     }
-                    filelink.attr('href', '{{ asset('storage/') }}' + "/" + hoadon
-                        .HOADON_FILE);
-                    filelink.text(hoadon.HOADON_FILE);
-                    khachhang.attr('href', 'khachhang' + "/" + hoadon.KHACHHANG_ID);
-                    khachhang.text(hoadon.KHACHHANG_TEN);
-                    dienthoai.text(hoadon.KHACHHANG_SDT);
-                    diachi.text(hoadon.KHACHHANG_DIACHI);
-                    sohopdong.attr('href', '/hopdong' + "/" + hoadon.HOPDONG_SO);
-                    sohopdong.text(hoadon.HOPDONG_SO);
-                    goithau.text(hoadon.HOPDONG_TENGOITHAU);
-                    duan.text(hoadon.HOPDONG_TENDUAN);
-                    nguoitao.text(hoadon.HOADON_NGUOITAO);
-                    nguoimuahang.text(hoadon.HOADON_NGUOIMUAHANG);
-                    tongtien.text(hoadon.HOADON_TONGTIEN);
-                    thuesuat.text(hoadon.HOADON_THUESUAT);
-                    tienthue.text(hoadon.HOADON_TIENTHUE);
-                    tongtiencothue.text(hoadon.HOADON_TONGTIEN_COTHUE);
-                    sotienbangchu.text(hoadon.HOADON_SOTIENBANGCHU);
-
-                    for (var i = 0; i < cthd.length; i++) {
-                        var item = cthd[i];
-                        var tr = $("<tr>");
-                        var tdSTT = $("<td>").text(item.STT);
-                        tr.append(tdSTT);
-                        var tdNOIDUNG = $("<td>").text(item.NOIDUNG);
-                        tr.append(tdNOIDUNG);
-                        var tdSOLUONG = $("<td>").text(item.SOLUONG);
-                        tr.append(tdSOLUONG);
-                        var tdDVT = $("<td>").text(item.DVT);
-                        tr.append(tdDVT);
-                        var tdDONGIA = $("<td>").text(item.DONGIA);
-                        tr.append(tdDONGIA);
-                        var tdTHANHTIEN = $("<td>").text(item.THANHTIEN);
-                        tr.append(tdTHANHTIEN);
-                        $("#dtcthd").append(tr);
+                    // Gán dữ liệu vào CKEditor
+                    //myEditorSend.setData(detailData.describe_place);
+                    // console.log(myEditorSend.setData(detailData.describe_place));
+                    if (!myEditorSend) {
+                        ClassicEditor
+                            .create(document.querySelector('#editCKeditor'))
+                            .then(newEditor => {
+                                myEditorSend = newEditor;
+                                setCKEditorData(detailData.content_new);
+                            })
+                            .catch(error => {
+                                console.error(error);
+                            });
+                        // console.log(myEditorSend.getData());
+                    } else {
+                        setCKEditorData(detailData.content_new);
+                        // console.log(myEditorSend.getData());
                     }
-
-                    xuathoadon.attr('href', '/hoadon' + "/" + hoadon.HOADON_ID + "/" +
-                        "pdf");
+                    $('#editNewsModal').modal('show');
+                },
+                error: function() {
+                    // Xử lý lỗi (nếu cần)
                 }
+            });
+        }
+
+        //View Detail News
+        function getDetailNews(event, element) {
+            event.preventDefault();
+            var url = $(element).attr('href');
+            fetchDetailData(url);
+        }
+
+        function fetchDetailData(url) {
+            $.ajax({
+                url: url,
+                type: 'GET',
+                success: function(response) {
+                    // console.log(response);
+                    var detailData = response.vlnews[0];
+
+                    // $('#id_view_price').val(detailData.id_price);
+                    // console.log(detailData.id_area);
+                    $('#view_title_news').val(detailData.title_new);
+                    // $('#address_view_place').val(detailData.address_place);
+                    // $('#phone_view_place').val(detailData.phone_place);
+                    // $('#start_view_time').val(detailData.start_time);
+                    // $('#end_view_time').val(detailData.end_time);
+                    // $('#email_view_contact_place').val(detailData.email_contact_place);
+                    $('#showContent').html(detailData.content_new);
+                    var thumbnailLinkView = $('.picture-view-from-firebase');
+                    if (!detailData.image_url_new) {
+                        thumbnailLinkView.hide();
+                    } else {
+                        thumbnailLinkView.attr('href', detailData.image_url_new);
+                        thumbnailLinkView.find('img').attr('src', detailData.image_url_new);
+                        thumbnailLinkView.show();
+                    }
+                    // Gán dữ liệu vào CKEditor
+                    //myViewSend.setData(detailData.describe_place);
+
+                    $('#detailNewsModal').modal('show');
+
+                },
+                error: function() {}
+            });
+        }
+
+        //Ajax for Add New News
+        $(document).ready(function() {
+            $(document).on('submit', '#addNews', function(event) {
+                event.preventDefault();
+                var csrfToken = $('input[name="_token"]').val();
+                // Lấy dữ liệu từ form
+                var formData = new FormData(this);
+                Swal.fire({
+                    title: 'Xác nhận thêm tin tức này?',
+                    // text: "Thông tin địa điểm " + $('#name_edit_place').val() +
+                    //     " sẽ được chỉnh sửa!",
+                    icon: 'info',
+                    showCancelButton: true,
+                    confirmButtonColor: '#35A745',
+                    cancelButtonColor: '#6c757d',
+                    confirmButtonText: 'Xác nhận',
+                    cancelButtonText: 'Hủy'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        Swal.fire({
+                            title: 'Đang xử lý...',
+                            allowOutsideClick: false,
+                            allowEscapeKey: false,
+                            allowEnterKey: false,
+                            onBeforeOpen: () => {
+                                Swal.showLoading();
+                            },
+                            onClose: () => {
+                                Swal.hideLoading();
+                            }
+                        });
+                        $.ajax({
+                            url: '/admin/news/add/',
+                            data: formData,
+                            type: 'POST',
+                            enctype: 'multipart/form-data',
+                            processData: false,
+                            contentType: false,
+                            beforeSend: function() {
+                                Swal.showLoading();
+                            },
+                            headers: {
+                                'X-CSRF-TOKEN': csrfToken
+                            },
+                            success: function(response) {
+                                Swal.close();
+                                if (response.success) {
+                                    Swal.fire({
+                                        icon: 'success',
+                                        title: 'Đã thêm!',
+                                        text: 'Thêm tin tức thành công'
+                                    }).then(() => {
+                                        location.reload();
+                                    });
+                                } else {
+                                    Swal.fire({
+                                        icon: 'error',
+                                        title: 'Không thể thêm tin tức!',
+                                        text: 'Đã xảy ra lỗi, vui lòng kiểm tra lại.'
+                                    });
+                                }
+                            },
+                            error: function(xhr) {
+                                console.log(xhr);
+                            }
+                        });
+                    }
+                });
             });
         });
-    </script> --}}
+
+        //Ajax for Edit News
+        $(document).ready(function() {
+            $('#editNews').submit(function(event) {
+                event.preventDefault();
+                var csrfToken = $('input[name="_token"]').val();
+                // Lấy dữ liệu từ form
+                var formData = new FormData(this);
+                var ckEditorData = myEditorSend.getData();
+                formData.append('content_edit_news', ckEditorData);
+                Swal.fire({
+                    title: 'Chỉnh sửa bài viết này?',
+                    text: "Thông tin bài viết " + $('#edit_title_news').val() +
+                        " sẽ được chỉnh sửa!",
+                    icon: 'info',
+                    showCancelButton: true,
+                    confirmButtonColor: '#35A745',
+                    cancelButtonColor: '#6c757d',
+                    confirmButtonText: 'Xác nhận',
+                    cancelButtonText: 'Hủy'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        Swal.fire({
+                            title: 'Đang xử lý...',
+                            allowOutsideClick: false,
+                            allowEscapeKey: false,
+                            allowEnterKey: false,
+                            onBeforeOpen: () => {
+                                Swal.showLoading();
+                            },
+                            onClose: () => {
+                                Swal.hideLoading();
+                            }
+                        });
+                        $.ajax({
+                            url: '/admin/news/edit/' +
+                                id, // Đường dẫn URL để gửi Ajax request
+                            data: formData,
+                            type: 'POST',
+                            enctype: 'multipart/form-data',
+                            processData: false,
+                            contentType: false,
+                            beforeSend: function() {
+                                Swal.showLoading();
+                            },
+                            headers: {
+                                'X-CSRF-TOKEN': csrfToken
+                            },
+                            success: function(response) {
+                                Swal.close();
+                                if (response.success) {
+                                    Swal.fire({
+                                        icon: 'success',
+                                        title: 'Đã sửa!',
+                                        text: 'Chỉnh sửa bài viết thành công'
+                                    }).then(() => {
+                                        location.reload();
+                                    });
+                                } else {
+                                    Swal.fire({
+                                        icon: 'error',
+                                        title: 'Không thể sửa bài viết!',
+                                        text: 'Đã xảy ra lỗi, vui lòng kiểm tra lại.'
+                                    });
+                                }
+                            },
+                            error: function(xhr) {
+                                console.log(xhr);
+                            }
+                        });
+                    }
+                });
+            });
+        });
+
+        //Function Ajax for Delete News
+        function deleteNews(id, name_place) {
+            event.preventDefault();
+            var form = $('#deleteForm-' + id);
+            var url = form.attr('action');
+            var csrfToken = $('input[name="_token"]').val();
+            Swal.fire({
+                title: 'Xóa địa điểm này?',
+                text: "Thông tin địa điểm " + name_place + " sẽ được xóa!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#6c757d',
+                confirmButtonText: 'Xóa',
+                cancelButtonText: 'Hủy'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.fire({
+                        title: 'Đang xử lý...',
+                        allowOutsideClick: false,
+                        allowEscapeKey: false,
+                        allowEnterKey: false,
+                        onBeforeOpen: () => {
+                            Swal.showLoading();
+                        },
+                        onClose: () => {
+                            Swal.hideLoading();
+                        }
+                    });
+                    $.ajax({
+                        url: url,
+                        type: 'DELETE',
+                        headers: {
+                            'X-CSRF-TOKEN': csrfToken
+                        },
+                        beforeSend: function() {
+                            Swal.showLoading();
+                        },
+                        success: function(response) {
+                            Swal.close();
+                            if (response.success) {
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'Đã xóa!',
+                                    text: 'Xóa địa điểm thành công'
+                                }).then(() => {
+                                    location.reload();
+                                });
+                            } else {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Không thể xóa địa điểm!',
+                                    text: 'Đã xảy ra lỗi, vui lòng kiểm tra lại.'
+                                });
+                            }
+                        },
+                        error: function(xhr) {
+                            console.log(xhr);
+                        }
+                    });
+                }
+            });
+        }
+
+        // function getdetailNews(id) {
+        //     $.ajax({
+        //         url: '/admin/news/detail/' + id,
+        //         type: 'GET',
+        //         success: function(response) {
+        //             console.log(response);
+        //         },
+        //         error: function() {
+        //             // Xử lý lỗi
+        //         }
+        //     });
+        // }
+    </script>
+
     <!-- IE Support -->
     <script>
         if (/MSIE \d|Trident.*rv:/.test(navigator.userAgent)) document.write(

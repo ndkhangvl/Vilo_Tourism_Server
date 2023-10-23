@@ -21,7 +21,12 @@ class AdminPlaceController extends Controller
 
     public function getVLPlace($id)
     {
-        $vlplace = DB::select('select * from VLPlace where id_place=?', [$id]);
+        $vlplace = DB::select('
+            SELECT VLPlace.*, VLPlaceCoordinate.latitude, VLPlaceCoordinate.longitude
+            FROM VLPlace
+            JOIN VLPlaceCoordinate ON VLPlace.id_place = VLPlaceCoordinate.id_place
+            WHERE VLPlace.id_place = ?', [$id]);
+        // DB::table('VLPlace')->where('id', $id)->increment('view_place');
         return response()->json([
             'success' => true,
             'vlplace' => $vlplace,
@@ -87,6 +92,15 @@ class AdminPlaceController extends Controller
         //     'name_place.required' => 'Trường tên địa điểm là bắt buộc.',
         // ]);
         // dd($request->all());
+        if ($request->latitude && $request->longitude) {
+            DB::table('VLPlaceCoordinate')
+                ->where('id_place', $id)
+                ->update([
+                    'latitude' => $request->latitude,
+                    'longitude' => $request->longitude
+                ]);
+        }
+
         $vlplace = VLPlace::findOrFail($id);
         $vlplace->id_area = $request->id_edit_area;
         $vlplace->id_service = $request->id_service;

@@ -27,7 +27,7 @@
         .grid-container {
             height: 200px;
             /* Đặt độ cao cố định cho khung */
-            overflow-x: scroll;
+            /* overflow-x: scroll; */
             white-space: nowrap;
             /* Tạo thanh cuộn khi nội dung vượt quá khung */
         }
@@ -56,42 +56,23 @@
             <hr class="h-px my-2 bg-gray-200 border-0 dark:bg-gray-700">
             <div class="grid gap-4">
                 <div class="relative">
-                    <img src="https://cdn.tgdd.vn/Files/2021/07/03/1365427/23-dia-diem-du-lich-vinh-long-hap-dan-khach-du-lich-202206041228380001.jpg"
-                        alt="Image" class="w-full h-auto">
+                    <img src="{{ $vlnews[0]->image_url_new }}" alt="Image" class="w-full h-auto">
                     <div class="absolute bottom-0 left-0 w-full bg-black bg-opacity-50 text-white text-center">
-                        <h1 class="text-4xl p-4">Text in Image</h1>
+                        <h1 class="xl:text-sm p-4 max-sm:text-xs">{{ $vlnews[0]->title_new }}</h1>
                     </div>
                 </div>
                 <div class="grid-container">
                     <div class="grid grid-cols-4 gap-4">
-                        <div class="relative">
-                            <img src="https://cdn.tgdd.vn/Files/2021/07/03/1365427/23-dia-diem-du-lich-vinh-long-hap-dan-khach-du-lich-202206041228380001.jpg"
-                                alt="Image" class="w-full h-auto">
-                            <div class="absolute bottom-0 left-0 w-full bg-black bg-opacity-50 text-white text-center">
-                                <h1 class="text-sm p-4">Text in Image</h1>
+                        @foreach ($vlnews->slice(1) as $vlnew)
+                            <div class="relative">
+                                <img src="{{ $vlnew->image_url_new }}" alt="Image" class="object-cover w-full h-full"
+                                    style="height: 200px;">
+                                <div
+                                    class="absolute bottom-0 left-0 w-full bg-black bg-opacity-50 text-white text-center">
+                                    <h1 class="xl:text-sm p-4 max-sm:text-xs">{{ $vlnew->title_new }}</h1>
+                                </div>
                             </div>
-                        </div>
-                        <div class="relative">
-                            <img src="https://cdn.tgdd.vn/Files/2021/07/03/1365427/23-dia-diem-du-lich-vinh-long-hap-dan-khach-du-lich-202206041228380001.jpg"
-                                alt="Image" class="w-full h-auto">
-                            <div class="absolute bottom-0 left-0 w-full bg-black bg-opacity-50 text-white text-center">
-                                <h1 class="text-sm p-4">Text in Image</h1>
-                            </div>
-                        </div>
-                        <div class="relative">
-                            <img src="https://cdn.tgdd.vn/Files/2021/07/03/1365427/23-dia-diem-du-lich-vinh-long-hap-dan-khach-du-lich-202206041228380001.jpg"
-                                alt="Image" class="w-full h-auto">
-                            <div class="absolute bottom-0 left-0 w-full bg-black bg-opacity-50 text-white text-center">
-                                <h1 class="text-sm p-4">Text in Image</h1>
-                            </div>
-                        </div>
-                        <div class="relative">
-                            <img src="https://cdn.tgdd.vn/Files/2021/07/03/1365427/23-dia-diem-du-lich-vinh-long-hap-dan-khach-du-lich-202206041228380001.jpg"
-                                alt="Image" class="w-full h-auto">
-                            <div class="absolute bottom-0 left-0 w-full bg-black bg-opacity-50 text-white text-center">
-                                <h1 class="text-sm p-4">Text in Image</h1>
-                            </div>
-                        </div>
+                        @endforeach
                     </div>
                 </div>
             </div>
@@ -100,28 +81,26 @@
         <div class="news p-2">
             <div class="flex justify-between items-end">
                 <h1 class="p-2 text-blue-600/100 text-2xl font-bold">Điểm đến</h1>
-                <a href="#" class="text-gray-500 hover:text-blue-600 text-sm order-last">Xem thêm</a>
+                <a href="/list-place" class="text-gray-500 hover:text-blue-600 text-sm order-last">Xem thêm</a>
             </div>
             <hr class="h-px my-2 bg-gray-200 border-0 dark:bg-gray-700">
             <div class="content">
                 <div class="grid grid-cols-2 gap-4 justify-evenly p-2">
                     <div
                         class="bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 w-full h-full">
-                        <a href="#">
+                        <a href="/detailplace/{{ $vlplaces[0]->id_place }}">
                             <img class="object-fill w-full h-full transform hover:scale-105 transition duration-300 shadow-2xl"
-                                src="https://media.vneconomy.vn/w800/images/upload/2023/08/11/dji-0074.jpeg"
-                                alt="product image" />
+                                src="{{ $vlplaces[0]->image_url }}" alt="Hình minh họa" />
                         </a>
                     </div>
                     <div class="grid grid-cols-2 gap-2">
-                        @foreach ($vlplaces as $vlplace)
+                        @foreach ($vlplaces->slice(1) as $vlplace)
                             <div class="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 transform hover:scale-105 transition duration-300 shadow-2xl"
                                 style="height: 20em">
                                 <div class="w-128 h-48">
                                     <a href="#">
                                         <img class="rounded-t-lg object-fill w-full h-full"
-                                            src="https://media.vneconomy.vn/w800/images/upload/2023/08/11/dji-0074.jpeg"
-                                            alt="product image" />
+                                            src="{{ $vlplace->image_url }}" alt="Hình minh họa" />
                                     </a>
                                 </div>
                                 <div class="px-3">
@@ -159,7 +138,10 @@
                                         </svg>
                                         <span
                                             class="bg-blue-100 text-blue-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-blue-200 dark:text-blue-800 ml-3">5.0</span>
-                                        <span class="text-sm font-bold text-gray-900 dark:text-white">lượt xem</span>
+                                        <span
+                                            class="text-sm font-bold text-gray-900 dark:text-white">{{ $vlplace->view_place }}
+                                            lượt
+                                            xem</span>
                                     </div>
                                     <div class="flex items-center justify-between">
                                         <a href="/detailplace/{{ $vlplace->id_place }}"
@@ -183,7 +165,7 @@
     </div>
     @include('/components.footer')
     <script>
-        var map = L.map('map').setView([10.246602, 105.971673], 14);
+        var map = L.map('map').setView([10.246602, 105.971673], 11);
         // apikey =
         //     'https://maps.vietmap.vn/api/dm/{z}/{x}/{y}@2x.png?apikey=c3d0f188ff669f89042771a20656579073cffec5a8a69747';
         L.tileLayer('https://maps.vietmap.vn/tm/{z}/{x}/{y}.png?apikey=c3d0f188ff669f89042771a20656579073cffec5a8a69747', {
@@ -273,6 +255,17 @@
         // L.tileLayer(apikey, {
         //     attribution: '&copy; <a href="https://maps.vietmap.vn/copyright">Vietmap</a> contributors'
         // }).addTo(map);
+        // var greenIcon = L.icon({
+        //     iconUrl: 'https://cdn-icons-png.flaticon.com/512/2775/2775994.png',
+
+        //     iconSize: [35, 35], // size of the icon
+        //     iconAnchor: [17, 17], // point of the icon which will correspond to marker's location
+        //     popupAnchor: [0, -17] // point from which the popup should open relative to the iconAnchor
+        // });
+
+        var markers =
+            {!! $vlplacecoordinate !!};
+
         var greenIcon = L.icon({
             iconUrl: 'https://cdn-icons-png.flaticon.com/512/2775/2775994.png',
 
@@ -280,46 +273,50 @@
             iconAnchor: [17, 17], // point of the icon which will correspond to marker's location
             popupAnchor: [0, -17] // point from which the popup should open relative to the iconAnchor
         });
+        // var markers = JSON.parse('{{ $vlplacecoordinate }}');
 
-        var markers = [{
-                coordinates: [10.24289042956059, 105.98461513620583],
-                icon: greenIcon,
-                name: "Văn Thánh Miếu Vĩnh Long"
-            },
-            {
-                coordinates: [10.159404623604246, 106.09437396485744],
-                icon: greenIcon,
-                name: "Thánh Tịnh Ngọc Sơn Quang"
-            },
-            {
-                coordinates: [10.270603597725295, 105.95376759554469],
-                icon: greenIcon,
-                name: "Khu Du Lịch Vinh Sang"
-            },
-            {
-                coordinates: [10.24601303358093, 106.00493038205147],
-                icon: greenIcon,
-                name: "Khu Du Lịch Sinh Thái Hoàng Hảo"
-            },
-            {
-                coordinates: [10.271718469021256, 105.9871891090376],
-                icon: greenIcon,
-                name: "Nhà Dừa CocoHome"
-            },
-            {
-                coordinates: [10.263176661827437, 105.96914328205166],
-                icon: greenIcon,
-                name: "Chùa Tiên Châu"
-            },
-            // Thêm các điểm đánh dấu khác vào đây nếu cần
-        ];
+        // console.log(markers);
+
+        // var markers = [{
+        //         coordinates: [10.24289042956059, 105.98461513620583],
+        //         icon: greenIcon,
+        //         name: "Văn Thánh Miếu Vĩnh Long"
+        //     },
+        //     {
+        //         coordinates: [10.159404623604246, 106.09437396485744],
+        //         icon: greenIcon,
+        //         name: "Thánh Tịnh Ngọc Sơn Quang"
+        //     },
+        //     {
+        //         coordinates: [10.270603597725295, 105.95376759554469],
+        //         icon: greenIcon,
+        //         name: "Khu Du Lịch Vinh Sang"
+        //     },
+        //     {
+        //         coordinates: [10.24601303358093, 106.00493038205147],
+        //         icon: greenIcon,
+        //         name: "Khu Du Lịch Sinh Thái Hoàng Hảo"
+        //     },
+        //     {
+        //         coordinates: [10.271718469021256, 105.9871891090376],
+        //         icon: greenIcon,
+        //         name: "Nhà Dừa CocoHome"
+        //     },
+        //     {
+        //         coordinates: [10.263176661827437, 105.96914328205166],
+        //         icon: greenIcon,
+        //         name: "Chùa Tiên Châu"
+        //     },
+        //     // Thêm các điểm đánh dấu khác vào đây nếu cần
+        // ];
 
         markers.forEach(function(marker) {
             var newMarker = L.marker(marker.coordinates, {
-                icon: marker.icon
+                icon: greenIcon
             }).bindPopup('<p style="color: green; font-weight: bold">' + marker.name + '</p>').addTo(map);
         });
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/tw-elements/dist/js/tw-elements.umd.min.js"></script>
 </body>
 
 </html>

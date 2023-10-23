@@ -91,6 +91,10 @@ Route::middleware(['auth', 'role-check:admin'])->group(function () {
     Route::delete('/admin/place/delete/{id}', [AdminPlaceController::class, 'delete']);
     //Admin News
     Route::get('/admin/news', [AdminNewsController::class, 'index']);
+    Route::post('/admin/news/add', [AdminNewsController::class, 'store']);
+    Route::put('/admin/news/edit/{id}', [AdminNewsController::class, 'update']);
+    Route::get('/admin/news/detail/{id}', [AdminNewsController::class, 'getVLNews']);
+    Route::delete('/admin/news/delete/{id}', [AdminNewsController::class, 'delete']);
     //Admin User
     Route::get('/admin/users', [AdminUserController::class, 'index']);
 });
