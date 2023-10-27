@@ -14,11 +14,7 @@
         crossorigin=""></script>
     <script src="https://cdn.jsdelivr.net/npm/polyline-encoded@0.0.9/Polyline.encoded.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
-    <script
-        src="
-                                                                                                                                                                                        https://cdn.jsdelivr.net/npm/geolib@3.3.4/lib/index.min.js
-                                                                                                                                                                                        ">
-    </script>
+    <script src="https://cdn.jsdelivr.net/npm/geolib@3.3.4/lib/index.min.js"></script>
     @include('/components.constraint')
     <style>
         .devider {
@@ -92,7 +88,22 @@
             @endforeach
             <div class="content border-2 shadow w-1/4">
                 <div class="bg-yellow-500 text-center text-white font-bold">
-                    <h2><i class="fas fa-home pr-2"></i>Gợi ý cho bạn</h2>
+                    <h2><i class="fas fa-home pr-2"></i>Địa điểm gần đây</h2>
+                </div>
+                <div class="p-2">
+                    @foreach ($distances as $distance)
+                        <div class="relative mb-4">
+                            <a href="/detailplace/{{ $distance['id'] }}">
+                                <img src="{{ $distance['image_url'] }}" alt="Image"
+                                    class="object-cover w-full h-full" style="height: 200px;">
+                            </a>
+                            <div
+                                class="absolute bottom-0 left-0 w-full bg-gray-500 bg-opacity-50 text-white text-center">
+                                <h1 class="xl:text-sm max-sm:text-xs">{{ $distance['name_place'] }}</h1>
+                                <h1 class="xl:text-sm max-sm:text-xs">{{ $distance['distance'] }}km</h1>
+                            </div>
+                        </div>
+                    @endforeach
                 </div>
             </div>
         </div>
@@ -105,7 +116,7 @@
         L.tileLayer('https://maps.vietmap.vn/tm/{z}/{x}/{y}.png?apikey=c3d0f188ff669f89042771a20656579073cffec5a8a69747', {
             attribution: '&copy; <a href="https://maps.vietmap.vn/copyright">Vietmap</a> contributors'
         }).addTo(map);
-
+        // console.log($distances);
         $(document).ready(function() {
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(function(position) {

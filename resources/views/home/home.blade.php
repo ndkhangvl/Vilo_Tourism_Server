@@ -24,11 +24,21 @@
             margin-left: auto;
         }
 
+        @media screen and (max-width: 992px) {
+            .container {
+                width: 100%;
+                padding-left: 0px;
+                padding-right: 0px;
+                margin-right: auto;
+                margin-left: auto;
+            }
+        }
+
         .grid-container {
             height: 200px;
             /* Đặt độ cao cố định cho khung */
             /* overflow-x: scroll; */
-            white-space: nowrap;
+            /* white-space: nowrap; */
             /* Tạo thanh cuộn khi nội dung vượt quá khung */
         }
 
@@ -61,8 +71,8 @@
                         <h1 class="xl:text-sm p-4 max-sm:text-xs">{{ $vlnews[0]->title_new }}</h1>
                     </div>
                 </div>
-                <div class="grid-container">
-                    <div class="grid grid-cols-4 gap-4">
+                <div class="">
+                    <div class="grid md:grid-cols-4 grid-cols-2 gap-4">
                         @foreach ($vlnews->slice(1) as $vlnew)
                             <div class="relative">
                                 <img src="{{ $vlnew->image_url_new }}" alt="Image" class="object-cover w-full h-full"
@@ -76,8 +86,8 @@
                     </div>
                 </div>
             </div>
-
         </div>
+
         <div class="news p-2">
             <div class="flex justify-between items-end">
                 <h1 class="p-2 text-blue-600/100 text-2xl font-bold">Điểm đến</h1>
@@ -85,7 +95,7 @@
             </div>
             <hr class="h-px my-2 bg-gray-200 border-0 dark:bg-gray-700">
             <div class="content">
-                <div class="grid grid-cols-2 gap-4 justify-evenly p-2">
+                <div class="grid lg:grid-cols-2 grid-cols-1 gap-4 justify-evenly p-2">
                     <div
                         class="bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 w-full h-full">
                         <a href="/detailplace/{{ $vlplaces[0]->id_place }}">
@@ -93,7 +103,7 @@
                                 src="{{ $vlplaces[0]->image_url }}" alt="Hình minh họa" />
                         </a>
                     </div>
-                    <div class="grid grid-cols-2 gap-2">
+                    <div class="grid lg:grid-cols-2 grid-cols-1 gap-2">
                         @foreach ($vlplaces->slice(1) as $vlplace)
                             <div class="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 transform hover:scale-105 transition duration-300 shadow-2xl"
                                 style="height: 20em">

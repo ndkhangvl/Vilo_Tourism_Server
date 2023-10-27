@@ -68,12 +68,44 @@ class HomeController extends Controller
         //         'id' => $id,
         //     ]
         // );
+        $fixedLocation = DB::select('select * from VLPlaceCoordinate where id_place=?', [$id]);
+        $location = DB::select('select VLPC.*,VLP.name_place,VLP.image_url  from VLPlaceCoordinate as VLPC
+                                 join VLPlace as VLP on VLPC.id_place=VLP.id_place;');
+        $R = 6371.0;
+        $distances = [];
+
+        foreach ($location as $item) {
+            $lat1 = deg2rad($fixedLocation[0]->latitude);
+            $lon1 = deg2rad($fixedLocation[0]->longitude);
+            $lat2 = deg2rad($item->latitude);
+            $lon2 = deg2rad($item->longitude);
+
+            $dlon = $lon2 - $lon1;
+            $dlat = $lat2 - $lat1;
+            $a = sin($dlat / 2) ** 2 + cos($lat1) * cos($lat2) * sin($dlon / 2) ** 2;
+            $c = 2 * atan2(sqrt($a), sqrt(1 - $a));
+            $distance = $R * $c;
+
+            if ($distance <= 10) {
+                $distance = round($distance, 2);
+                $distances[] = [
+                    'id' => $item->id_place,
+                    'name_place' => $item->name_place,
+                    'image_url' => $item->image_url,
+                    'distance' => $distance
+                ];
+            }
+        }
+
+        $sortDistance = collect($distances)->sortBy('distance')->toArray();
+        $limitedDistances = collect($sortDistance)->slice(1, 5)->toArray();
+
+        // dd($limitedDistances);
         $detail_place = DB::select('EXEC GetVLPlaceID ?;', [$id]);
         DB::table('VLPlace')->where('id_place', $id)->increment('view_place');
-        // dd($detail_place);
-        //dd($detail_place);
         return view('home.detail_place', [
             'detail_place' => $detail_place,
+            'distances' => $limitedDistances,
         ]);
     }
 }

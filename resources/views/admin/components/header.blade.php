@@ -137,14 +137,15 @@
                      <!-- End News -->
 
                      <!-- User -->
-                     <li class="navbar-vertical-aside-has-menu {{ request()->is('admin/users') ? 'show' : '' }}">
-                         <a class="js-navbar-vertical-aside-menu-link nav-link" href="/admin/users" title="Users">
-                             <i class="tio-user-outlined nav-icon"></i>
-                             <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">Người
-                                 dùng</span>
-                         </a>
-                     </li>
-
+                     @if (auth()->user()->role == 2)
+                         <li class="navbar-vertical-aside-has-menu {{ request()->is('admin/users') ? 'show' : '' }}">
+                             <a class="js-navbar-vertical-aside-menu-link nav-link" href="/admin/users" title="Users">
+                                 <i class="tio-user-outlined nav-icon"></i>
+                                 <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">Người
+                                     dùng</span>
+                             </a>
+                         </li>
+                     @endif
                      <li class="nav-item">
                          <div class="nav-divider"></div>
                      </li>
@@ -155,8 +156,8 @@
                      </li>
 
                      <li class="nav-item ">
-                         <a class="js-nav-tooltip-link nav-link" href="documentation\typography.html"
-                             title="Components" data-placement="left">
+                         <a class="js-nav-tooltip-link nav-link" href="/logout" title="Components"
+                             data-placement="left">
                              <i class="tio-sign-out nav-icon"></i>
                              <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">Đăng
                                  xuất</span>

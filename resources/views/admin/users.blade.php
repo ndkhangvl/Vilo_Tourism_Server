@@ -71,16 +71,24 @@
                                 <td class="text-center align-middle">{{ $vluser->id }}</td>
                                 <td class="text-center align-middle">{{ $vluser->name }}</td>
                                 <td class="text-center align-middle">{{ $vluser->email }}</td>
-                                <td class="text-center align-middle">{{ $vluser->role }}</td>
+                                <td class="text-center align-middle">
+                                    @if ($vluser->role == 2)
+                                        <span class="badge badge-soft-danger p-1">Super Admin</span>
+                                    @elseif($vluser->role == 1)
+                                        <span class="badge badge-soft-success p-1">Admin</span>
+                                    @else
+                                        <span class="badge badge-soft-primary p-1">User</span>
+                                    @endif
+                                </td>
                                 <td class="d-flex align-items-center">
-                                    <a href="/admin/place/{{ $vluser->id }}" class="view flex-grow-1" title=""
+                                    <a href="/admin/user/{{ $vluser->id }}" class="view flex-grow-1" title=""
                                         data-toggle="tooltip" data-original-title="View" style="margin: 0 1px;"><i
                                             class="tio-visible-outlined"></i></a>
                                     <a href="#" class="edit flex-grow-1" title="" data-toggle="tooltip"
                                         data-original-title="Edit" style="margin: 0 1px;"
                                         data-bs-target="#detailPlaceModal"><i class="tio-edit text-warning"></i></a>
                                     <form id="deleteForm-{{ $vluser->id }}"
-                                        action="/admin/place/delete/{{ $vluser->id }}" method="POST">
+                                        action="/admin/user/delete/{{ $vluser->id }}" method="POST">
                                         @method('DELETE')
                                         @csrf
                                         <button type="submit" id="submitDel" class="btn btn-link p-0"
