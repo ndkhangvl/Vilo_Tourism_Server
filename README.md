@@ -7,6 +7,8 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
+## Demo of Project 
+    https://www.ndkhangvl.tech/
 ## About Laravel
 
 Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
@@ -64,3 +66,48 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+## System Requirements
+
+- PHP 8.1
+- SQLServer 2019 or higher
+- Composer
+
+
+## Installation
+
+1. Clone the project from GitHub:
+
+   ```shell
+   git clone https://github.com/ndkhangvl/Vilo_Tourism_Server.git
+
+2. Navigate to the project directory:
+   ```shell
+   cd Vilo_Tourism_Server
+
+3. Install Composer dependencies:
+   ```shell
+   composer install
+   
+4. Copy the .env.example file and rename it to .env:
+   ```shell
+   cp .env.example .env
+
+5. Configure the database settings in the .env file. Make sure you have created the database before proceeding.
+
+6. Run the migrations to create the database tables:
+   ```shell
+   php artisan migrate
+
+7. Start the built-in development server in Laravel:
+   ```shell
+   php artisan serve
+
+8. I use TailwinCSS to build the interface so please follow the instructions of tailwinCss to install.
+   ```shell
+   https://tailwindcss.com/docs/installation
+
+And then use the command to launch 
+```shell
+npm run dev
+   
