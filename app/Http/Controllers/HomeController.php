@@ -60,6 +60,15 @@ class HomeController extends Controller
             'vlplace' => $vlplace,
         ]);
     }
+
+    public function listNews()
+    {
+        $vlnews = DB::table('VLNews')->get();
+        return view('home.list_news', [
+            'vlnews' => $vlnews,
+        ]);
+    }
+
     public function detail_place($id)
     {
         // $detail_place = DB::select(

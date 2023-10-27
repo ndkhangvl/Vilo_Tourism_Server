@@ -64,7 +64,11 @@
                 </li>
                 <li class="my-4 pl-2 lg:my-0 lg:pl-2 lg:pr-1" data-te-nav-item-ref>
                     <a class="font-bold text-neutral-500 hover-bounce hover:border-b border-gray-500 focus:text-neutral-700 disabled:text-black/30 dark:text-neutral-200 dark:hover:text-neutral-400 dark:focus:text-neutral-400 lg:px-2 [&.active]:text-black/90 dark:[&.active]:text-neutral-400"
-                        aria-current="page" href="#" data-te-nav-link-ref>Gợi ý</a>
+                        aria-current="page" href="/list-news" data-te-nav-link-ref>Tin tức</a>
+                </li>
+                <li class="my-4 pl-2 lg:my-0 lg:pl-2 lg:pr-1" data-te-nav-item-ref>
+                    <a class="font-bold text-neutral-500 hover-bounce hover:border-b border-gray-500 focus:text-neutral-700 disabled:text-black/30 dark:text-neutral-200 dark:hover:text-neutral-400 dark:focus:text-neutral-400 lg:px-2 [&.active]:text-black/90 dark:[&.active]:text-neutral-400"
+                        aria-current="page" href="/recommend-place" data-te-nav-link-ref>Gợi ý</a>
                 </li>
                 <li class="my-4 pl-2 lg:my-0 lg:pl-2 lg:pr-1" data-te-nav-item-ref>
                     <a class="font-bold text-neutral-500 hover-bounce hover:border-b border-gray-500 focus:text-neutral-700 disabled:text-black/30 dark:text-neutral-200 dark:hover:text-neutral-400 dark:focus:text-neutral-400 lg:px-2 [&.active]:text-black/90 dark:[&.active]:text-neutral-400"

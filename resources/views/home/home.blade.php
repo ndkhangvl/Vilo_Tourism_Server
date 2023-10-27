@@ -61,7 +61,7 @@
         <div class="news p-2">
             <div class="flex justify-between items-end">
                 <h1 class="p-2 text-blue-600/100 text-2xl font-bold">Tin tức</h1>
-                <a href="#" class="text-gray-500 hover:text-blue-600 text-sm order-last">Xem thêm</a>
+                <a href="/list-news" class="text-gray-500 hover:text-blue-600 text-sm order-last">Xem thêm</a>
             </div>
             <hr class="h-px my-2 bg-gray-200 border-0 dark:bg-gray-700">
             <div class="grid gap-4">

@@ -27,8 +27,12 @@ use Illuminate\Support\Facades\Route;
 
 //Index
 Route::get('/', [HomeController::class, 'index']);
+//Place
 Route::get('/list-place', [HomeController::class, 'listPlace']);
 Route::get('/detailplace/{id}', [HomeController::class, 'detail_place']);
+
+//News
+Route::get('/list-news', [HomeController::class,'listNews']);
 
 Route::get('/map', function () {
     return view('home.map');

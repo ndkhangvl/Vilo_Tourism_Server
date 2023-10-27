@@ -11,7 +11,7 @@
 
 <body>
     @include('/components.header_home')
-    <div class="container pt-6 px-16 mx-auto sm:w-750 md:w-970 lg:w-1170 ">
+    <div class="container pt-6 px-16 mx-auto sm:w-750 md:w-970 lg:w-1170">
         <div class="flex">
             <div class="w-1/4 shadow">
                 @include('/components.filter_place')
