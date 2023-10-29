@@ -85,7 +85,7 @@
                     <p>Welcome, <span class="font-bold" style="color: green;">
                             {{ auth()->user()->name }}</span>
                     </p>
-                    {{-- <p>Email: {{ auth()->user()->email }}</p> --}}
+                    <a href="/logout">Đăng xuất</a>
                 @else
                     <a href="/login"
                         class="mr-3 inline-block rounded px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-primary transition duration-150 ease-in-out hover:bg-neutral-100 hover:text-primary-600 focus:text-primary-600 focus:outline-none focus:ring-0 active:text-primary-700 motion-reduce:transition-none">

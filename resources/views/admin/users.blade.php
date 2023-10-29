@@ -81,12 +81,15 @@
                                     @endif
                                 </td>
                                 <td class="d-flex align-items-center">
-                                    <a href="/admin/user/{{ $vluser->id }}" class="view flex-grow-1" title=""
-                                        data-toggle="tooltip" data-original-title="View" style="margin: 0 1px;"><i
+                                    <a href="/admin/users/detail/{{ $vluser->id }}" class="view flex-grow-1"
+                                        title="" data-toggle="tooltip" data-original-title="View"
+                                        style="margin: 0 1px;" onclick="getDetailUser(event, this)"><i
                                             class="tio-visible-outlined"></i></a>
-                                    <a href="#" class="edit flex-grow-1" title="" data-toggle="tooltip"
-                                        data-original-title="Edit" style="margin: 0 1px;"
-                                        data-bs-target="#detailPlaceModal"><i class="tio-edit text-warning"></i></a>
+                                    <a href="/admin/users/detail/{{ $vluser->id }}" class="edit flex-grow-1"
+                                        title="" data-toggle="tooltip" data-original-title="Edit"
+                                        style="margin: 0 1px;"
+                                        onclick="getEditDetailPlace(event,this,{{ $vluser->id }})"><i
+                                            class="tio-edit text-warning"></i></a>
                                     <form id="deleteForm-{{ $vluser->id }}"
                                         action="/admin/user/delete/{{ $vluser->id }}" method="POST">
                                         @method('DELETE')
@@ -105,6 +108,110 @@
         </div>
     </main>
 
+    <!-- Modal View -->
+    <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="detailModal"
+        aria-hidden="true" id="detailUserModal">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h5 class="modal-title h4" id="detailModal">Thông tin người dùng</h5>
+                    <button type="button" class="btn btn-xs btn-icon btn-ghost-secondary" data-dismiss="modal"
+                        aria-label="Close">
+                        <i class="tio-clear tio-lg"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="#" class="" method="POST" id="viewNews" enctype="multipart/form-data">
+                        @csrf
+                        <div class="form-row">
+                            <div class="form-group col-md-12">
+                                <label for="label_view_title" class="font-weight-bold pr-2">Vai trò:</label>
+                                {{-- <input type="text" name="view_name_user" id="view_name_user" class="form-control"
+                                    placeholder="Nhập vào tên tin tức" readonly> --}}
+                                <span class="" id="view_role_user"></span>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-12">
+                                <label for="label_view_title" class="font-weight-bold">Tên người dùng</label>
+                                <input type="text" name="view_name_user" id="view_name_user" class="form-control"
+                                    placeholder="Nhập vào tên tin tức" readonly>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-12">
+                                <label for="label_view_title" class="font-weight-bold">Tên đăng nhập</label>
+                                <input type="text" name="view_email_user" id="view_email_user"
+                                    class="form-control" placeholder="Nhập vào tên tin tức" readonly>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-12">
+                                <label for="label_view_title" class="font-weight-bold">Ngày tạo</label>
+                                <input type="text" name="view_date_user" id="view_date_user" class="form-control"
+                                    placeholder="Nhập vào tên tin tức" readonly>
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Modal -->
+
+    <!-- Modal Edit -->
+    <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="detailModal"
+        aria-hidden="true" id="editUserModal">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h5 class="modal-title h4" id="detailModal">Chỉnh sửa người dùng</h5>
+                    <button type="button" class="btn btn-xs btn-icon btn-ghost-secondary" data-dismiss="modal"
+                        aria-label="Close">
+                        <i class="tio-clear tio-lg"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="#" class="" method="POST" id="viewNews"
+                        enctype="multipart/form-data">
+                        @csrf
+                        <div class="form-row">
+                            <div class="form-group col-md-12">
+                                <label for="label_view_title" class="font-weight-bold pr-2">Vai trò:</label>
+                                <div class="flex flex-row flex-nowrap">
+                                    <input type="radio" name="roleGroup" value="0" class="mr-2"><span
+                                        class="badge badge-soft-danger mr-4">Super Admin</span>
+                                    <input type="radio" name="roleGroup" value="1" class="mr-2"><span
+                                        class="badge badge-soft-success mr-4">Admin</span>
+                                    <input type="radio" name="roleGroup" value="2" class="mr-2">
+                                    <span class="badge badge-soft-primary mr-4">User</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-12">
+                                <label for="label_view_title" class="font-weight-bold">Tên người dùng</label>
+                                <input type="text" name="edit_name_user" id="edit_name_user" class="form-control"
+                                    placeholder="Nhập vào tên tin tức">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-12">
+                                <label for="label_view_title" class="font-weight-bold">Tên đăng nhập</label>
+                                <input type="text" name="edit_email_user" id="edit_email_user"
+                                    class="form-control" placeholder="Nhập vào tên tin tức">
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Modal -->
     <!-- ========== END MAIN CONTENT ========== -->
 
     <!-- JS Implementing Plugins -->
@@ -221,60 +328,47 @@
 
             // INITIALIZATION OF DATATABLES
             // =======================================================
-            var datatable = $.HSCore.components.HSDatatables.init($('#datatable'), {
-                select: {
-                    style: 'multi',
-                    selector: 'td:first-child input[type="checkbox"]',
-                    classMap: {
-                        checkAll: '#datatableCheckAll',
-                        counter: '#datatableCounter',
-                        counterInfo: '#datatableCounterInfo'
-                    }
-                },
-                language: {
-                    zeroRecords: '<div class="text-center p-4">' +
-                        '<img class="mb-3" src="./assets/svg/illustrations/sorry.svg" alt="Image Description" style="width: 7rem;">' +
-                        '<p class="mb-0">No data to show</p>' +
-                        '</div>'
-                }
-            });
+            // var datatable = $.HSCore.components.HSDatatables.init($('#datatable'), {
+            //     select: {
+            //         style: 'multi',
+            //         selector: 'td:first-child input[type="checkbox"]',
+            //         classMap: {
+            //             checkAll: '#datatableCheckAll',
+            //             counter: '#datatableCounter',
+            //             counterInfo: '#datatableCounterInfo'
+            //         }
+            //     },
+            //     language: {
+            //         zeroRecords: '<div class="text-center p-4">' +
+            //             '<img class="mb-3" src="./assets/svg/illustrations/sorry.svg" alt="Image Description" style="width: 7rem;">' +
+            //             '<p class="mb-0">No data to show</p>' +
+            //             '</div>'
+            //     }
+            // });
 
-            $('.js-datatable-filter').on('change', function() {
-                var $this = $(this),
-                    elVal = $this.val(),
-                    targetColumnIndex = $this.data('target-column-index');
+            // $('.js-datatable-filter').on('change', function() {
+            //     var $this = $(this),
+            //         elVal = $this.val(),
+            //         targetColumnIndex = $this.data('target-column-index');
 
-                datatable.column(targetColumnIndex).search(elVal).draw();
-            });
+            //     datatable.column(targetColumnIndex).search(elVal).draw();
+            // });
 
-            $('#datatableSearch').on('mouseup', function(e) {
-                var $input = $(this),
-                    oldValue = $input.val();
+            // $('#datatableSearch').on('mouseup', function(e) {
+            //     var $input = $(this),
+            //         oldValue = $input.val();
 
-                if (oldValue == "") return;
+            //     if (oldValue == "") return;
 
-                setTimeout(function() {
-                    var newValue = $input.val();
+            //     setTimeout(function() {
+            //         var newValue = $input.val();
 
-                    if (newValue == "") {
-                        // Gotcha
-                        datatable.search('').draw();
-                    }
-                }, 1);
-            });
-
-            //CKEditor 
-            ClassicEditor
-                .create(document.querySelector('#addCKeditor'))
-                .catch(error => {
-                    console.error(error);
-                });
-
-            ClassicEditor
-                .create(document.querySelector('#editCKeditor'))
-                .catch(error => {
-                    console.error(error);
-                });
+            //         if (newValue == "") {
+            //             // Gotcha
+            //             datatable.search('').draw();
+            //         }
+            //     }, 1);
+            // });
 
             // INITIALIZATION OF CLIPBOARD
             // =======================================================
@@ -285,6 +379,158 @@
     </script>
 
 
+    <script>
+        //Ajax for Edit User 
+        //Ajax for Edit Place
+        $(document).ready(function() {
+            $('#editPlace').submit(function(event) {
+                event.preventDefault();
+                var csrfToken = $('input[name="_token"]').val();
+                // Lấy dữ liệu từ form
+                var formData = new FormData(this);
+                var ckEditorData = myEditorSend.getData();
+                formData.append('describe_edit_place', ckEditorData);
+                Swal.fire({
+                    title: 'Chỉnh sửa thông tin địa điểm này?',
+                    text: "Thông tin địa điểm " + $('#name_edit_place').val() +
+                        " sẽ được chỉnh sửa!",
+                    icon: 'info',
+                    showCancelButton: true,
+                    confirmButtonColor: '#35A745',
+                    cancelButtonColor: '#6c757d',
+                    confirmButtonText: 'Xác nhận',
+                    cancelButtonText: 'Hủy'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        Swal.fire({
+                            title: 'Đang xử lý...',
+                            allowOutsideClick: false,
+                            allowEscapeKey: false,
+                            allowEnterKey: false,
+                            onBeforeOpen: () => {
+                                Swal.showLoading();
+                            },
+                            onClose: () => {
+                                Swal.hideLoading();
+                            }
+                        });
+                        $.ajax({
+                            url: '/admin/users/edit/' +
+                                id, // Đường dẫn URL để gửi Ajax request
+                            data: formData,
+                            type: 'POST',
+                            enctype: 'multipart/form-data',
+                            processData: false,
+                            contentType: false,
+                            beforeSend: function() {
+                                Swal.showLoading();
+                            },
+                            headers: {
+                                'X-CSRF-TOKEN': csrfToken
+                            },
+                            success: function(response) {
+                                Swal.close();
+                                if (response.success) {
+                                    Swal.fire({
+                                        icon: 'success',
+                                        title: 'Đã sửa!',
+                                        text: 'Chỉnh sửa địa điểm thành công'
+                                    }).then(() => {
+                                        location.reload();
+                                    });
+                                } else {
+                                    Swal.fire({
+                                        icon: 'error',
+                                        title: 'Không thể sửa địa điểm!',
+                                        text: 'Đã xảy ra lỗi, vui lòng kiểm tra lại.'
+                                    });
+                                }
+                            },
+                            error: function(xhr) {
+                                console.log(xhr);
+                            }
+                        });
+                    }
+                });
+            });
+        });
+
+        //View Detail User
+        function getDetailUser(event, element) {
+            event.preventDefault();
+            var url = $(element).attr('href');
+            console.log(url);
+            fetchUserData(url);
+        }
+
+        function fetchUserData(url) {
+            $.ajax({
+                url: url,
+                type: 'GET',
+                success: function(response) {
+                    // console.log(response);
+                    var detailData = response.vluser[0];
+                    $('#view_name_user').val(detailData.name);
+                    $('#view_email_user').val(detailData.email);
+                    // $('#view_role_user').text(detailData.role);
+                    var formattedDate = moment(detailData.created_at).format('DD/MM/YYYY');
+                    $('#view_date_user').val(formattedDate);
+
+                    var roleValue = detailData.role;
+                    var viewRoleUser = $('#view_role_user');
+
+                    if (roleValue == 2) {
+                        viewRoleUser.removeAttr('class');
+                        viewRoleUser.text('Super Admin');
+                        viewRoleUser.addClass('badge badge-soft-danger p-2');
+                        // viewRoleUser.removeClass('badge-soft-success');
+                        // viewRoleUser.removeClass('badge-soft-primary');
+                    } else if (roleValue == 1) {
+                        viewRoleUser.removeAttr('class');
+                        viewRoleUser.text('Admin');
+                        viewRoleUser.addClass('badge badge-soft-success p-2');
+                    } else {
+                        viewRoleUser.removeAttr('class');
+                        viewRoleUser.text('User');
+                        viewRoleUser.addClass('badge badge-soft-primary p-2');
+                    }
+
+                    $('#detailUserModal').modal('show');
+
+                },
+                error: function() {}
+            });
+        }
+
+
+        //Get Edit Modal
+        function getEditDetailPlace(event, element, id) {
+            event.preventDefault();
+            var url = $(element).attr('href');
+            fetchEditDetailData(url);
+        }
+
+        function fetchEditDetailData(url) {
+            $.ajax({
+                url: url,
+                type: 'GET',
+                success: function(response) {
+                    // console.log(response);
+                    var detailData = response.vluser[0];
+                    // id = detailData.id;
+                    $('#edit_name_user').val(detailData.name);
+                    $('#edit_email_user').val(detailData.email);
+                    // $('#view_role_user').val(detailData.role);
+                    $('input[name="roleGroup"]').filter('[value="' + detailData.role + '"]').prop('checked',
+                        true);
+                    $('#editUserModal').modal('show');
+                },
+                error: function() {
+                    // Xử lý lỗi (nếu cần)
+                }
+            });
+        }
+    </script>
     <!-- IE Support -->
     <script>
         if (/MSIE \d|Trident.*rv:/.test(navigator.userAgent)) document.write(

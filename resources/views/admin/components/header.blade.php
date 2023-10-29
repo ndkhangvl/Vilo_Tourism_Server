@@ -137,15 +137,15 @@
                      <!-- End News -->
 
                      <!-- User -->
-                     @if (auth()->user()->role == 2)
-                         <li class="navbar-vertical-aside-has-menu {{ request()->is('admin/users') ? 'show' : '' }}">
-                             <a class="js-navbar-vertical-aside-menu-link nav-link" href="/admin/users" title="Users">
-                                 <i class="tio-user-outlined nav-icon"></i>
-                                 <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">Người
-                                     dùng</span>
-                             </a>
-                         </li>
-                     @endif
+                     {{-- @if (auth()->user()->role == 2) --}}
+                     <li class="navbar-vertical-aside-has-menu {{ request()->is('admin/users') ? 'show' : '' }}">
+                         <a class="js-navbar-vertical-aside-menu-link nav-link" href="/admin/users" title="Users">
+                             <i class="tio-user-outlined nav-icon"></i>
+                             <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">Người
+                                 dùng</span>
+                         </a>
+                     </li>
+                     {{-- @endif --}}
                      <li class="nav-item">
                          <div class="nav-divider"></div>
                      </li>

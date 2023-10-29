@@ -16,4 +16,23 @@ class AdminUserController extends Controller
             'vlusers' => $vlusers,
         ]);
     }
+
+    public function getVLUser($id)
+    {
+        $vluser = DB::select('select * from users where id=?', [$id]);
+        return response()->json([
+            'success' => true,
+            'vluser' => $vluser,
+        ]);
+    }
+
+    public function delete($id)
+    {
+        $results = DB::statement('EXEC DeleteVLUserById ?', [$id]);
+
+        return response()->json([
+            'success' => true,
+            'data' => $results,
+        ]);
+    }
 }
