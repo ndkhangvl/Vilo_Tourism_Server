@@ -33,7 +33,9 @@ Route::get('/detailplace/{id}', [HomeController::class, 'detail_place']);
 
 //News
 Route::get('/list-news', [HomeController::class, 'listNews']);
+Route::get('/detailnews/{id}', [HomeController::class, 'detail_news']);
 
+//Test
 Route::get('/map', function () {
     return view('home.map');
 });

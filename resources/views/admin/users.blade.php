@@ -468,11 +468,12 @@
                 url: url,
                 type: 'GET',
                 success: function(response) {
-                    // console.log(response);
+                    console.log(response);
                     var detailData = response.vluser[0];
                     $('#view_name_user').val(detailData.name);
                     $('#view_email_user').val(detailData.email);
                     // $('#view_role_user').text(detailData.role);
+                    console.log(detailData.created_at);
                     var formattedDate = moment(detailData.created_at).format('DD/MM/YYYY');
                     $('#view_date_user').val(formattedDate);
 

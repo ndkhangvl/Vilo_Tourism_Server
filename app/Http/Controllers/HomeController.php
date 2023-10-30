@@ -69,6 +69,15 @@ class HomeController extends Controller
         ]);
     }
 
+    public function detail_news($id)
+    {
+        $detail_news = DB::select('select * from VLNews WHERE id_new=?;', [$id]);
+        DB::table('VLNews')->where('id_new', $id)->increment('view_new');
+        return view('home.detail_news', [
+            'detail_news' => $detail_news,
+        ]);
+    }
+
     public function detail_place($id)
     {
         // $detail_place = DB::select(

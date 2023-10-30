@@ -52,7 +52,9 @@
                 <hr class="h-px my-2 bg-gray-200 border-0 dark:bg-gray-700">
                 <div class="grid gap-4">
                     <div class="relative">
-                        <img src="{{ $vlnews[0]->image_url_new }}" alt="Image" class="w-full h-auto">
+                        <a href="/detailnews/{{ $vlnews[0]->id_new }}">
+                            <img src="{{ $vlnews[0]->image_url_new }}" alt="Image" class="w-full h-auto">
+                        </a>
                         <div class="block w-full bg-opacity-50 text-black text-left">
                             <h1 class="xl:text-sm max-sm:text-xs font-bold">{{ $vlnews[0]->title_new }}</h1>
                             <h1 class="xl:text-sm max-sm:text-xs text-justify line-clamp-2">{!! $vlnews[0]->content_new !!}</h1>
