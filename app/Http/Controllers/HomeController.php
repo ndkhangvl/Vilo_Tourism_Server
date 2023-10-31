@@ -17,7 +17,7 @@ class HomeController extends Controller
         // dd(json_encode($vlplacecoordinate));
         $vlplacecoordinate = DB::select('SELECT VLPlace.name_place, VLPlaceCoordinate.latitude, VLPlaceCoordinate.longitude
             FROM VLPlace
-            JOIN VLPlaceCoordinate ON VLPlace.id_place = VLPlaceCoordinate.id_place');
+            JOIN VLPlaceCoordinate ON VLPlace.id_coordinate = VLPlaceCoordinate.id_coordinate');
 
         $customJson = [];
 
@@ -61,23 +61,6 @@ class HomeController extends Controller
         ]);
     }
 
-    public function listNews()
-    {
-        $vlnews = DB::table('VLNews')->get();
-        return view('home.list_news', [
-            'vlnews' => $vlnews,
-        ]);
-    }
-
-    public function detail_news($id)
-    {
-        $detail_news = DB::select('select * from VLNews WHERE id_new=?;', [$id]);
-        DB::table('VLNews')->where('id_new', $id)->increment('view_new');
-        return view('home.detail_news', [
-            'detail_news' => $detail_news,
-        ]);
-    }
-
     public function detail_place($id)
     {
         // $detail_place = DB::select(
@@ -86,9 +69,9 @@ class HomeController extends Controller
         //         'id' => $id,
         //     ]
         // );
-        $fixedLocation = DB::select('select * from VLPlaceCoordinate where id_place=?', [$id]);
+        $fixedLocation = DB::select('select * from VLPlaceCoordinate where id_coordinate=?', [$id]);
         $location = DB::select('select VLPC.*,VLP.name_place,VLP.image_url  from VLPlaceCoordinate as VLPC
-                                 join VLPlace as VLP on VLPC.id_place=VLP.id_place;');
+                                 join VLPlace as VLP on VLPC.id_coordinate=VLP.id_coordinate;');
         $R = 6371.0;
         $distances = [];
 
@@ -107,7 +90,7 @@ class HomeController extends Controller
             if ($distance <= 10) {
                 $distance = round($distance, 2);
                 $distances[] = [
-                    'id' => $item->id_place,
+                    'id' => $item->id_coordinate,
                     'name_place' => $item->name_place,
                     'image_url' => $item->image_url,
                     'distance' => $distance
@@ -124,6 +107,26 @@ class HomeController extends Controller
         return view('home.detail_place', [
             'detail_place' => $detail_place,
             'distances' => $limitedDistances,
+        ]);
+    }
+
+    //For News
+    public function listNews()
+    {
+        $vlnews = DB::table('VLNews')->get();
+        return view('home.list_news', [
+            'vlnews' => $vlnews,
+        ]);
+    }
+
+    public function detail_news($id)
+    {
+        $detail_news = DB::select('select * from VLNews WHERE id_new=?;', [$id]);
+        $news_new = DB::select('select * from VLNews');
+        DB::table('VLNews')->where('id_new', $id)->increment('view_new');
+        return view('home.detail_news', [
+            'detail_news' => $detail_news,
+            'news_new' => $news_new,
         ]);
     }
 }

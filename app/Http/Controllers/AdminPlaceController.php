@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\VLPlace;
+use App\Models\VLPlaceCoordinate;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Kreait\Firebase\Factory;
@@ -24,7 +25,7 @@ class AdminPlaceController extends Controller
         $vlplace = DB::select('
             SELECT VLPlace.*, VLPlaceCoordinate.latitude, VLPlaceCoordinate.longitude
             FROM VLPlace
-            JOIN VLPlaceCoordinate ON VLPlace.id_place = VLPlaceCoordinate.id_place
+            JOIN VLPlaceCoordinate ON VLPlace.id_coordinate = VLPlaceCoordinate.id_coordinate
             WHERE VLPlace.id_place = ?', [$id]);
         // DB::table('VLPlace')->where('id', $id)->increment('view_place');
         return response()->json([
@@ -37,16 +38,37 @@ class AdminPlaceController extends Controller
     {
         $request->validate([
             'name_place' => 'required',
+            'address_place' => 'required',
+            'phone_place' => ['required', 'regex:/^(0[1-9][0-9]{8})$/'],
+            'start_time' => ['required', 'regex:/^(?:[01]\d|2[0-3]):[0-5]\d$/'],
+            'end_time' => ['required', 'regex:/^(?:[01]\d|2[0-3]):[0-5]\d$/'],
+            'email_contact_place' => ['required', 'email'],
+            'describe_place' => 'required',
         ], [
             'name_place.required' => 'Trường tên địa điểm là bắt buộc.',
+            'address_place.required' => 'Trường địa chỉ là bắt buộc.',
+            'phone_place.required' => 'Trường số điện thoại là bắt buộc.',
+            'phone_place.regex' => 'Định dạng số điện thoại không đúng. Vui lòng nhập theo định dạng 10 chữ số và bắt đầu bằng số 0.',
+            'start_time.required' => 'Trường thời gian mở cửa là bắt buộc.',
+            'start_time.regex' => 'Định dạng thời gian HH:MM không đúng (ví dụ 20:50)',
+            'end_time.required' => 'Trường thời gian đóng cửa là bắt buộc.',
+            'end_time.regex' => 'Định dạng thời gian HH:MM không đúng (ví dụ 20:50)',
+            'email_contact_place.required' => 'Trường email liên hệ là bắt buộc.',
+            'email_contact_place.email' => 'Định dạng email không đúng',
+            'describe_place.required' => 'Trường mô tả địa điểm là bắt buộc.',
         ]);
 
+        $vlplaceCoordinate = new VLPlaceCoordinate;
+        $vlplaceCoordinate->latitude = $request->latitude_place;
+        $vlplaceCoordinate->longitude = $request->longitude_place;
+        $vlplaceCoordinate->save();
 
         $vlplace = new VLPlace;
         $vlplace->id_area = $request->id_area;
         $vlplace->id_service = $request->id_service;
         $vlplace->id_price = $request->id_price;
         $vlplace->id_type = $request->id_type;
+        $vlplace->id_coordinate = $vlplaceCoordinate->id_coordinate;
         $vlplace->name_place = $request->name_place;
         $vlplace->address_place = $request->address_place;
         $vlplace->start_time = $request->start_time;
@@ -86,18 +108,34 @@ class AdminPlaceController extends Controller
 
     public function update(Request $request, $id)
     {
-        // $request->validate([
-        //     'name_place' => 'required',
-        // ], [
-        //     'name_place.required' => 'Trường tên địa điểm là bắt buộc.',
-        // ]);
+        $request->validate([
+            'name_edit_place' => 'required',
+            'address_edit_place' => 'required',
+            'phone_edit_place' => ['required', 'regex:/^0?[1-9][0-9]{9,10}$/'],
+            'start_edit_time' => ['required', 'regex:/^(?:[01]\d|2[0-3]):[0-5]\d$/'],
+            'end_edit_time' => ['required', 'regex:/^(?:[01]\d|2[0-3]):[0-5]\d$/'],
+            'email_edit_contact_place' => ['required', 'email'],
+            'describe_edit_place' => 'required',
+        ], [
+            'name_edit_place.required' => 'Trường tên địa điểm là bắt buộc.',
+            'address_edit_place.required' => 'Trường địa chỉ là bắt buộc.',
+            'phone_edit_place.required' => 'Trường số điện thoại là bắt buộc.',
+            'phone_edit_place.regex' => 'Định dạng số điện thoại không đúng. Vui lòng nhập theo định dạng 10 chữ số và bắt đầu bằng số 0.',
+            'start_edit_time.required' => 'Trường thời gian mở cửa là bắt buộc.',
+            'start_edit_time.regex' => 'Định dạng thời gian HH:MM không đúng (ví dụ 20:50)',
+            'end_edit_time.required' => 'Trường thời gian đóng cửa là bắt buộc.',
+            'end_edit_time.regex' => 'Định dạng thời gian HH:MM không đúng (ví dụ 20:50)',
+            'email_edit_contact_place.required' => 'Trường email liên hệ là bắt buộc.',
+            'email_edit_contact_place.email' => 'Định dạng email không đúng',
+            'describe_edit_place.required' => 'Trường mô tả địa điểm là bắt buộc.',
+        ]);
         // dd($request->all());
-        if ($request->latitude && $request->longitude) {
+        if ($request->latitude_place && $request->longitude_place) {
             DB::table('VLPlaceCoordinate')
-                ->where('id_place', $id)
+                ->where('id_coordinate', $id)
                 ->update([
-                    'latitude' => $request->latitude,
-                    'longitude' => $request->longitude
+                    'latitude' => $request->latitude_place,
+                    'longitude' => $request->longitude_place
                 ]);
         }
 

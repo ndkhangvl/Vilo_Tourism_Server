@@ -203,39 +203,58 @@
                             <div class="form-group col-md-4">
                                 <label for="name_place">Tên địa điểm</label>
                                 <input type="text" name="name_place" id="name_place" class="form-control"
-                                    placeholder="Nhập vào tên địa điểm" required>
+                                    placeholder="Nhập vào tên địa điểm">
+                                <span class="invalid-feedback" id="name_place_error"></span>
                             </div>
                             <div class="form-group col-md-4">
                                 <label for="address_place">Địa chỉ</label>
                                 <input type="text" name="address_place" id="address_place" class="form-control"
-                                    placeholder="Nhập vào địa chỉ" required>
+                                    placeholder="Nhập vào địa chỉ">
+                                <span class="invalid-feedback" id="address_place_error"></span>
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="form-group col-md-4">
                                 <label for="phone_place">Số điện thoại</label>
                                 <input type="text" name="phone_place" id="phone_place" class="form-control"
-                                    placeholder="Nhập vào số điện thoại" required>
+                                    placeholder="Nhập vào số điện thoại">
+                                <span class="invalid-feedback" id="phone_place_error"></span>
                             </div>
                             <div class="form-group col-md-4">
                                 <label for="start_time">Thời gian mở cửa</label>
                                 <input type="text" name="start_time" id="start_time" class="form-control"
-                                    placeholder="Nhập thời gian mở cửa" required>
+                                    placeholder="Nhập thời gian mở cửa">
+                                <span class="invalid-feedback" id="start_time_error"></span>
                             </div>
                             <div class="form-group col-md-4">
                                 <label for="end_time">Thời gian đóng cửa</label>
                                 <input type="text" name="end_time" id="end_time" class="form-control"
-                                    placeholder="Nhập thời gian đóng cửa" required>
+                                    placeholder="Nhập thời gian đóng cửa">
+                                <span class="invalid-feedback" id="end_time_error"></span>
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="email_contact_place">Email</label>
-                            <input type="email" name="email_contact_place" id="email_contact_place"
-                                class="form-control" placeholder="Nhập vào email" required>
+                            <input type="text" name="email_contact_place" id="email_contact_place"
+                                class="form-control" placeholder="Nhập vào email">
+                            <span class="invalid-feedback" id="email_contact_place_error"></span>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="lat_place" class="font-weight-bold">Vĩ độ</label>
+                                <input type="text" name="latitude_place" id="latitude_place" class="form-control"
+                                    placeholder="Nhập vĩ độ">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="long_place" class="font-weight-bold">Kinh độ</label>
+                                <input type="text" name="longitude_place" id="longitude_place"
+                                    class="form-control" placeholder="Nhập kinh độ">
+                            </div>
                         </div>
                         <div class="form-group">
                             <label for="describe_place">Mô tả</label>
                             <textarea id="addCKeditor" class="form-control" name="describe_place"></textarea>
+                            <span class="invalid-feedback" id="describe_place_error"></span>
                         </div>
                         <div class="form-group">
                             <label for="file_input">Upload file</label>
@@ -502,51 +521,60 @@
                             <div class="form-group col-md-4">
                                 <label for="name_place">Tên địa điểm</label>
                                 <input type="text" name="name_edit_place" id="name_edit_place"
-                                    class="form-control" placeholder="Nhập vào tên địa điểm" required>
+                                    class="form-control" placeholder="Nhập vào tên địa điểm">
+                                <span class="invalid-feedback" id="name_edit_place_error"></span>
                             </div>
                             <div class="form-group col-md-4">
                                 <label for="address_place">Địa chỉ</label>
                                 <input type="text" name="address_edit_place" id="address_edit_place"
-                                    class="form-control" placeholder="Nhập vào địa chỉ" required>
+                                    class="form-control" placeholder="Nhập vào địa chỉ">
+                                <span class="invalid-feedback" id="address_edit_place_error"></span>
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="form-group col-md-4">
                                 <label for="phone_place">Số điện thoại</label>
                                 <input type="text" name="phone_edit_place" id="phone_edit_place"
-                                    class="form-control" placeholder="Nhập vào số điện thoại" required>
+                                    class="form-control" placeholder="Nhập vào số điện thoại">
+                                <span class="invalid-feedback" id="phone_edit_place_error"></span>
                             </div>
                             <div class="form-group col-md-4">
                                 <label for="start_time">Thời gian mở cửa</label>
                                 <input type="text" name="start_edit_time" id="start_edit_time"
-                                    class="form-control" placeholder="Nhập thời gian mở cửa" required>
+                                    class="form-control" placeholder="Nhập thời gian mở cửa">
+                                <span class="invalid-feedback" id="start_edit_time_error"></span>
                             </div>
                             <div class="form-group col-md-4">
                                 <label for="end_time">Thời gian đóng cửa</label>
                                 <input type="text" name="end_edit_time" id="end_edit_time" class="form-control"
-                                    placeholder="Nhập thời gian đóng cửa" required>
+                                    placeholder="Nhập thời gian đóng cửa">
+                                <span class="invalid-feedback" id="end_edit_time_error"></span>
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="email_contact_place">Email</label>
                             <input type="email" name="email_edit_contact_place" id="email_edit_contact_place"
-                                class="form-control" placeholder="Nhập vào email" required>
+                                class="form-control" placeholder="Nhập vào email">
+                            <span class="invalid-feedback" id="email_edit_contact_place_error"></span>
                         </div>
                         <div class="form-row">
                             <div class="form-group col-md-6">
                                 <label for="start_time">Vĩ độ</label>
-                                <input type="text" name="latitude_place" id="latitude_place" class="form-control"
-                                    placeholder="Nhập vĩ độ" required>
+                                <input type="text" name="edit_latitude_place" id="edit_latitude_place"
+                                    class="form-control" placeholder="Nhập vĩ độ">
+                                <span class="invalid-feedback" id="edit_latitude_place_error"></span>
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="start_time">Kinh độ</label>
-                                <input type="text" name="longitude_place" id="longitude_place"
-                                    class="form-control" placeholder="Nhập kinh độ" required>
+                                <input type="text" name="edit_longitude_place" id="edit_longitude_place"
+                                    class="form-control" placeholder="Nhập kinh độ">
+                                <span class="invalid-feedback" id="edit_longitude_place_error"></span>
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="describe_place">Mô tả</label>
                             <textarea id="editCKeditor" class="form-control" name="editCKeditor"></textarea>
+                            <span class="invalid-feedback" id="describe_edit_place_error"></span>
                         </div>
                         <div class="form-group">
                             <label for="image_url">Đường dẫn hình</label>
@@ -815,7 +843,24 @@
                                 }
                             },
                             error: function(xhr) {
-                                console.log(xhr);
+                                Swal.close();
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Lỗi!',
+                                    text: 'Có lỗi xảy ra trong quá trình xử lý, vui lòng thực hiện lại sau'
+                                });
+                                if (xhr.status === 422) {
+                                    $('.invalid-feedback').empty();
+                                    var response = JSON.parse(xhr.responseText);
+                                    var errors = response.errors;
+                                    for (var field in errors) {
+                                        if (errors.hasOwnProperty(field)) {
+                                            var errorMessage = errors[field][0];
+                                            $('#' + field + '_error').text(errorMessage)
+                                                .show();
+                                        }
+                                    }
+                                }
                             }
                         });
                     }
@@ -889,7 +934,24 @@
                                 }
                             },
                             error: function(xhr) {
-                                console.log(xhr);
+                                Swal.close();
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Lỗi!',
+                                    text: 'Có lỗi xảy ra trong quá trình xử lý, vui lòng thực hiện lại sau'
+                                });
+                                if (xhr.status === 422) {
+                                    $('.invalid-feedback').empty();
+                                    var response = JSON.parse(xhr.responseText);
+                                    var errors = response.errors;
+                                    for (var field in errors) {
+                                        if (errors.hasOwnProperty(field)) {
+                                            var errorMessage = errors[field][0];
+                                            $('#' + field + '_error').text(errorMessage)
+                                                .show();
+                                        }
+                                    }
+                                }
                             }
                         });
                     }
@@ -1043,6 +1105,7 @@
                 type: 'GET',
                 success: function(response) {
                     // console.log(response);
+                    $('.invalid-feedback').empty();
                     var detailData = response.vlplace[0];
                     id = detailData.id_place;
                     $('#id_edit_price').val(detailData.id_price).trigger('change');
@@ -1056,8 +1119,8 @@
                     $('#end_edit_time').val(detailData.end_time);
                     $('#email_edit_contact_place').val(detailData.email_contact_place);
 
-                    $('#latitude_place').val(detailData.latitude);
-                    $('#longitude_place').val(detailData.longitude);
+                    $('#edit_latitude_place').val(detailData.latitude);
+                    $('#edit_longitude_place').val(detailData.longitude);
                     // $('#image_edit_url').val(detailData.image_url);
                     var thumbnailLink = $('.picture-from-firebase');
                     if (!detailData.image_url) {

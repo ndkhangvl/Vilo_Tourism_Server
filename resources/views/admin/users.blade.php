@@ -26,6 +26,10 @@
     {{-- <link rel="stylesheet" href="{{ asset('css/select2.min.css') }}">
     <script src="{{ asset('js/select2.min.js') }}"></script> --}}
 
+    <!-- Sweetalrt -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
 
 
     <!-- CSS Front Template -->
@@ -91,11 +95,13 @@
                                         onclick="getEditDetailPlace(event,this,{{ $vluser->id }})"><i
                                             class="tio-edit text-warning"></i></a>
                                     <form id="deleteForm-{{ $vluser->id }}"
-                                        action="/admin/user/delete/{{ $vluser->id }}" method="POST">
+                                        action="/admin/news/delete/{{ $vluser->id }}" method="POST">
                                         @method('DELETE')
                                         @csrf
-                                        <button type="submit" id="submitDel" class="btn btn-link p-0"
-                                            style="margin: 0 1px;" data-toggle="tooltip" data-original-title="Delete">
+                                        <button type="submit" id="submitDel"
+                                            onclick="deleteUser('{{ $vluser->id }}','{{ $vluser->email }}')"
+                                            class="btn btn-link p-0" style="margin: 0 1px;" data-toggle="tooltip"
+                                            data-original-title="Delete">
                                             <i class="tio-delete-outlined text-danger"></i>
                                         </button>
                                     </form>
@@ -175,18 +181,19 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form action="#" class="" method="POST" id="viewNews"
+                    <form action="#" class="" method="POST" id="editUser"
                         enctype="multipart/form-data">
+                        @method('PUT')
                         @csrf
                         <div class="form-row">
                             <div class="form-group col-md-12">
                                 <label for="label_view_title" class="font-weight-bold pr-2">Vai trò:</label>
                                 <div class="flex flex-row flex-nowrap">
-                                    <input type="radio" name="roleGroup" value="0" class="mr-2"><span
+                                    <input type="radio" name="roleGroup" value="2" class="mr-2"><span
                                         class="badge badge-soft-danger mr-4">Super Admin</span>
                                     <input type="radio" name="roleGroup" value="1" class="mr-2"><span
                                         class="badge badge-soft-success mr-4">Admin</span>
-                                    <input type="radio" name="roleGroup" value="2" class="mr-2">
+                                    <input type="radio" name="roleGroup" value="0" class="mr-2">
                                     <span class="badge badge-soft-primary mr-4">User</span>
                                 </div>
                             </div>
@@ -204,6 +211,10 @@
                                 <input type="text" name="edit_email_user" id="edit_email_user"
                                     class="form-control" placeholder="Nhập vào tên tin tức">
                             </div>
+                        </div>
+                        <div class="form-group">
+                            <button data-modal-hide="defaultModal" type="submit" class="btn btn-primary">Chỉnh
+                                sửa</button>
                         </div>
                     </form>
 
@@ -380,19 +391,83 @@
 
 
     <script>
+        //Function Ajax for Delete User
+        function deleteUser(id, u_name) {
+            event.preventDefault();
+            var form = $('#deleteForm-' + id);
+            var url = form.attr('action');
+            var csrfToken = $('input[name="_token"]').val();
+            Swal.fire({
+                title: 'Xóa người dùng này?',
+                text: "Người dùng " + u_name + " sẽ được xóa!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#6c757d',
+                confirmButtonText: 'Xóa',
+                cancelButtonText: 'Hủy'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.fire({
+                        title: 'Đang xử lý...',
+                        allowOutsideClick: false,
+                        allowEscapeKey: false,
+                        allowEnterKey: false,
+                        onBeforeOpen: () => {
+                            Swal.showLoading();
+                        },
+                        onClose: () => {
+                            Swal.hideLoading();
+                        }
+                    });
+                    $.ajax({
+                        url: url,
+                        type: 'DELETE',
+                        headers: {
+                            'X-CSRF-TOKEN': csrfToken
+                        },
+                        beforeSend: function() {
+                            Swal.showLoading();
+                        },
+                        success: function(response) {
+                            Swal.close();
+                            if (response.success) {
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'Đã xóa!',
+                                    text: 'Xóa người dùng thành công'
+                                }).then(() => {
+                                    location.reload();
+                                });
+                            } else {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Không thể xóa người dùng!',
+                                    text: 'Đã xảy ra lỗi, vui lòng kiểm tra lại.'
+                                });
+                            }
+                        },
+                        error: function(xhr) {
+                            console.log(xhr);
+                        }
+                    });
+                }
+            });
+        }
+
         //Ajax for Edit User 
-        //Ajax for Edit Place
         $(document).ready(function() {
-            $('#editPlace').submit(function(event) {
+            $('#editUser').submit(function(event) {
                 event.preventDefault();
                 var csrfToken = $('input[name="_token"]').val();
                 // Lấy dữ liệu từ form
                 var formData = new FormData(this);
-                var ckEditorData = myEditorSend.getData();
-                formData.append('describe_edit_place', ckEditorData);
+                console.log(formData.get('roleGroup'));
+                // var ckEditorData = myEditorSend.getData();
+                // formData.append('describe_edit_place', ckEditorData);
                 Swal.fire({
-                    title: 'Chỉnh sửa thông tin địa điểm này?',
-                    text: "Thông tin địa điểm " + $('#name_edit_place').val() +
+                    title: 'Chỉnh sửa thông tin người dùng này?',
+                    text: "Thông tin người dùng " + uName +
                         " sẽ được chỉnh sửa!",
                     icon: 'info',
                     showCancelButton: true,
@@ -434,14 +509,14 @@
                                     Swal.fire({
                                         icon: 'success',
                                         title: 'Đã sửa!',
-                                        text: 'Chỉnh sửa địa điểm thành công'
+                                        text: 'Chỉnh sửa người dùng thành công'
                                     }).then(() => {
                                         location.reload();
                                     });
                                 } else {
                                     Swal.fire({
                                         icon: 'error',
-                                        title: 'Không thể sửa địa điểm!',
+                                        title: 'Không thể sửa người dùng!',
                                         text: 'Đã xảy ra lỗi, vui lòng kiểm tra lại.'
                                     });
                                 }
@@ -518,7 +593,8 @@
                 success: function(response) {
                     // console.log(response);
                     var detailData = response.vluser[0];
-                    // id = detailData.id;
+                    id = detailData.id;
+                    uName = detailData.name;
                     $('#edit_name_user').val(detailData.name);
                     $('#edit_email_user').val(detailData.email);
                     // $('#view_role_user').val(detailData.role);

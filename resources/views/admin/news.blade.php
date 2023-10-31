@@ -488,6 +488,7 @@
                     // console.log(response);
                     var detailData = response.vlnews[0];
                     id = detailData.id_new;
+                    nameNews = detailData.title_new;
                     $('#edit_title_news').val(detailData.title_new);
 
                     // $('#email_edit_contact_place').val(detailData.email_contact_place);
@@ -650,7 +651,7 @@
                 formData.append('content_edit_news', ckEditorData);
                 Swal.fire({
                     title: 'Chỉnh sửa bài viết này?',
-                    text: "Thông tin bài viết " + $('#edit_title_news').val() +
+                    text: "Thông tin bài viết " + nameNews +
                         " sẽ được chỉnh sửa!",
                     icon: 'info',
                     showCancelButton: true,

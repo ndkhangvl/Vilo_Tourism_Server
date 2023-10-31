@@ -9,8 +9,8 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
     <script
         src="
-                                                                                                                                                                                                                                                            https://cdn.jsdelivr.net/npm/moment@2.29.4/moment.min.js
-                                                                                                                                                                                                                                                            ">
+                                                                                                                                                                                                                                                                                                                                    https://cdn.jsdelivr.net/npm/moment@2.29.4/moment.min.js
+                                                                                                                                                                                                                                                                                                                                    ">
     </script>
     @include('/components.constraint')
     <style>
@@ -57,10 +57,12 @@
             @endforeach
             <div class="content border-2 shadow w-1/4">
                 <div class="bg-yellow-500 text-center text-white font-bold">
-                    <h2><i class="fas fa-home pr-2"></i>Địa điểm gần đây</h2>
+                    <h2><i class="fas fa-home pr-2"></i>Tin mới nhất</h2>
                 </div>
                 <div class="p-2">
-
+                    @foreach ($news_new as $news_new)
+                        <p class="capitalize">{{ $news_new->title_new }}</p>
+                    @endforeach
                 </div>
             </div>
         </div>
