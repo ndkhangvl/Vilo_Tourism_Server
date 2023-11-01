@@ -14,7 +14,6 @@ class AdminPlaceController extends Controller
     public function index()
     {
         $vlplaces = DB::select('select * from VLPlace');
-        $vlinfo = DB::select('select * from VLService');
         return view('admin.place', [
             'vlplaces' => $vlplaces,
         ]);
@@ -22,11 +21,7 @@ class AdminPlaceController extends Controller
 
     public function getVLPlace($id)
     {
-        $vlplace = DB::select('
-            SELECT VLPlace.*, VLPlaceCoordinate.latitude, VLPlaceCoordinate.longitude
-            FROM VLPlace
-            JOIN VLPlaceCoordinate ON VLPlace.id_coordinate = VLPlaceCoordinate.id_coordinate
-            WHERE VLPlace.id_place = ?', [$id]);
+        $vlplace = DB::select('SELECT * FROM VLPlace WHERE id_place = ?', [$id]);
         // DB::table('VLPlace')->where('id', $id)->increment('view_place');
         return response()->json([
             'success' => true,
@@ -39,40 +34,41 @@ class AdminPlaceController extends Controller
         $request->validate([
             'name_place' => 'required',
             'address_place' => 'required',
-            'phone_place' => ['required', 'regex:/^(0[1-9][0-9]{8})$/'],
+            // 'phone_place' => ['required', 'regex:/^(0[1-9][0-9]{8})$/'],
+            'phone_place' => 'required',
             'start_time' => ['required', 'regex:/^(?:[01]\d|2[0-3]):[0-5]\d$/'],
             'end_time' => ['required', 'regex:/^(?:[01]\d|2[0-3]):[0-5]\d$/'],
+            'latitude_place' => 'required',
+            'longitude_place' => 'required',
             'email_contact_place' => ['required', 'email'],
             'describe_place' => 'required',
         ], [
             'name_place.required' => 'Trường tên địa điểm là bắt buộc.',
             'address_place.required' => 'Trường địa chỉ là bắt buộc.',
-            'phone_place.required' => 'Trường số điện thoại là bắt buộc.',
-            'phone_place.regex' => 'Định dạng số điện thoại không đúng. Vui lòng nhập theo định dạng 10 chữ số và bắt đầu bằng số 0.',
+            'phone_place.required' => 'Trường số điện thoại là bắt buộc ( Nếu không có ghi "Không có").',
+            // 'phone_place.regex' => 'Định dạng số điện thoại không đúng. Vui lòng nhập theo định dạng 10 chữ số và bắt đầu bằng số 0.',
             'start_time.required' => 'Trường thời gian mở cửa là bắt buộc.',
             'start_time.regex' => 'Định dạng thời gian HH:MM không đúng (ví dụ 20:50)',
             'end_time.required' => 'Trường thời gian đóng cửa là bắt buộc.',
             'end_time.regex' => 'Định dạng thời gian HH:MM không đúng (ví dụ 20:50)',
+            'latitude_place' => 'Trường kinh độ là bắt buộc',
+            'longitude_place' => 'Trường vĩ độ là bắt buộc',
             'email_contact_place.required' => 'Trường email liên hệ là bắt buộc.',
             'email_contact_place.email' => 'Định dạng email không đúng',
             'describe_place.required' => 'Trường mô tả địa điểm là bắt buộc.',
         ]);
-
-        $vlplaceCoordinate = new VLPlaceCoordinate;
-        $vlplaceCoordinate->latitude = $request->latitude_place;
-        $vlplaceCoordinate->longitude = $request->longitude_place;
-        $vlplaceCoordinate->save();
 
         $vlplace = new VLPlace;
         $vlplace->id_area = $request->id_area;
         $vlplace->id_service = $request->id_service;
         $vlplace->id_price = $request->id_price;
         $vlplace->id_type = $request->id_type;
-        $vlplace->id_coordinate = $vlplaceCoordinate->id_coordinate;
         $vlplace->name_place = $request->name_place;
         $vlplace->address_place = $request->address_place;
         $vlplace->start_time = $request->start_time;
         $vlplace->end_time = $request->end_time;
+        $vlplace->latitude = $request->latitude_place;
+        $vlplace->longitude = $request->longitude_place;
         $vlplace->phone_place = $request->phone_place;
         $vlplace->email_contact_place = $request->email_contact_place;
         $vlplace->describe_place = $request->describe_place;
@@ -111,43 +107,48 @@ class AdminPlaceController extends Controller
         $request->validate([
             'name_edit_place' => 'required',
             'address_edit_place' => 'required',
-            'phone_edit_place' => ['required', 'regex:/^0?[1-9][0-9]{9,10}$/'],
+            // 'phone_edit_place' => ['required', 'regex:/^0?[1-9][0-9]{9,10}$/'],
             'start_edit_time' => ['required', 'regex:/^(?:[01]\d|2[0-3]):[0-5]\d$/'],
             'end_edit_time' => ['required', 'regex:/^(?:[01]\d|2[0-3]):[0-5]\d$/'],
             'email_edit_contact_place' => ['required', 'email'],
+            'edit_latitude_place' => 'required',
+            'edit_longitude_place' => 'required',
             'describe_edit_place' => 'required',
         ], [
             'name_edit_place.required' => 'Trường tên địa điểm là bắt buộc.',
             'address_edit_place.required' => 'Trường địa chỉ là bắt buộc.',
-            'phone_edit_place.required' => 'Trường số điện thoại là bắt buộc.',
-            'phone_edit_place.regex' => 'Định dạng số điện thoại không đúng. Vui lòng nhập theo định dạng 10 chữ số và bắt đầu bằng số 0.',
+            // 'phone_edit_place.required' => 'Trường số điện thoại là bắt buộc.',
+            // 'phone_edit_place.regex' => 'Định dạng số điện thoại không đúng. Vui lòng nhập theo định dạng 10 chữ số và bắt đầu bằng số 0.',
             'start_edit_time.required' => 'Trường thời gian mở cửa là bắt buộc.',
             'start_edit_time.regex' => 'Định dạng thời gian HH:MM không đúng (ví dụ 20:50)',
             'end_edit_time.required' => 'Trường thời gian đóng cửa là bắt buộc.',
             'end_edit_time.regex' => 'Định dạng thời gian HH:MM không đúng (ví dụ 20:50)',
+            'edit_latitude_place' => 'Trường kinh độ là bắt buộc',
+            'edit_longitude_place' => 'Trường vĩ độ là bắt buộc',
             'email_edit_contact_place.required' => 'Trường email liên hệ là bắt buộc.',
             'email_edit_contact_place.email' => 'Định dạng email không đúng',
             'describe_edit_place.required' => 'Trường mô tả địa điểm là bắt buộc.',
         ]);
         // dd($request->all());
-        if ($request->latitude_place && $request->longitude_place) {
-            DB::table('VLPlaceCoordinate')
-                ->where('id_coordinate', $id)
-                ->update([
-                    'latitude' => $request->latitude_place,
-                    'longitude' => $request->longitude_place
-                ]);
-        }
+        // if ($request->latitude_place && $request->longitude_place) {
+        //     DB::table('VLPlaceCoordinate')
+        //         ->where('id_coordinate', $id)
+        //         ->update([
+        //             'latitude' => $request->latitude_place,
+        //             'longitude' => $request->longitude_place
+        //         ]);
+        // }
 
         $vlplace = VLPlace::findOrFail($id);
         $vlplace->id_area = $request->id_edit_area;
-        $vlplace->id_service = $request->id_service;
         $vlplace->id_price = $request->id_edit_price;
         $vlplace->id_type = $request->id_edit_type;
         $vlplace->name_place = $request->name_edit_place;
         $vlplace->address_place = $request->address_edit_place;
         $vlplace->start_time = $request->start_edit_time;
         $vlplace->end_time = $request->end_edit_time;
+        $vlplace->latitude = $request->edit_latitude_place;
+        $vlplace->longitude = $request->edit_longitude_place;
         $vlplace->phone_place = $request->phone_edit_place;
         $vlplace->email_contact_place = $request->email_edit_contact_place;
         $vlplace->describe_place = $request->describe_edit_place;

@@ -244,11 +244,13 @@
                                 <label for="lat_place" class="font-weight-bold">Vĩ độ</label>
                                 <input type="text" name="latitude_place" id="latitude_place" class="form-control"
                                     placeholder="Nhập vĩ độ">
+                                <span class="invalid-feedback" id="latitude_place_error"></span>
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="long_place" class="font-weight-bold">Kinh độ</label>
                                 <input type="text" name="longitude_place" id="longitude_place"
                                     class="form-control" placeholder="Nhập kinh độ">
+                                <span class="invalid-feedback" id="longitude_place_error"></span>
                             </div>
                         </div>
                         <div class="form-group">

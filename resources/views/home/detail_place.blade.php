@@ -64,7 +64,11 @@
                                 {{ $detail_place->name_place }}
                             </h1>
                             <h1 class="text-xl p-2"><i class="fas fa-money-bill pr-2" style="color: #01913d;"></i>Giá:
-                                {{ $detail_place->id_service }}
+                                @if ($detail_place->id_price == 3000)
+                                    <span>Miễn phí</span>
+                                @elseif ($detail_place->id_price == 3001)
+                                    <span>Có phí</span>
+                                @endif
                             </h1>
                             <h1 class="text-xl p-2"><i class="far fa-clock pr-2" style="color: #01913d;"></i></i>Mở
                                 cửa: {{ $detail_place->start_time }}<i class="far fa-clock pr-2 pl-2"

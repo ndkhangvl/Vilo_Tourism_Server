@@ -15,9 +15,8 @@ class HomeController extends Controller
         // $vlplacecoordinate = DB::select('Select * from VLPlaceCoordinate');
         // $vlplacecoordinatejson = json_encode($vlplacecoordinate);
         // dd(json_encode($vlplacecoordinate));
-        $vlplacecoordinate = DB::select('SELECT VLPlace.name_place, VLPlaceCoordinate.latitude, VLPlaceCoordinate.longitude
-            FROM VLPlace
-            JOIN VLPlaceCoordinate ON VLPlace.id_coordinate = VLPlaceCoordinate.id_coordinate');
+        $vlplacecoordinate = DB::select('select name_place, latitude, longitude from VLPlace');
+
 
         $customJson = [];
 
@@ -69,9 +68,8 @@ class HomeController extends Controller
         //         'id' => $id,
         //     ]
         // );
-        $fixedLocation = DB::select('select * from VLPlaceCoordinate where id_coordinate=?', [$id]);
-        $location = DB::select('select VLPC.*,VLP.name_place,VLP.image_url  from VLPlaceCoordinate as VLPC
-                                 join VLPlace as VLP on VLPC.id_coordinate=VLP.id_coordinate;');
+        $fixedLocation = DB::select('select latitude,longitude from VLPlace where id_place=?', [$id]);
+        $location = DB::select('EXEC GetAllLocation;');
         $R = 6371.0;
         $distances = [];
 
@@ -90,7 +88,7 @@ class HomeController extends Controller
             if ($distance <= 10) {
                 $distance = round($distance, 2);
                 $distances[] = [
-                    'id' => $item->id_coordinate,
+                    'id' => $item->id_place,
                     'name_place' => $item->name_place,
                     'image_url' => $item->image_url,
                     'distance' => $distance
