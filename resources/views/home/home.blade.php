@@ -66,21 +66,25 @@
             <hr class="h-px my-2 bg-gray-200 border-0 dark:bg-gray-700">
             <div class="grid gap-4">
                 <div class="relative">
-                    <img src="{{ $vlnews[0]->image_url_new }}" alt="Image" class="w-full h-auto">
-                    <div class="absolute bottom-0 left-0 w-full bg-black bg-opacity-50 text-white text-center">
-                        <h1 class="xl:text-sm p-4 max-sm:text-xs">{{ $vlnews[0]->title_new }}</h1>
-                    </div>
+                    <a href="/detailnews/{{ $vlnews[0]->id_new }}">
+                        <img src="{{ $vlnews[0]->image_url_new }}" alt="Image" class="w-full h-auto">
+                        <div class="absolute bottom-0 left-0 w-full bg-gray-600 bg-opacity-50 text-white text-center">
+                            <h1 class="xl:text-sm p-4 max-sm:text-xs">{{ $vlnews[0]->title_new }}</h1>
+                        </div>
+                    </a>
                 </div>
                 <div class="">
                     <div class="grid md:grid-cols-4 grid-cols-2 gap-4">
                         @foreach ($vlnews->slice(1) as $vlnew)
                             <div class="relative">
-                                <img src="{{ $vlnew->image_url_new }}" alt="Image" class="object-cover w-full h-full"
-                                    style="height: 200px;">
-                                <div
-                                    class="absolute bottom-0 left-0 w-full bg-black bg-opacity-50 text-white text-center">
-                                    <h1 class="xl:text-sm p-4 max-sm:text-xs">{{ $vlnew->title_new }}</h1>
-                                </div>
+                                <a href="/detailnews/{{ $vlnew->id_new }}">
+                                    <img src="{{ $vlnew->image_url_new }}" alt="Image"
+                                        class="object-cover w-full h-full" style="height: 200px;">
+                                    <div
+                                        class="absolute bottom-0 left-0 w-full bg-gray-600 bg-opacity-50 text-white text-center">
+                                        <h1 class="xl:text-sm p-4 max-sm:text-xs">{{ $vlnew->title_new }}</h1>
+                                    </div>
+                                </a>
                             </div>
                         @endforeach
                     </div>

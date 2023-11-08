@@ -28,7 +28,7 @@
             <a class="mx-2 my-1 flex items-center text-neutral-900 hover:text-neutral-900 focus:text-neutral-900 lg:mb-0 lg:mt-0"
                 href="/">
                 <img class="mr-2"
-                    src="https://dulichmedia.dalat.vn//Images/VLG/superadminportal.vlg/Logo/logongangvinhlong214x74_vlg_636838381478241361.png"
+                    src="https://media.vnptit3.vn/resources/portal//Images/VLG/superadminportal.vlg/Logo/logongangvinhlong214x74_vlg_636838381478241361.png"
                     style="height: 50px" alt="TE Logo" loading="lazy" />
             </a>
         </div>

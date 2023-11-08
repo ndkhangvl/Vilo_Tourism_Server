@@ -27,9 +27,13 @@ use Illuminate\Support\Facades\Route;
 
 //Index
 Route::get('/', [HomeController::class, 'index']);
+
 //Place
 Route::get('/list-place', [HomeController::class, 'listPlace']);
 Route::get('/detailplace/{id}', [HomeController::class, 'detail_place']);
+
+//Recommend Place
+Route::get('/recommend-place', [HomeController::class, 'recommendPlace']);
 
 //News
 Route::get('/list-news', [HomeController::class, 'listNews']);
@@ -107,22 +111,3 @@ Route::middleware(['auth', 'role-check:admin'])->group(function () {
     Route::put('/admin/users/edit/{id}', [AdminUserController::class, 'update']);
     Route::delete('/admin/users/delete/{id}', [AdminUserController::class, 'delete']);
 });
-
-// Route::middleware(['auth', 'role-check:super_admin'])->group(function () {
-//     //For Admin Type
-//     Route::get('/admin', [AdminController::class, 'index']);
-//     //Admin Place
-//     Route::get('/admin/place', [AdminPlaceController::class, 'index']);
-//     Route::post('/admin/place/add', [AdminPlaceController::class, 'store']);
-//     Route::put('/admin/place/edit/{id}', [AdminPlaceController::class, 'update']);
-//     Route::get('/admin/place/detail/{id}', [AdminPlaceController::class, 'getVLPlace']);
-//     Route::delete('/admin/place/delete/{id}', [AdminPlaceController::class, 'delete']);
-//     //Admin News
-//     Route::get('/admin/news', [AdminNewsController::class, 'index']);
-//     Route::post('/admin/news/add', [AdminNewsController::class, 'store']);
-//     Route::put('/admin/news/edit/{id}', [AdminNewsController::class, 'update']);
-//     Route::get('/admin/news/detail/{id}', [AdminNewsController::class, 'getVLNews']);
-//     Route::delete('/admin/news/delete/{id}', [AdminNewsController::class, 'delete']);
-//     //Admin User
-//     Route::get('/admin/users', [AdminUserController::class, 'index']);
-// });

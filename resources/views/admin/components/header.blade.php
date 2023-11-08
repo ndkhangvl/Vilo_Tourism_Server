@@ -86,10 +86,10 @@
                  <!-- Logo -->
                  <a class="navbar-brand" href="/admin" aria-label="Front">
                      <img class="navbar-brand-logo"
-                         src="https://dulichmedia.dalat.vn//Images/VLG/superadminportal.vlg/Logo/logongangvinhlong214x74_vlg_636838381478241361.png"
+                         src="https://media.vnptit3.vn/resources/portal//Images/VLG/superadminportal.vlg/Logo/logongangvinhlong214x74_vlg_636838381478241361.png"
                          alt="Logo">
                      <img class="navbar-brand-logo-mini"
-                         src="https://dulichmedia.dalat.vn//Images/VLG/superadminportal.vlg/Logo/logongangvinhlong214x74_vlg_636838381478241361.png"
+                         src="https://media.vnptit3.vn/resources/portal//Images/VLG/superadminportal.vlg/Logo/logongangvinhlong214x74_vlg_636838381478241361.png"
                          alt="Logo">
                  </a>
                  <!-- End Logo -->

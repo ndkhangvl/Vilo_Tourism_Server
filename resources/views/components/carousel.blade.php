@@ -8,27 +8,27 @@
     <div class="relative h-500 overflow-hidden rounded-lg md:h-500">
         <!-- Item 1 -->
         <div class="hidden duration-700 ease-in-out" data-carousel-item>
-            <img src="https://dulichmedia.dalat.vn//Images/VLG/superadminportal.vlg/Banner/04_637763060841576336.jpg"
+            <img src="https://media.vnptit3.vn/resources/portal//Images/VLG/superadminportal.vlg/Banner/07_637763063413677044.jpg"
                 class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
         </div>
         <!-- Item 2 -->
         <div class="hidden duration-700 ease-in-out" data-carousel-item>
-            <img src="https://dulichmedia.dalat.vn//Images/VLG/superadminportal.vlg/Banner/05_637763058319802509.jpg"
+            <img src="https://media.vnptit3.vn/resources/portal//Images/VLG/superadminportal.vlg/Banner/10_637763073948909411.jpg"
                 class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
         </div>
         <!-- Item 3 -->
         <div class="hidden duration-700 ease-in-out" data-carousel-item>
-            <img src="https://dulichmedia.dalat.vn//Images/VLG/superadminportal.vlg/Banner/06_637763065406705339.jpg"
+            <img src="https://media.vnptit3.vn/resources/portal//Images/VLG/superadminportal.vlg/Banner/02_637763052792625600.jpg"
                 class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
         </div>
         <!-- Item 4 -->
         <div class="hidden duration-700 ease-in-out" data-carousel-item>
-            <img src="https://dulichmedia.dalat.vn//Images/VLG/superadminportal.vlg/Banner/02_637763052792625600.jpg"
+            <img src="https://media.vnptit3.vn/resources/portal//Images/VLG/superadminportal.vlg/Banner/06_637763065406705339.jpg"
                 class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
         </div>
         <!-- Item 5 -->
         <div class="hidden duration-700 ease-in-out" data-carousel-item>
-            <img src="https://dulichmedia.dalat.vn//Images/VLG/superadminportal.vlg/Banner/07_637763063413677044.jpg"
+            <img src="https://media.vnptit3.vn/resources/portal//Images/VLG/superadminportal.vlg/Banner/04_637763060841576336.jpg"
                 class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
         </div>
     </div>

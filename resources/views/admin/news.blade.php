@@ -17,7 +17,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
 
     <!-- CKEDitor -->
-    <script src="https://cdn.ckeditor.com/ckeditor5/39.0.2/classic/ckeditor.js"></script>
+    <script src="https://cdn.ckeditor.com/ckeditor5/40.0.0/classic/ckeditor.js"></script>
 
     <!-- CSS Implementing Plugins -->
     <link rel="stylesheet" href="{{ asset('/../assets/css/vendor.min.css') }}">
@@ -62,7 +62,8 @@
     <!-- ========== MAIN CONTENT ========== -->
     <main id="content" role="main" class="main pointer-event">
         <div class="p-2">
-            <button data-toggle="modal" data-target="#addNewsModal" class="btn btn-primary btn-lg px-3 py-2">
+            <button id="openModalAdd" data-toggle="modal" data-target="#addNewsModal"
+                class="btn btn-primary btn-lg px-3 py-2">
                 <i class="tio-add"></i>
                 Thêm mới
             </button>
@@ -88,7 +89,8 @@
                         @foreach ($vlnews as $vlnew)
                             <tr>
                                 <td class="text-center align-middle">{{ $vlnew->id_new }}</td>
-                                <td class="text-center text-truncate align-middle">{{ $vlnew->title_new }}</td>
+                                <td class="text-center text-truncate align-middle" style="max-width: 200px">
+                                    {{ $vlnew->title_new }}</td>
                                 <td class="text-center text-truncate align-middle" style="max-width: 150px;">
                                     {{ $vlnew->content_new }}</td>
                                 <td class="text-center align-middle">{{ $vlnew->date_post_new }}</td>
@@ -438,7 +440,12 @@
 
             //CKEditor 
             ClassicEditor
-                .create(document.querySelector('#addNewsCKEditor'))
+                .create(document.querySelector('#addNewsCKEditor'), {
+                    contentCss: [
+                        '{{ asset('assets/css/ckeditor-tailwind-reset.css') }}',
+                        // Thêm các đường dẫn CSS khác tại đây nếu cần
+                    ]
+                })
                 .catch(error => {
                     console.error(error);
                 });
@@ -790,6 +797,12 @@
         //         }
         //     });
         // }
+        $('#openModalAdd').click(function() {
+            // Đặt lại giá trị của form
+            $('#addNews')[0].reset();
+            $("#addNewsCKEditor").val("");
+            // Đặt lại CKEditor
+        });
     </script>
 
     <!-- IE Support -->

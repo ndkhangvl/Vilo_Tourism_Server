@@ -6,12 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Chi tiết tin tức</title>
+    <link rel="stylesheet" href="{{ asset('assets/css/ckeditor-tailwind-reset.css') }}">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
-    <script
-        src="
-                                                                                                                                                                                                                                                                                                                                    https://cdn.jsdelivr.net/npm/moment@2.29.4/moment.min.js
-                                                                                                                                                                                                                                                                                                                                    ">
-    </script>
+    <!-- CKEDitor -->
+    <script src="https://cdn.ckeditor.com/ckeditor5/39.0.2/classic/ckeditor.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/moment@2.29.4/moment.min.js"></script>
     @include('/components.constraint')
     <style>
         .devider {
@@ -28,6 +27,10 @@
             height: 400px;
         }
 
+        #main {
+            padding: 1px 100px;
+        }
+
         .distance-tooltip {
             background-color: #fff;
             border: 1px solid #ccc;
@@ -39,30 +42,39 @@
 
 <body>
     @include('/components.header_home')
-    <div class="container pt-6 px-16 mx-auto sm:w-750 md:w-970 lg:w-1170 ">
-        <div class="flex p-2">
+    <div class="p-2 md:container md:pt-6 md:px-16 mx-auto sm:w-750 md:w-970 lg:w-1170 ">
+        <div class="block md:flex p-2 ">
             @foreach ($detail_news as $detail_news)
-                <div class="content w-3/4 pr-2">
+                <div class="content w-full md:w-8/12 pr-2 pb-2">
                     <div class="flex flex-row">
-                        <h1 class="md:text-3xl text-md font-bold">{{ $detail_news->title_new }}</h1>
+                        <h1 class="md:text-3xl text-md font-bold text-justify">{{ $detail_news->title_new }}</h1>
                     </div>
-                    <div class="flex flex-row justify-start">
+                    <div class="flex flex-row justify-start pb-3">
                         <h1>Ngày đăng: <span id="date_post_news" class="mr-2 italic"></span></h1>
                         <h1 class="">Số lượt xem: <span class="italic">{{ $detail_news->view_new }}</span></h1>
                     </div>
-                    <div class="content">
+                    <div class="ck-content text-justify" id="content">
                         {!! $detail_news->content_new !!}
                     </div>
                 </div>
             @endforeach
-            <div class="content border-2 shadow w-1/4">
-                <div class="bg-yellow-500 text-center text-white font-bold">
-                    <h2><i class="fas fa-home pr-2"></i>Tin mới nhất</h2>
+            <div class="content w-full md:w-4/12 md:pl-4" style="align-self: flex-start; top: 0px; position: sticky">
+                <div class="text-black text-left font-bold">
+                    <h2>Tin mới nhất</h2>
                 </div>
-                <div class="p-2">
-                    @foreach ($news_new as $news_new)
-                        <p class="capitalize">{{ $news_new->title_new }}</p>
-                    @endforeach
+                <hr class="mt-2" />
+                <div class="md:p-2">
+                    <ul class="list-disc md:ml-4 md:pl-8 ml-2 pl-4">
+                        @foreach ($news_new as $news_new)
+                            <li class="md:capitalize md:pl-4 text-justify md:mb-2"><a
+                                    class="font-sans text-black text-md leading-5 tracking-wide"
+                                    href="/detailnews/{{ $news_new->id_new }}">{{ $news_new->title_new }}</a>
+                                <p class="text-zinc-400 italic date_post_news_2">
+                                    {{ \Carbon\Carbon::parse($news_new->date_post_new)->format('d/m/Y') }}
+                                </p>
+                            </li>
+                        @endforeach
+                    </ul>
                 </div>
             </div>
         </div>
@@ -71,7 +83,7 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             var formattedDate = moment("{{ $detail_news->date_post_new }}").format('DD/MM/YYYY');
-            console.log(formattedDate);
+            // console.log(formattedDate);
             $("#date_post_news").text(formattedDate);
         });
     </script>

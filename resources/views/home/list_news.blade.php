@@ -35,8 +35,10 @@
                                         class="object-cover w-full h-48">
                                     <div class="block w-full bg-opacity-50 text-black text-left">
                                         <h1 class="xl:text-sm max-sm:text-xs font-bold">{{ $vlnew->title_new }}</h1>
-                                        <h1 class="xl:text-sm max-sm:text-xs text-justify line-clamp-2">
-                                            {!! $vlnew->content_new !!}</h1>
+                                        <div class="line-clamp-2 normal-case prose">
+                                            <h1 class="xl:text-sm max-sm:text-xs text-justify">
+                                                {!! strip_tags($vlnew->content_new, '<p><a><br><ul><li>') !!}
+                                        </div>
                                     </div>
                                 </div>
                             @endforeach
@@ -68,8 +70,10 @@
                                         class="object-cover w-full h-48">
                                     <div class="block w-full bg-opacity-50 text-black text-left">
                                         <h1 class="xl:text-sm max-sm:text-xs font-bold">{{ $vlnew->title_new }}</h1>
-                                        <h1 class="xl:text-sm max-sm:text-xs text-justify line-clamp-2">
-                                            {!! $vlnew->content_new !!}</h1>
+                                        <div class="line-clamp-2 normal-case prose">
+                                            <h1 class="xl:text-sm max-sm:text-xs text-justify">
+                                                {!! strip_tags($vlnew->content_new, '<p><a><br><ul><li>') !!}
+                                        </div>
                                     </div>
                                 </div>
                             @endforeach
@@ -92,8 +96,12 @@
                                 <img src="{{ $vlnew->image_url_new }}" alt="Image" class="object-cover w-full h-48">
                                 <div class="block w-full bg-opacity-50 text-black text-left">
                                     <h1 class="xl:text-sm max-sm:text-xs font-bold">{{ $vlnew->title_new }}</h1>
-                                    <h1 class="xl:text-sm max-sm:text-xs text-justify line-clamp-2">
-                                        {!! $vlnew->content_new !!}</h1>
+                                    <div class="line-clamp-2 normal-case prose">
+                                        <h1 class="xl:text-sm max-sm:text-xs text-justify">
+                                            {!! strip_tags($vlnew->content_new, '<p><a><br><ul><li>') !!}
+                                    </div>
+                                    {{-- <h1 class="xl:text-sm max-sm:text-xs text-justify line-clamp-2">
+                                        {!! $vlnew->content_new !!}</h1> --}}
                                 </div>
                             </div>
                         @endforeach

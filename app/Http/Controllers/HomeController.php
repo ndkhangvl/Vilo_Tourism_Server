@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Http;
+
 
 class HomeController extends Controller
 {
@@ -120,11 +122,63 @@ class HomeController extends Controller
     public function detail_news($id)
     {
         $detail_news = DB::select('select * from VLNews WHERE id_new=?;', [$id]);
-        $news_new = DB::select('select * from VLNews');
+        $news_new = DB::select('SELECT * FROM VLNews ORDER BY date_post_new DESC');
         DB::table('VLNews')->where('id_new', $id)->increment('view_new');
         return view('home.detail_news', [
             'detail_news' => $detail_news,
             'news_new' => $news_new,
         ]);
+    }
+
+    public function getRecommendPlace()
+    {
+        $vlplace = DB::select('select * from VLPlace');
+        return response()->json($vlplace);
+    }
+
+    public function getRecommendRating()
+    {
+        $vlrating = DB::select('select * from VLRating');
+        return response()->json($vlrating);
+    }
+
+    public function getRecommendUser()
+    {
+        $vluser = DB::select('select * from users');
+        return response()->json($vluser);
+    }
+
+    public function recommendPlace(Request $request)
+    {
+        $apiUrl = 'http://127.0.0.1:5000/recommend_tourism';
+
+        $postData = [
+            'id_user' => $request->user()->id,
+
+        ];
+
+        // dd(Http::get('https://jsonplaceholder.typicode.com/posts')->json());
+
+        try {
+            $response = Http::post($apiUrl, $postData);
+            // dd($response->json());
+            // Lấy phản hồi từ API Flask dưới dạng JSON
+            $responseData = $response->json();
+            // $data = json_decode($responseData, true);
+            // $json_data = $response->json_data;
+            // $jsonString = json_encode($responseData, JSON_UNESCAPED_UNICODE);
+            // dd($jsonString);
+            // Phân tích chuỗi JSON thành mảng PHP
+            // dd($responseData);
+            // dd($responseData);
+            // Xử lý phản hồi JSON ở đây
+
+            return view('home.recommend_place', [
+                'responseData' => $responseData,
+            ]);
+        } catch (\Exception $e) {
+            // Xử lý lỗi (nếu có)
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
     }
 }
