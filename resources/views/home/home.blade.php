@@ -7,14 +7,8 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Trang chủ</title>
     @include('/components.constraint')
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css"
-        integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
-        crossorigin="" />
-    <script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js"
-        integrity="sha512-GffPMF3RvMeYyc1LWMHtK8EbPv0iNZ8/oTtHPx9/cc2ILxQ+u905qIwdpULaqDkyBKgOaB57QTMg7ztg8Jm2Og=="
-        crossorigin=""></script>
-    <script src="https://cdn.jsdelivr.net/npm/polyline-encoded@0.0.9/Polyline.encoded.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.8.1/flowbite.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.8.1/flowbite.min.js"></script>
     <style>
         .container {
             width: 100%;
@@ -66,10 +60,10 @@
             <hr class="h-px my-2 bg-gray-200 border-0 dark:bg-gray-700">
             <div class="grid gap-4">
                 <div class="relative">
-                    <a href="/detailnews/{{ $vlnews[0]->id_new }}">
-                        <img src="{{ $vlnews[0]->image_url_new }}" alt="Image" class="w-full h-auto">
+                    <a href="/detailnews/{{ $vlnews[0]->id_news }}">
+                        <img src="{{ $vlnews[0]->image_url_news }}" alt="Image" class="w-full h-auto">
                         <div class="absolute bottom-0 left-0 w-full bg-gray-600 bg-opacity-50 text-white text-center">
-                            <h1 class="xl:text-sm p-4 max-sm:text-xs">{{ $vlnews[0]->title_new }}</h1>
+                            <h1 class="xl:text-sm p-4 max-sm:text-xs">{{ $vlnews[0]->title_news }}</h1>
                         </div>
                     </a>
                 </div>
@@ -77,12 +71,12 @@
                     <div class="grid md:grid-cols-4 grid-cols-2 gap-4">
                         @foreach ($vlnews->slice(1) as $vlnew)
                             <div class="relative">
-                                <a href="/detailnews/{{ $vlnew->id_new }}">
-                                    <img src="{{ $vlnew->image_url_new }}" alt="Image"
+                                <a href="/detailnews/{{ $vlnew->id_news }}">
+                                    <img src="{{ $vlnew->image_url_news }}" alt="Image"
                                         class="object-cover w-full h-full" style="height: 200px;">
                                     <div
                                         class="absolute bottom-0 left-0 w-full bg-gray-600 bg-opacity-50 text-white text-center">
-                                        <h1 class="xl:text-sm p-4 max-sm:text-xs">{{ $vlnew->title_new }}</h1>
+                                        <h1 class="xl:text-sm p-4 max-sm:text-xs">{{ $vlnew->title_news }}</h1>
                                     </div>
                                 </a>
                             </div>
@@ -182,9 +176,10 @@
         var map = L.map('map').setView([10.246602, 105.971673], 11);
         // apikey =
         //     'https://maps.vietmap.vn/api/dm/{z}/{x}/{y}@2x.png?apikey=c3d0f188ff669f89042771a20656579073cffec5a8a69747';
-        L.tileLayer('https://maps.vietmap.vn/tm/{z}/{x}/{y}.png?apikey=c3d0f188ff669f89042771a20656579073cffec5a8a69747', {
-            attribution: '&copy; <a href="https://maps.vietmap.vn/copyright">Vietmap</a> contributors'
-        }).addTo(map);
+        //Open Map
+        // L.tileLayer('https://maps.vietmap.vn/tm/{z}/{x}/{y}.png?apikey=9cbf0bc15d3901b7e043d8f76be8d73f370a82fe629a2d46', {
+        //     attribution: '&copy; <a href="https://maps.vietmap.vn/copyright">Vietmap</a> contributors'
+        // }).addTo(map);
 
         // $(document).ready(function() {
         //     if (navigator.geolocation) {

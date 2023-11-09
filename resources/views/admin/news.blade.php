@@ -88,28 +88,28 @@
                     <tbody>
                         @foreach ($vlnews as $vlnew)
                             <tr>
-                                <td class="text-center align-middle">{{ $vlnew->id_new }}</td>
+                                <td class="text-center align-middle">{{ $vlnew->id_news }}</td>
                                 <td class="text-center text-truncate align-middle" style="max-width: 200px">
-                                    {{ $vlnew->title_new }}</td>
+                                    {{ $vlnew->title_news }}</td>
                                 <td class="text-center text-truncate align-middle" style="max-width: 150px;">
-                                    {{ $vlnew->content_new }}</td>
-                                <td class="text-center align-middle">{{ $vlnew->date_post_new }}</td>
-                                <td class="text-center align-middle">{{ $vlnew->view_new }}</td>
+                                    {{ $vlnew->content_news }}</td>
+                                <td class="text-center align-middle">{{ $vlnew->date_post_news }}</td>
+                                <td class="text-center align-middle">{{ $vlnew->view_news }}</td>
                                 <td class="d-flex align-items-center">
-                                    <a href="/admin/news/detail/{{ $vlnew->id_new }}" class="view flex-grow-1"
+                                    <a href="/admin/news/detail/{{ $vlnew->id_news }}" class="view flex-grow-1"
                                         title="" data-toggle="tooltip" data-original-title="View"
                                         style="margin: 0 1px;" onclick="getDetailNews(event,this)"><i
                                             class="tio-visible-outlined"></i></a>
-                                    <a href="/admin/news/detail/{{ $vlnew->id_new }}" class="edit flex-grow-1"
+                                    <a href="/admin/news/detail/{{ $vlnew->id_news }}" class="edit flex-grow-1"
                                         title="" data-toggle="tooltip" data-original-title="Edit"
-                                        style="margin: 0 1px;" onclick="getEditNews(event,this, {{ $vlnew->id_new }})"
-                                        data-id="{{ $vlnew->id_new }}"><i class="tio-edit text-warning"></i></a>
-                                    <form id="deleteForm-{{ $vlnew->id_new }}"
-                                        action="/admin/news/delete/{{ $vlnew->id_new }}" method="POST">
+                                        style="margin: 0 1px;" onclick="getEditNews(event,this, {{ $vlnew->id_news }})"
+                                        data-id="{{ $vlnew->id_news }}"><i class="tio-edit text-warning"></i></a>
+                                    <form id="deleteForm-{{ $vlnew->id_news }}"
+                                        action="/admin/news/delete/{{ $vlnew->id_news }}" method="POST">
                                         @method('DELETE')
                                         @csrf
                                         <button type="submit" id="submitDel"
-                                            onclick="deleteNews('{{ $vlnew->id_new }}','{{ $vlnew->title_new }}')"
+                                            onclick="deleteNews('{{ $vlnew->id_news }}','{{ $vlnew->title_news }}')"
                                             class="btn btn-link p-0" style="margin: 0 1px;" data-toggle="tooltip"
                                             data-original-title="Delete">
                                             <i class="tio-delete-outlined text-danger"></i>
@@ -494,18 +494,18 @@
                 success: function(response) {
                     // console.log(response);
                     var detailData = response.vlnews[0];
-                    id = detailData.id_new;
-                    nameNews = detailData.title_new;
-                    $('#edit_title_news').val(detailData.title_new);
+                    id = detailData.id_news;
+                    nameNews = detailData.title_news;
+                    $('#edit_title_news').val(detailData.title_news);
 
                     // $('#email_edit_contact_place').val(detailData.email_contact_place);
                     // $('#image_edit_url').val(detailData.image_url);
                     var thumbnailLink = $('.picture-from-firebase');
-                    if (!detailData.image_url_new) {
+                    if (!detailData.image_url_news) {
                         thumbnailLink.hide();
                     } else {
-                        thumbnailLink.attr('href', detailData.image_url_new);
-                        thumbnailLink.find('img').attr('src', detailData.image_url_new);
+                        thumbnailLink.attr('href', detailData.image_url_news);
+                        thumbnailLink.find('img').attr('src', detailData.image_url_news);
                         thumbnailLink.show();
                     }
                     // Gán dữ liệu vào CKEditor
@@ -516,14 +516,14 @@
                             .create(document.querySelector('#editCKeditor'))
                             .then(newEditor => {
                                 myEditorSend = newEditor;
-                                setCKEditorData(detailData.content_new);
+                                setCKEditorData(detailData.content_news);
                             })
                             .catch(error => {
                                 console.error(error);
                             });
                         // console.log(myEditorSend.getData());
                     } else {
-                        setCKEditorData(detailData.content_new);
+                        setCKEditorData(detailData.content_news);
                         // console.log(myEditorSend.getData());
                     }
                     $('#editNewsModal').modal('show');
@@ -551,19 +551,19 @@
 
                     // $('#id_view_price').val(detailData.id_price);
                     // console.log(detailData.id_area);
-                    $('#view_title_news').val(detailData.title_new);
+                    $('#view_title_news').val(detailData.title_news);
                     // $('#address_view_place').val(detailData.address_place);
                     // $('#phone_view_place').val(detailData.phone_place);
                     // $('#start_view_time').val(detailData.start_time);
                     // $('#end_view_time').val(detailData.end_time);
                     // $('#email_view_contact_place').val(detailData.email_contact_place);
-                    $('#showContent').html(detailData.content_new);
+                    $('#showContent').html(detailData.content_news);
                     var thumbnailLinkView = $('.picture-view-from-firebase');
-                    if (!detailData.image_url_new) {
+                    if (!detailData.image_url_news) {
                         thumbnailLinkView.hide();
                     } else {
-                        thumbnailLinkView.attr('href', detailData.image_url_new);
-                        thumbnailLinkView.find('img').attr('src', detailData.image_url_new);
+                        thumbnailLinkView.attr('href', detailData.image_url_news);
+                        thumbnailLinkView.find('img').attr('src', detailData.image_url_news);
                         thumbnailLinkView.show();
                     }
                     // Gán dữ liệu vào CKEditor

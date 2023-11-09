@@ -9,6 +9,6 @@ class VLNews extends Model
 {
     use HasFactory;
     public $table = 'VLNews';
-    public $primaryKey = 'id_new';
+    public $primaryKey = 'id_news';
     public $timestamps = false;
 }

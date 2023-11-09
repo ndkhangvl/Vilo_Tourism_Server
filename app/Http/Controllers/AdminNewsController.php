@@ -21,7 +21,7 @@ class AdminNewsController extends Controller
 
     public function getVLNews($id)
     {
-        $vlnews = DB::select('select * from VLNews where id_new=?', [$id]);
+        $vlnews = DB::select('select * from VLNews where id_news=?', [$id]);
         return response()->json([
             'success' => true,
             'vlnews' => $vlnews,
@@ -83,14 +83,14 @@ class AdminNewsController extends Controller
         // ]);
         // dd($request->all());
         $vlnews = VLNews::findOrFail($id);
-        $vlnews->title_new = $request->edit_title_news;
-        $vlnews->content_new = $request->content_edit_news;
+        $vlnews->title_news = $request->edit_title_news;
+        $vlnews->content_news = $request->content_edit_news;
         // $vlplace->describe_place = $request->describe_edit_place;
-        if ($vlnews->image_url_new == null) {
+        if ($vlnews->image_url_news == null) {
             if ($request->hasFile('image')) {
                 $image = $request->file('image');
 
-                $nonAccentText = Str::slug($request->name_edit_place, '');
+                $nonAccentText = Str::slug($request->edit_title_news, '');
                 $fileName = $nonAccentText . '.' . $image->getClientOriginalExtension();
                 // $cleanedText = preg_replace('/\s+/', '', $nonAccentText);
 
@@ -103,17 +103,17 @@ class AdminNewsController extends Controller
 
                 $imageUrl = $bucket->object($fileName)->signedUrl(new \DateTime('2500-01-01T00:00:00Z'));
 
-                $vlnews->image_url_new = $imageUrl;
+                $vlnews->image_url_news = $imageUrl;
             }
         } else {
             if ($request->hasFile('image')) {
                 $image = $request->file('image');
 
-                $nonAccentText = Str::slug($request->name_edit_place, '');
+                $nonAccentText = Str::slug($request->edit_title_news, '');
                 $fileName = $nonAccentText . '.' . $image->getClientOriginalExtension();
 
                 // dd($vlplace->image_url);
-                $parts = parse_url($vlnews->image_url_new);
+                $parts = parse_url($vlnews->image_url_news);
                 $path = ltrim($parts['path'], '/');
                 $imgNamePicture = basename($path);
                 // dd($imgNamePicture);
@@ -128,7 +128,7 @@ class AdminNewsController extends Controller
 
                 $imageUrl = $bucket->object($fileName)->signedUrl(new \DateTime('2500-01-01T00:00:00Z'));
 
-                $vlnews->image_url_new = $imageUrl;
+                $vlnews->image_url_news = $imageUrl;
             }
         }
 

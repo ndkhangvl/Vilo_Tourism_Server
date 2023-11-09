@@ -8,8 +8,6 @@
     <title>Chi tiết tin tức</title>
     <link rel="stylesheet" href="{{ asset('assets/css/ckeditor-tailwind-reset.css') }}">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
-    <!-- CKEDitor -->
-    <script src="https://cdn.ckeditor.com/ckeditor5/39.0.2/classic/ckeditor.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/moment@2.29.4/moment.min.js"></script>
     @include('/components.constraint')
     <style>
@@ -47,14 +45,14 @@
             @foreach ($detail_news as $detail_news)
                 <div class="content w-full md:w-8/12 pr-2 pb-2">
                     <div class="flex flex-row">
-                        <h1 class="md:text-3xl text-md font-bold text-justify">{{ $detail_news->title_new }}</h1>
+                        <h1 class="md:text-3xl text-md font-bold text-justify">{{ $detail_news->title_news }}</h1>
                     </div>
                     <div class="flex flex-row justify-start pb-3">
                         <h1>Ngày đăng: <span id="date_post_news" class="mr-2 italic"></span></h1>
-                        <h1 class="">Số lượt xem: <span class="italic">{{ $detail_news->view_new }}</span></h1>
+                        <h1 class="">Số lượt xem: <span class="italic">{{ $detail_news->view_news }}</span></h1>
                     </div>
                     <div class="ck-content text-justify" id="content">
-                        {!! $detail_news->content_new !!}
+                        {!! $detail_news->content_news !!}
                     </div>
                 </div>
             @endforeach
@@ -68,9 +66,9 @@
                         @foreach ($news_new as $news_new)
                             <li class="md:capitalize md:pl-4 text-justify md:mb-2"><a
                                     class="font-sans text-black text-md leading-5 tracking-wide"
-                                    href="/detailnews/{{ $news_new->id_new }}">{{ $news_new->title_new }}</a>
+                                    href="/detailnews/{{ $news_new->id_news }}">{{ $news_new->title_news }}</a>
                                 <p class="text-zinc-400 italic date_post_news_2">
-                                    {{ \Carbon\Carbon::parse($news_new->date_post_new)->format('d/m/Y') }}
+                                    {{ \Carbon\Carbon::parse($news_new->date_post_news)->format('d/m/Y') }}
                                 </p>
                             </li>
                         @endforeach
@@ -82,7 +80,7 @@
     @include('/components.footer')
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            var formattedDate = moment("{{ $detail_news->date_post_new }}").format('DD/MM/YYYY');
+            var formattedDate = moment("{{ $detail_news->date_post_news }}").format('DD/MM/YYYY');
             // console.log(formattedDate);
             $("#date_post_news").text(formattedDate);
         });

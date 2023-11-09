@@ -4,3 +4,4 @@
         <a href="https://cit.ctu.edu.vn" class="text-white text-sm hover:underline">CICT</a>
     </div>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/tw-elements/dist/js/tw-elements.umd.min.js"></script>

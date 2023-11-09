@@ -21,23 +21,23 @@
                 <hr class="h-px my-2 bg-gray-200 border-0 dark:bg-gray-700">
                 <div class="grid gap-4">
                     <div class="relative">
-                        <img src="{{ $vlnews[0]->image_url_new }}" alt="Image" class="w-full h-auto">
+                        <img src="{{ $vlnews[0]->image_url_news }}" alt="Image" class="w-full h-auto">
                         <div class="block w-full bg-opacity-50 text-black text-left">
-                            <h1 class="xl:text-sm max-sm:text-xs font-bold">{{ $vlnews[0]->title_new }}</h1>
-                            <h1 class="xl:text-sm max-sm:text-xs text-justify line-clamp-2">{!! $vlnews[0]->content_new !!}</h1>
+                            <h1 class="xl:text-sm max-sm:text-xs font-bold">{{ $vlnews[0]->title_news }}</h1>
+                            <h1 class="xl:text-sm max-sm:text-xs text-justify line-clamp-2">{!! $vlnews[0]->content_news !!}</h1>
                         </div>
                     </div>
                     <div class="pt-2">
                         <div class="grid md:grid-cols-2 grid-cols-1 gap-4">
                             @foreach ($vlnews->slice(1) as $vlnew)
                                 <div class="relative">
-                                    <img src="{{ $vlnew->image_url_new }}" alt="Image"
+                                    <img src="{{ $vlnew->image_url_news }}" alt="Image"
                                         class="object-cover w-full h-48">
                                     <div class="block w-full bg-opacity-50 text-black text-left">
-                                        <h1 class="xl:text-sm max-sm:text-xs font-bold">{{ $vlnew->title_new }}</h1>
+                                        <h1 class="xl:text-sm max-sm:text-xs font-bold">{{ $vlnew->title_news }}</h1>
                                         <div class="line-clamp-2 normal-case prose">
                                             <h1 class="xl:text-sm max-sm:text-xs text-justify">
-                                                {!! strip_tags($vlnew->content_new, '<p><a><br><ul><li>') !!}
+                                                {!! strip_tags($vlnew->content_news, '<p><a><br><ul><li>') !!}
                                         </div>
                                     </div>
                                 </div>
@@ -54,25 +54,25 @@
                 <hr class="h-px my-2 bg-gray-200 border-0 dark:bg-gray-700">
                 <div class="grid gap-4">
                     <div class="relative">
-                        <a href="/detailnews/{{ $vlnews[0]->id_new }}">
-                            <img src="{{ $vlnews[0]->image_url_new }}" alt="Image" class="w-full h-auto">
+                        <a href="/detailnews/{{ $vlnews[0]->id_news }}">
+                            <img src="{{ $vlnews[0]->image_url_news }}" alt="Image" class="w-full h-auto">
                         </a>
                         <div class="block w-full bg-opacity-50 text-black text-left">
-                            <h1 class="xl:text-sm max-sm:text-xs font-bold">{{ $vlnews[0]->title_new }}</h1>
-                            <h1 class="xl:text-sm max-sm:text-xs text-justify line-clamp-2">{!! $vlnews[0]->content_new !!}</h1>
+                            <h1 class="xl:text-sm max-sm:text-xs font-bold">{{ $vlnews[0]->title_news }}</h1>
+                            <h1 class="xl:text-sm max-sm:text-xs text-justify line-clamp-2">{!! $vlnews[0]->content_news !!}</h1>
                         </div>
                     </div>
                     <div class="pt-2">
                         <div class="grid md:grid-cols-2 grid-cols-1 gap-4">
                             @foreach ($vlnews->slice(1) as $vlnew)
                                 <div class="relative">
-                                    <img src="{{ $vlnew->image_url_new }}" alt="Image"
+                                    <img src="{{ $vlnew->image_url_news }}" alt="Image"
                                         class="object-cover w-full h-48">
                                     <div class="block w-full bg-opacity-50 text-black text-left">
-                                        <h1 class="xl:text-sm max-sm:text-xs font-bold">{{ $vlnew->title_new }}</h1>
+                                        <h1 class="xl:text-sm max-sm:text-xs font-bold">{{ $vlnew->title_news }}</h1>
                                         <div class="line-clamp-2 normal-case prose">
                                             <h1 class="xl:text-sm max-sm:text-xs text-justify">
-                                                {!! strip_tags($vlnew->content_new, '<p><a><br><ul><li>') !!}
+                                                {!! strip_tags($vlnew->content_news, '<p><a><br><ul><li>') !!}
                                         </div>
                                     </div>
                                 </div>
@@ -93,12 +93,12 @@
                     <div class="grid md:grid-cols-2 grid-cols-1 gap-4">
                         @foreach ($vlnews->slice(1) as $vlnew)
                             <div class="relative">
-                                <img src="{{ $vlnew->image_url_new }}" alt="Image" class="object-cover w-full h-48">
+                                <img src="{{ $vlnew->image_url_news }}" alt="Image" class="object-cover w-full h-48">
                                 <div class="block w-full bg-opacity-50 text-black text-left">
-                                    <h1 class="xl:text-sm max-sm:text-xs font-bold">{{ $vlnew->title_new }}</h1>
+                                    <h1 class="xl:text-sm max-sm:text-xs font-bold">{{ $vlnew->title_news }}</h1>
                                     <div class="line-clamp-2 normal-case prose">
                                         <h1 class="xl:text-sm max-sm:text-xs text-justify">
-                                            {!! strip_tags($vlnew->content_new, '<p><a><br><ul><li>') !!}
+                                            {!! strip_tags($vlnew->content_news, '<p><a><br><ul><li>') !!}
                                     </div>
                                     {{-- <h1 class="xl:text-sm max-sm:text-xs text-justify line-clamp-2">
                                         {!! $vlnew->content_new !!}</h1> --}}

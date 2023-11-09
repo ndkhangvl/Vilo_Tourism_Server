@@ -26,6 +26,7 @@
             margin-right: auto;
         }
 
+
         #map {
             width: 100%;
             height: 400px;
@@ -42,10 +43,10 @@
 
 <body>
     @include('/components.header_home')
-    <div class="container pt-6 px-16 mx-auto sm:w-750 md:w-970 lg:w-1170 ">
-        <div class="flex p-2">
-            @foreach ($detail_place as $detail_place)
-                <div class="content w-3/4 pr-2">
+    <div class="md:p-2 md:container md:pt-6 md:px-16 mx-auto sm:w-750 md:w-970 lg:w-1170 ">
+        <div class="block md:flex p-2">
+            <div class="content md:w-3/4 w-full pr-2">
+                @foreach ($detail_place as $detail_place)
                     <div class="pb-2 relative">
                         <img class="rounded-t-lg object-containt w-full" style="height:500px"
                             src="{{ $detail_place->image_url }}">
@@ -59,26 +60,26 @@
                         </div>
                         <span class="devider"></span>
                         <div class="grid grid-cols-2 gap-2">
-                            <h1 class="text-xl p-2"><i class="fas fa-map-marker-alt pr-2"
-                                    style="color: #01913d;"></i>Tên địa điểm:
+                            <p class="text-xl p-2"><i class="fas fa-map-marker-alt pr-2" style="color: #01913d;"></i>Tên
+                                địa điểm:
                                 {{ $detail_place->name_place }}
-                            </h1>
-                            <h1 class="text-xl p-2"><i class="fas fa-money-bill pr-2" style="color: #01913d;"></i>Giá:
+                            </p>
+                            <p class="text-xl p-2"><i class="fas fa-money-bill pr-2" style="color: #01913d;"></i>Giá:
                                 @if ($detail_place->id_price == 3000)
                                     <span>Miễn phí</span>
                                 @elseif ($detail_place->id_price == 3001)
                                     <span>Có phí</span>
                                 @endif
-                            </h1>
-                            <h1 class="text-xl p-2"><i class="far fa-clock pr-2" style="color: #01913d;"></i></i>Mở
+                            </p>
+                            <p class="text-xl p-2"><i class="far fa-clock pr-2" style="color: #01913d;"></i></i>Mở
                                 cửa: {{ $detail_place->start_time }}<i class="far fa-clock pr-2 pl-2"
-                                    style="color: #01913d;"></i>Đóng cửa: {{ $detail_place->end_time }}</h1>
-                            <h1 class="text-xl p-2"><i class="fas fa-map-marked pr-2" style="color: #008f3a;"></i>Địa
-                                chỉ: {{ $detail_place->address_place }}</h1>
-                            <h1 class="text-xl p-2"><i class="fas fa-phone-square-alt pr-2"
-                                    style="color: #008f3a;"></i>Liên hệ: {{ $detail_place->phone_place }}</h1>
-                            <h1 class="text-xl p-2"><i class="fas fa-envelope pr-2" style="color: #008f3a;"></i>Email:
-                                {{ $detail_place->email_contact_place }}</h1>
+                                    style="color: #01913d;"></i>Đóng cửa: {{ $detail_place->end_time }}</p>
+                            <p class="text-xl p-2"><i class="fas fa-map-marked pr-2" style="color: #008f3a;"></i>Địa
+                                chỉ: {{ $detail_place->address_place }}</p>
+                            <p class="text-xl p-2"><i class="fas fa-phone-square-alt pr-2"
+                                    style="color: #008f3a;"></i>Liên hệ: {{ $detail_place->phone_place }}</p>
+                            <p class="text-xl p-2"><i class="fas fa-envelope pr-2" style="color: #008f3a;"></i>Email:
+                                {{ $detail_place->email_contact_place }}</p>
                         </div>
                         <div class="p-2">
                             <p class="text-sm italic p-2">{!! $detail_place->describe_place !!}
@@ -88,9 +89,10 @@
                     <div class="center pt-2">
                         <div id="map"></div>
                     </div>
-                </div>
-            @endforeach
-            <div class="content border-2 shadow w-1/4">
+                @endforeach
+            </div>
+            <div class="content border-2 shadow w-full md:w-1/4 pt-2 md:pt-0"
+                style="align-self: flex-start; top: 0px; position: sticky">
                 <div class="bg-yellow-500 text-center text-white font-bold">
                     <h2><i class="fas fa-home pr-2"></i>Địa điểm gần đây</h2>
                 </div>
@@ -117,9 +119,10 @@
         var map = L.map('map').setView([10.246602, 105.971673], 14);
         // apikey =
         //     'https://maps.vietmap.vn/api/dm/{z}/{x}/{y}@2x.png?apikey=c3d0f188ff669f89042771a20656579073cffec5a8a69747';
-        L.tileLayer('https://maps.vietmap.vn/tm/{z}/{x}/{y}.png?apikey=c3d0f188ff669f89042771a20656579073cffec5a8a69747', {
-            attribution: '&copy; <a href="https://maps.vietmap.vn/copyright">Vietmap</a> contributors'
-        }).addTo(map);
+        //Open map
+        // L.tileLayer('https://maps.vietmap.vn/tm/{z}/{x}/{y}.png?apikey=9cbf0bc15d3901b7e043d8f76be8d73f370a82fe629a2d46', {
+        //     attribution: '&copy; <a href="https://maps.vietmap.vn/copyright">Vietmap</a> contributors'
+        // }).addTo(map);
         // console.log($distances);
         $(document).ready(function() {
             if (navigator.geolocation) {

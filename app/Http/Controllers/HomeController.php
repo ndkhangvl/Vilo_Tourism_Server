@@ -121,9 +121,9 @@ class HomeController extends Controller
 
     public function detail_news($id)
     {
-        $detail_news = DB::select('select * from VLNews WHERE id_new=?;', [$id]);
-        $news_new = DB::select('SELECT * FROM VLNews ORDER BY date_post_new DESC');
-        DB::table('VLNews')->where('id_new', $id)->increment('view_new');
+        $detail_news = DB::select('select * from VLNews WHERE id_news=?;', [$id]);
+        $news_new = DB::select('SELECT * FROM VLNews ORDER BY date_post_news DESC');
+        DB::table('VLNews')->where('id_news', $id)->increment('view_news');
         return view('home.detail_news', [
             'detail_news' => $detail_news,
             'news_new' => $news_new,
