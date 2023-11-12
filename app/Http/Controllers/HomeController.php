@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\VLRating;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
@@ -72,6 +73,16 @@ class HomeController extends Controller
         // );
         $fixedLocation = DB::select('select latitude,longitude from VLPlace where id_place=?', [$id]);
         $location = DB::select('EXEC GetAllLocation;');
+        $ratingValue = DB::select('select avg(place_ratings) as rating from VLRating where id_place=?', [$id]);
+        $detailRatingValue = DB::select('SELECT place_ratings, COUNT(*) as count FROM VLRating WHERE id_place = ? GROUP BY place_ratings', [$id]);
+        $listRating = DB::table('VLRating')
+            ->join('users', 'VLRating.id_user', '=', 'users.id')
+            ->select('users.id', 'users.name', 'VLRating.place_ratings')
+            ->where('id_place', $id)
+            ->paginate(10);
+        // dd($ratingValue);
+        // dd($detailRatingValue);
+        // dd($listRating);
         $R = 6371.0;
         $distances = [];
 
@@ -107,6 +118,9 @@ class HomeController extends Controller
         return view('home.detail_place', [
             'detail_place' => $detail_place,
             'distances' => $limitedDistances,
+            'ratingValue' => $ratingValue,
+            'detailRatingValue' => $detailRatingValue,
+            'listRating' => $listRating,
         ]);
     }
 

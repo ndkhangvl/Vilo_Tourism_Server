@@ -31,6 +31,17 @@ class LoginController extends Controller
         }
     }
 
+    function loginCheck()
+    {
+        if (Auth::check()) {
+            return response()->json(['message' => 'Authenticated.']);
+        }
+
+        //dd(session()->all());
+        return response()->json(['message' => 'Unauthenticated.']);
+
+    }
+
     function register(Request $R)
     {
         try {

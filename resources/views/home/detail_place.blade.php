@@ -15,6 +15,11 @@
     <script src="https://cdn.jsdelivr.net/npm/polyline-encoded@0.0.9/Polyline.encoded.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/geolib@3.3.4/lib/index.min.js"></script>
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/rateYo/2.3.2/jquery.rateyo.min.css">
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/rateYo/2.3.2/jquery.rateyo.min.js"></script>
     @include('/components.constraint')
     <style>
         .devider {
@@ -45,7 +50,7 @@
     @include('/components.header_home')
     <div class="md:p-2 md:container md:pt-6 md:px-16 mx-auto sm:w-750 md:w-970 lg:w-1170 ">
         <div class="block md:flex p-2">
-            <div class="content md:w-3/4 w-full pr-2">
+            <div class="content md:w-3/4 w-full md:pr-2">
                 @foreach ($detail_place as $detail_place)
                     <div class="pb-2 relative">
                         <img class="rounded-t-lg object-containt w-full" style="height:500px"
@@ -59,7 +64,7 @@
                             <h3 class="text-xl p-2">Giới thiệu</h3>
                         </div>
                         <span class="devider"></span>
-                        <div class="grid grid-cols-2 gap-2">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
                             <p class="text-xl p-2"><i class="fas fa-map-marker-alt pr-2" style="color: #01913d;"></i>Tên
                                 địa điểm:
                                 {{ $detail_place->name_place }}
@@ -87,15 +92,94 @@
                         </div>
                     </div>
                     <div class="center pt-2">
+                        <div class="text-center font-bold">
+                            <h3 class="text-xl p-2">Bản đồ</h3>
+                        </div>
+                        <span class="devider mb-2"></span>
                         <div id="map"></div>
                     </div>
                 @endforeach
-            </div>
-            <div class="content border-2 shadow w-full md:w-1/4 pt-2 md:pt-0"
-                style="align-self: flex-start; top: 0px; position: sticky">
-                <div class="bg-yellow-500 text-center text-white font-bold">
-                    <h2><i class="fas fa-home pr-2"></i>Địa điểm gần đây</h2>
+                <div class="center pt-2">
+                    <div class="text-center font-bold">
+                        <h3 class="text-xl p-2">Đánh giá địa điểm</h3>
+                    </div>
+                    <span class="devider mb-2"></span>
+                    <div class="rating-box rounded-md shadow">
+                        <div class="grid grid-cols-1 md:grid-cols-3 h-full md:h-56">
+                            {{-- <div id="rateYo" style="height: 50px"></div> --}}
+                            <div class="flex flex-col gap-2 justify-center text-center bg-neutral-100 rounded-l-lg">
+                                <p class="text-2xl font-bold">Đánh giá trung bình</p>
+                                <p class="text-4xl font-serif text-emerald-600 font-bold">
+                                    {{ $ratingValue[0]->rating }}/5</p>
+                                <div class="mx-auto" id="rateYo" data-rating="{{ $ratingValue[0]->rating }}"
+                                    style="height: 50px">
+                                </div>
+                            </div>
+                            <div class="col-span-2 flex flex-col justify-center border">
+                                <ul class="mx-auto">
+                                    <li class="flex">
+                                        <p class="text-xl font-bold pr-20 grow">5
+                                            Sao({{ $detailRatingValue[0]->count }})</p>
+                                        <div id="rateYo1"></div>
+                                    </li>
+                                    <li class="flex">
+                                        <p class="text-xl font-bold pr-20 grow">4
+                                            Sao({{ $detailRatingValue[1]->count }})</p>
+                                        <div id="rateYo2"></div>
+                                    </li>
+                                    <li class="flex">
+                                        <p class="text-xl font-bold pr-20 grow">3
+                                            Sao({{ $detailRatingValue[2]->count }})</p>
+                                        <div id="rateYo3"></div>
+                                    </li>
+                                    <li class="flex">
+                                        <p class="text-xl font-bold pr-20 grow">2
+                                            Sao({{ $detailRatingValue[3]->count }})</p>
+                                        <div id="rateYo4"></div>
+                                    </li>
+                                    <li class="flex">
+                                        <p class="text-xl font-bold pr-20 grow">1
+                                            Sao({{ $detailRatingValue[4]->count }})</p>
+                                        <div id="rateYo5"></div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+                {{-- <div class="border shadow p-2 mt-4 gap-2 table-data" style="height: 600px;">
+                    @foreach ($listRating as $listRatings)
+                        <div class="pb-2">
+                            <p>{{ $listRatings->name }} and {{ $listRatings->place_ratings }}</p>
+                            <div class="listRateYo" data-rating="{{ $listRatings->place_ratings }}"></div>
+                        </div>
+                    @endforeach
+                    <div id="pagination-links" class="d-flex justify-content-center">
+                        {{ $listRating->appends(request()->all())->links() }}
+                    </div>
+                </div> --}}
+                <livewire:list-rating-place :idPlace="$detail_place->id_place" />
+                <div wire:ignore>
+                    <script>
+                        $(function() {
+                            $('.listRateYo').each(function() {
+                                var rating = $(this).data('rating');
+                                $(this).rateYo({
+                                    rating: rating,
+                                    readOnly: true,
+                                    starWidth: "20px"
+                                });
+                            });
+                        });
+                    </script>
+                </div>
+            </div>
+            <div class="content w-full md:w-1/4 pt-2 md:pt-0"
+                style="align-self: flex-start; top: 0px; position: sticky">
+                <div class="text-black text-left font-bold">
+                    <h2>Địa điểm gần đây ({{ count($distances) }})</h2>
+                </div>
+                <hr class="mt-2" />
                 <div class="p-2">
                     @foreach ($distances as $distance)
                         <div class="relative mb-4">
@@ -121,6 +205,9 @@
         //     'https://maps.vietmap.vn/api/dm/{z}/{x}/{y}@2x.png?apikey=c3d0f188ff669f89042771a20656579073cffec5a8a69747';
         //Open map
         // L.tileLayer('https://maps.vietmap.vn/tm/{z}/{x}/{y}.png?apikey=9cbf0bc15d3901b7e043d8f76be8d73f370a82fe629a2d46', {
+        //     attribution: '&copy; <a href="https://maps.vietmap.vn/copyright">Vietmap</a> contributors'
+        // }).addTo(map);
+        // L.tileLayer('https://maps.vietmap.vn/tm/{z}/{x}/{y}.png?apikey=c3d0f188ff669f89042771a20656579073cffec5a8a69747', {
         //     attribution: '&copy; <a href="https://maps.vietmap.vn/copyright">Vietmap</a> contributors'
         // }).addTo(map);
         // console.log($distances);
@@ -221,6 +308,59 @@
             }
         })
     </script>
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/rateYo/2.3.2/jquery.rateyo.min.js"></script>
+    <script>
+        $(function() {
+            $("#rateYo1").rateYo({
+                starWidth: "30px",
+                rating: 5,
+                fullStar: true,
+                readOnly: true,
+            });
+            $("#rateYo2").rateYo({
+                starWidth: "30px",
+                rating: 4,
+                fullStar: true,
+                readOnly: true,
+            });
+            $("#rateYo3").rateYo({
+                starWidth: "30px",
+                rating: 3,
+                fullStar: true,
+                readOnly: true,
+            });
+            $("#rateYo4").rateYo({
+                starWidth: "30px",
+                rating: 2,
+                fullStar: true,
+                readOnly: true,
+            });
+            $("#rateYo5").rateYo({
+                starWidth: "30px",
+                rating: 1,
+                fullStar: true,
+                readOnly: true,
+            });
+            $("#rateYo").rateYo({
+                rating: $("#rateYo").data("rating"),
+                starWidth: "30px",
+                fullStar: true,
+                readOnly: true,
+            });
+        });
+        // $(".listRateYo").each(function() {
+        //     var ratingValue = $(this).data("rating");
+        //     $(this).rateYo({
+        //         starWidth: "20px",
+        //         rating: ratingValue,
+        //         fullStar: true,
+        //         readOnly: true,
+        //         // Các thuộc tính khác nếu cần
+        //     });
+        // });
+    </script>
+    @livewireScripts
 </body>
 
 </html>

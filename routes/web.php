@@ -25,6 +25,7 @@ use Illuminate\Support\Facades\Route;
 //     return view('home.home');
 // });
 
+Route::get('/login-check', [LoginController::class, 'loginCheck']);
 //Index
 Route::get('/', [HomeController::class, 'index']);
 
