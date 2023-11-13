@@ -12,7 +12,7 @@
 <body>
     @include('/components.header_home')
     <div class="container pt-6 px-16 mx-auto sm:w-750 md:w-970 lg:w-1170 ">
-        <div class="grid grid-cols-2 gap-4">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div class="news p-2">
                 <div class="flex justify-between items-end">
                     <h1 class="text-blue-600/100 text-xl font-bold uppercase">Sự kiện</h1>
@@ -21,25 +21,30 @@
                 <hr class="h-px my-2 bg-gray-200 border-0 dark:bg-gray-700">
                 <div class="grid gap-4">
                     <div class="relative">
-                        <img src="{{ $vlnews[0]->image_url_news }}" alt="Image" class="w-full h-auto">
-                        <div class="block w-full bg-opacity-50 text-black text-left">
-                            <h1 class="xl:text-sm max-sm:text-xs font-bold">{{ $vlnews[0]->title_news }}</h1>
-                            <h1 class="xl:text-sm max-sm:text-xs text-justify line-clamp-2">{!! $vlnews[0]->content_news !!}</h1>
-                        </div>
+                        <a href="/detailnews/{{ $vlnews[0]->id_news }}">
+                            <img src="{{ $vlnews[0]->image_url_news }}" alt="Image" class="w-full h-auto">
+                            <div class="block w-full bg-opacity-50 text-black text-left">
+                                <h1 class="xl:text-sm max-sm:text-xs font-bold">{{ $vlnews[0]->title_news }}</h1>
+                                <h1 class="xl:text-sm max-sm:text-xs text-justify line-clamp-2">{!! $vlnews[0]->content_news !!}
+                                </h1>
+                            </div>
+                        </a>
                     </div>
                     <div class="pt-2">
-                        <div class="grid md:grid-cols-2 grid-cols-1 gap-4">
+                        <div class="grid md:grid-cols-1 grid-cols-1 gap-4">
                             @foreach ($vlnews->slice(1) as $vlnew)
-                                <div class="relative">
-                                    <img src="{{ $vlnew->image_url_news }}" alt="Image"
-                                        class="object-cover w-full h-48">
-                                    <div class="block w-full bg-opacity-50 text-black text-left">
-                                        <h1 class="xl:text-sm max-sm:text-xs font-bold">{{ $vlnew->title_news }}</h1>
-                                        <div class="line-clamp-2 normal-case prose">
-                                            <h1 class="xl:text-sm max-sm:text-xs text-justify">
-                                                {!! strip_tags($vlnew->content_news, '<p><a><br><ul><li>') !!}
+                                <div class="md:flex md:flex-row">
+                                    <a href="/detailnews/{{ $vlnew->id_news }}">
+                                        <div class="w-1/2"> <img src="{{ $vlnew->image_url_news }}" alt="Image"
+                                                class="object-cover h-40 w-full"></div>
+                                        <div class="block w-full bg-opacity-50 text-black text-left p-2 w-1/2">
+                                            <h1 class="text-sm md:text-xl font-bold">{{ $vlnew->title_news }}</h1>
+                                            <div class="line-clamp-2 normal-case prose">
+                                                <h1 class="xl:text-sm max-sm:text-xs text-justify">
+                                                    {!! strip_tags($vlnew->content_news, '<p><a><br><ul><li>') !!}
+                                            </div>
                                         </div>
-                                    </div>
+                                    </a>
                                 </div>
                             @endforeach
                         </div>
@@ -91,14 +96,16 @@
             <div class="grid gap-4">
                 <div class="pt-2">
                     <div class="grid md:grid-cols-2 grid-cols-1 gap-4">
-                        @foreach ($vlnews->slice(1) as $vlnew)
+                        @foreach ($most_view_news->slice(1) as $most_view_news)
                             <div class="relative">
-                                <img src="{{ $vlnew->image_url_news }}" alt="Image" class="object-cover w-full h-48">
+                                <img src="{{ $most_view_news->image_url_news }}" alt="Image"
+                                    class="object-cover w-full h-48">
                                 <div class="block w-full bg-opacity-50 text-black text-left">
-                                    <h1 class="xl:text-sm max-sm:text-xs font-bold">{{ $vlnew->title_news }}</h1>
+                                    <h1 class="xl:text-sm max-sm:text-xs font-bold">{{ $most_view_news->title_news }}
+                                    </h1>
                                     <div class="line-clamp-2 normal-case prose">
                                         <h1 class="xl:text-sm max-sm:text-xs text-justify">
-                                            {!! strip_tags($vlnew->content_news, '<p><a><br><ul><li>') !!}
+                                            {!! strip_tags($most_view_news->content_news, '<p><a><br><ul><li>') !!}
                                     </div>
                                     {{-- <h1 class="xl:text-sm max-sm:text-xs text-justify line-clamp-2">
                                         {!! $vlnew->content_new !!}</h1> --}}

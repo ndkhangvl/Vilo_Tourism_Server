@@ -127,9 +127,11 @@ class HomeController extends Controller
     //For News
     public function listNews()
     {
-        $vlnews = DB::table('VLNews')->get();
+        $vlnews = DB::table('VLNews')->take(3)->get();
+        $most_view_news = DB::table('VLNews')->get();
         return view('home.list_news', [
             'vlnews' => $vlnews,
+            'most_view_news' => $most_view_news,
         ]);
     }
 
@@ -194,5 +196,10 @@ class HomeController extends Controller
             // Xử lý lỗi (nếu có)
             return response()->json(['error' => $e->getMessage()], 500);
         }
+    }
+
+    public function ratingPlace(Request $request)
+    {
+        dd($request->all());
     }
 }

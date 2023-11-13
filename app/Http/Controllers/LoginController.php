@@ -71,9 +71,7 @@ class LoginController extends Controller
         ];
 
         if (Auth::attempt($credentials)) {
-            if (auth()->user()->role == 'super_admin') {
-                return redirect('/admin');
-            } else if (auth()->user()->role == 'admin') {
+            if (auth()->user()->role == 'admin') {
                 return redirect('/admin');
             } else {
                 return redirect('/');

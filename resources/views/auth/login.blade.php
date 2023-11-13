@@ -8,6 +8,7 @@
 </head>
 
 <body>
+    @include('/components.header_home')
     <main class="bg-slate-100 min-h-screen flex items-center justify-center p-8 md:p-0">
         <div
             class="bg-white shadow-lg flex flex-col items-center rounded-xl overflow-hidden lg:flex-row lg:w-2/3 2xl:w-1/2">
@@ -55,6 +56,7 @@
         </div>
         </div>
     </main>
+    @include('/components.footer')
 </body>
 
 </html>

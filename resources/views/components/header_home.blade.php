@@ -63,10 +63,10 @@
                     <a class="font-bold text-neutral-500 hover-bounce hover:border-b border-gray-500 focus:text-neutral-700 disabled:text-black/30 dark:text-neutral-200 dark:hover:text-neutral-400 dark:focus:text-neutral-400 lg:px-2 [&.active]:text-black/90 dark:[&.active]:text-neutral-400"
                         aria-current="page" href="/list-place" data-te-nav-link-ref>Điểm đến</a>
                 </li>
-                <li class="my-4 pl-2 lg:my-0 lg:pl-2 lg:pr-1" data-te-nav-item-ref>
+                {{-- <li class="my-4 pl-2 lg:my-0 lg:pl-2 lg:pr-1" data-te-nav-item-ref>
                     <a class="font-bold text-neutral-500 hover-bounce hover:border-b border-gray-500 focus:text-neutral-700 disabled:text-black/30 dark:text-neutral-200 dark:hover:text-neutral-400 dark:focus:text-neutral-400 lg:px-2 [&.active]:text-black/90 dark:[&.active]:text-neutral-400"
                         aria-current="page" href="#" data-te-nav-link-ref>Lịch trình</a>
-                </li>
+                </li> --}}
             </ul>
 
             <div class="flex items-center">

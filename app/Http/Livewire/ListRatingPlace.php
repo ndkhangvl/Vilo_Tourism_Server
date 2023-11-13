@@ -10,15 +10,22 @@ class ListRatingPlace extends Component
 {
     use WithPagination;
     public $idPlace;
+    // protected $paginationTheme = 'tailwincss';
+
+    public function changePage($event)
+    {
+        $this->emit('pageChanged');
+    }
+
 
     public function mount($idPlace)
     {
         $this->idPlace = $idPlace;
     }
 
-    public function updatedPage()
+    public function paginationView()
     {
-        $this->dispatchBrowserEvent('rateYoUpdated');
+        return '/components.pagination-custom';
     }
 
     public function render()
@@ -29,9 +36,10 @@ class ListRatingPlace extends Component
 
         $listRating = DB::table('VLRating')
             ->join('users', 'VLRating.id_user', '=', 'users.id')
-            ->select('users.id', 'users.name', 'VLRating.place_ratings')
+            ->select('users.id', 'users.name', 'VLRating.place_ratings', 'VLRating.date_post_rating')
             ->where('id_place', $this->idPlace)
-            ->paginate(10);
+            ->orderBy('VLRating.date_post_rating', 'desc')
+            ->paginate(5);
         return view('livewire.list-rating-place', compact('listRating'));
     }
 }

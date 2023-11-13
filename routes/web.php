@@ -32,6 +32,8 @@ Route::get('/', [HomeController::class, 'index']);
 //Place
 Route::get('/list-place', [HomeController::class, 'listPlace']);
 Route::get('/detailplace/{id}', [HomeController::class, 'detail_place']);
+//Rating
+Route::post('/rating-place', [HomeController::class, 'ratingPlace']);
 
 //Recommend Place
 Route::get('/recommend-place', [HomeController::class, 'recommendPlace']);

@@ -98,6 +98,15 @@
                         <span class="devider mb-2"></span>
                         <div id="map"></div>
                     </div>
+                    <form method="POST" action="/rating-place" role="form" id="formRating">
+                        @csrf
+                        <div class="form-group">
+                            <input type="" class="form-contrl" name="place_rating" id="place_rating">
+                            <input type="" class="form-contrl" name="id_user" value="{{ Auth::user()->id }}">
+                            <input type="" class="form-contrl" name="id_place"
+                                value="{{ $detail_place->id_place }}">
+                        </div>
+                    </form>
                 @endforeach
                 <div class="center pt-2">
                     <div class="text-center font-bold">
@@ -119,27 +128,27 @@
                                 <ul class="mx-auto">
                                     <li class="flex">
                                         <p class="text-xl font-bold pr-20 grow">5
-                                            Sao({{ $detailRatingValue[0]->count }})</p>
+                                            Sao({{ $detailRatingValue[0]->count ?? 0 }})</p>
                                         <div id="rateYo1"></div>
                                     </li>
                                     <li class="flex">
                                         <p class="text-xl font-bold pr-20 grow">4
-                                            Sao({{ $detailRatingValue[1]->count }})</p>
+                                            Sao({{ $detailRatingValue[1]->count ?? 0 }})</p>
                                         <div id="rateYo2"></div>
                                     </li>
                                     <li class="flex">
                                         <p class="text-xl font-bold pr-20 grow">3
-                                            Sao({{ $detailRatingValue[2]->count }})</p>
+                                            Sao({{ $detailRatingValue[2]->count ?? 0 }})</p>
                                         <div id="rateYo3"></div>
                                     </li>
                                     <li class="flex">
                                         <p class="text-xl font-bold pr-20 grow">2
-                                            Sao({{ $detailRatingValue[3]->count }})</p>
+                                            Sao({{ $detailRatingValue[3]->count ?? 0 }})</p>
                                         <div id="rateYo4"></div>
                                     </li>
                                     <li class="flex">
                                         <p class="text-xl font-bold pr-20 grow">1
-                                            Sao({{ $detailRatingValue[4]->count }})</p>
+                                            Sao({{ $detailRatingValue[4]->count ?? 0 }})</p>
                                         <div id="rateYo5"></div>
                                     </li>
                                 </ul>
@@ -159,20 +168,6 @@
                     </div>
                 </div> --}}
                 <livewire:list-rating-place :idPlace="$detail_place->id_place" />
-                <div wire:ignore>
-                    <script>
-                        $(function() {
-                            $('.listRateYo').each(function() {
-                                var rating = $(this).data('rating');
-                                $(this).rateYo({
-                                    rating: rating,
-                                    readOnly: true,
-                                    starWidth: "20px"
-                                });
-                            });
-                        });
-                    </script>
-                </div>
             </div>
             <div class="content w-full md:w-1/4 pt-2 md:pt-0"
                 style="align-self: flex-start; top: 0px; position: sticky">
@@ -194,6 +189,99 @@
                             </div>
                         </div>
                     @endforeach
+                </div>
+            </div>
+        </div>
+        {{-- Modal Login or Register --}}
+        <div id="loginRegisterModal" class="hidden fixed inset-0 overflow-auto bg-black bg-opacity-50"
+            style="z-index: 1000">
+            <div class="flex items-center justify-center min-h-screen">
+                <div class="bg-white w-full max-w-md rounded-md shadow-lg">
+                    <div class="flex justify-end p-2">
+                        <button type="button" id="closeLoginRegisterModalButton" class=""><i
+                                class="fas fa-times fa-lg" style="width: 20px; heigth: 20px"></i></button>
+                    </div>
+                    <div class="grid grid-cols-2 mt-2">
+                        <button id="showLoginTab"
+                            class="p-2 text-blue-500 focus:outline-none hover:bg-blue-300 hover:text-black">Login</button>
+                        <button id="showRegisterTab"
+                            class="p-2 text-blue-500 focus:outline-none hover:bg-blue-300 hover:text-black">Register</button>
+                    </div>
+                    <div class="p-5">
+                        <div id="loginTab" class="tab-content">
+                            <form method="POST" action="/login">
+                                @csrf
+                                <div class="w-96 bg-white rounded-md">
+                                    {{-- <h1 class="text-3xl block text-center font-semibold"><i class="fa-solid fa-user"></i>
+                                    Login</h1> --}}
+                                    {{-- <hr class="mt-3"> --}}
+                                    <div class="mt-3">
+                                        <label for="username" class="block text-base mb-2">Email
+                                            (<span class="text-rose-600">*</span>)</label>
+                                        <input type="text" id="email"
+                                            class="border w-full text-base px-2 py-1 focus:outline-none focus:ring-0 focus:border-gray-600"
+                                            placeholder="Nhập vào mail..." />
+                                    </div>
+                                    <div class="mt-3">
+                                        <label for="password" class="block text-base mb-2">Mật khẩu (<span
+                                                class="text-rose-600">*</span>)</label></label>
+                                        <input type="password" id="password"
+                                            class="border w-full text-base px-2 py-1 focus:outline-none focus:ring-0 focus:border-gray-600"
+                                            placeholder="Nhập vào mật khẩu..." />
+                                    </div>
+                                    <div class="mt-3 flex justify-between items-center">
+                                        <div>
+                                            <a href="#" class="text-indigo-800 font-semibold">Quên mật khẩu?</a>
+                                        </div>
+                                    </div>
+                                    <div class="flex mt-5">
+                                        <button type="submit"
+                                            class="border-2 border-indigo-700 bg-indigo-700 text-white py-1 w-full rounded-md hover:bg-transparent hover:text-indigo-700 font-semibold"><i
+                                                class="fa-solid fa-right-to-bracket"></i>&nbsp;&nbsp;Đăng nhập</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+
+                        <div id="registerTab" class="tab-content hidden">
+                            {{-- <h1 class="text-2xl font-semibold text-gray-900 mb-4">Register</h1> --}}
+                            <!-- Register form content -->
+                            <form method="POST" action="/register">
+                                @csrf
+                                <div class="w-96 bg-white rounded-md">
+                                    {{-- <h1 class="text-3xl block text-center font-semibold"><i class="fa-solid fa-user"></i>
+                                    Login</h1> --}}
+                                    {{-- <hr class="mt-3"> --}}
+                                    <div class="mt-3">
+                                        <label for="username" class="block text-base mb-2">Tên (<span
+                                                class="text-rose-600">*</span>)</label></label>
+                                        <input type="text" id="name"
+                                            class="border w-full text-base px-2 py-1 focus:outline-none focus:ring-0 focus:border-gray-600"
+                                            placeholder="Nhập vào tên..." />
+                                    </div>
+                                    <div class="mt-3">
+                                        <label for="username" class="block text-base mb-2">Email (<span
+                                                class="text-rose-600">*</span>)</label></label>
+                                        <input type="text" id="email"
+                                            class="border w-full text-base px-2 py-1 focus:outline-none focus:ring-0 focus:border-gray-600"
+                                            placeholder="Nhập vào mail..." />
+                                    </div>
+                                    <div class="mt-3">
+                                        <label for="password" class="block text-base mb-2">Mật khẩu (<span
+                                                class="text-rose-600">*</span>)</label></label>
+                                        <input type="password" id="password"
+                                            class="border w-full text-base px-2 py-1 focus:outline-none focus:ring-0 focus:border-gray-600"
+                                            placeholder="Nhập vào mật khẩu..." />
+                                    </div>
+                                    <div class="flex mt-5">
+                                        <button type="submit"
+                                            class="border-2 border-indigo-700 bg-indigo-700 text-white py-1 w-full rounded-md hover:bg-transparent hover:text-indigo-700 font-semibold"><i
+                                                class="fa-solid fa-right-to-bracket"></i>&nbsp;&nbsp;Đăng ký</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -349,16 +437,33 @@
                 readOnly: true,
             });
         });
-        // $(".listRateYo").each(function() {
-        //     var ratingValue = $(this).data("rating");
-        //     $(this).rateYo({
-        //         starWidth: "20px",
-        //         rating: ratingValue,
-        //         fullStar: true,
-        //         readOnly: true,
-        //         // Các thuộc tính khác nếu cần
-        //     });
-        // });
+
+        document.getElementById('showLoginTab').addEventListener('click', function() {
+            document.getElementById('loginTab').classList.remove('hidden');
+            document.getElementById('registerTab').classList.add('hidden');
+            document.getElementById('showLoginTab').classList.add('border-b-4');
+            document.getElementById('showRegisterTab').classList.remove('border-b-4');
+        });
+
+        document.getElementById('showRegisterTab').addEventListener('click', function() {
+            document.getElementById('loginTab').classList.add('hidden');
+            document.getElementById('registerTab').classList.remove('hidden');
+            document.getElementById('showRegisterTab').classList.add('border-b-4');
+            document.getElementById('showLoginTab').classList.remove('border-b-4');
+        });
+
+        // JavaScript to show and hide the modal
+        document.getElementById('openLoginRegisterModalButton').addEventListener('click', function() {
+            document.getElementById('loginRegisterModal').classList.remove('hidden');
+            document.getElementById('loginTab').classList.remove('hidden');
+            document.getElementById('registerTab').classList.add('hidden');
+            document.getElementById('showLoginTab').classList.add('border-b-4');
+            document.getElementById('showRegisterTab').classList.remove('border-b-4');
+        });
+
+        document.getElementById('closeLoginRegisterModalButton').addEventListener('click', function() {
+            document.getElementById('loginRegisterModal').classList.add('hidden');
+        });
     </script>
     @livewireScripts
 </body>
