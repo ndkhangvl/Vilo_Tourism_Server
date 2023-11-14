@@ -1,7 +1,7 @@
 <div>
     <div class="border shadow p-2 mt-4 gap-2 table-data">
         @if (Auth::check())
-            <div class="mb-4 p-2">
+            <div class="mb-4 p-2" wire:ignore>
                 <label for="username" class="block text-gray-700 text-sm font-bold mb-2">Hãy đánh giá</label>
                 <div class="flex p-2">
                     <div class="l-list-rating">

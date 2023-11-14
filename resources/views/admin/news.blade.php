@@ -144,6 +144,17 @@
                         @csrf
                         <div class="form-row">
                             <div class="form-group col-md-12">
+                                <label for="label_type_title" class="font-weight-bold pr-2">Loại bài:</label>
+                                <div class="flex flex-row flex-nowrap">
+                                    <input type="radio" name="type_news" value="1" class="mr-2"><span
+                                        class="badge badge-soft-success mr-4">Tin tức</span>
+                                    <input type="radio" name="type_news" value="0" class="mr-2">
+                                    <span class="badge badge-soft-primary mr-4">Sự kiện</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-12">
                                 <label for="label_title" class="font-weight-bold">Tên tin tức</label>
                                 <input type="text" name="title_news" id="title_news" class="form-control"
                                     placeholder="Nhập vào tên tin tức" required>
@@ -239,6 +250,17 @@
                         enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
+                        <div class="form-row">
+                            <div class="form-group col-md-12">
+                                <label for="label_type_title" class="font-weight-bold pr-2">Loại bài:</label>
+                                <div class="flex flex-row flex-nowrap">
+                                    <input type="radio" name="type_edit_news" value="1" class="mr-2"><span
+                                        class="badge badge-soft-success mr-4">Tin tức</span>
+                                    <input type="radio" name="type_edit_news" value="0" class="mr-2">
+                                    <span class="badge badge-soft-primary mr-4">Sự kiện</span>
+                                </div>
+                            </div>
+                        </div>
                         <div class="form-row">
                             <div class="form-group col-md-12">
                                 <label for="label_view_title" class="font-weight-bold">Tên tin tức</label>
@@ -497,7 +519,9 @@
                     id = detailData.id_news;
                     nameNews = detailData.title_news;
                     $('#edit_title_news').val(detailData.title_news);
-
+                    $('input[name="type_edit_news"]').filter('[value="' + detailData.id_type_news + '"]').prop(
+                        'checked',
+                        true);
                     // $('#email_edit_contact_place').val(detailData.email_contact_place);
                     // $('#image_edit_url').val(detailData.image_url);
                     var thumbnailLink = $('.picture-from-firebase');

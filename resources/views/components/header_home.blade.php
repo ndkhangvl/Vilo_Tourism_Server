@@ -52,7 +52,7 @@
                 </li>
                 <li class="my-4 pl-2 lg:my-0 lg:pl-2 lg:pr-1" data-te-nav-item-ref>
                     <a class="font-bold text-neutral-500 hover-bounce hover:border-b border-gray-500 focus:text-neutral-700 disabled:text-black/30 dark:text-neutral-200 dark:hover:text-neutral-400 dark:focus:text-neutral-400 lg:px-2 [&.active]:text-black/90 dark:[&.active]:text-neutral-400"
-                        aria-current="page" href="/list-news" data-te-nav-link-ref>Tin tức</a>
+                        aria-current="page" href="/news" data-te-nav-link-ref>Tin tức</a>
                 </li>
                 <li class="my-4 pl-2 lg:my-0 lg:pl-2 lg:pr-1" data-te-nav-item-ref>
                     <a class="font-bold text-neutral-500 hover-bounce hover:border-b border-gray-500 focus:text-neutral-700 disabled:text-black/30 dark:text-neutral-200 dark:hover:text-neutral-400 dark:focus:text-neutral-400 lg:px-2 [&.active]:text-black/90 dark:[&.active]:text-neutral-400"
@@ -69,12 +69,14 @@
                 </li> --}}
             </ul>
 
-            <div class="flex items-center">
+            <div class="flex items-center gap-2">
                 @if (auth()->check())
-                    <p>Welcome, <span class="font-bold" style="color: green;">
+                    <p>Xin chào, <span class="font-bold" style="color: green;">
                             {{ auth()->user()->name }}</span>
                     </p>
-                    <a href="/logout">Đăng xuất</a>
+                    <div class="p-2 border rounded-lg hover:bg-green-500 hover:text-white">
+                        <a href="/logout">Đăng xuất</a>
+                    </div>
                 @else
                     <a href="/login"
                         class="mr-3 inline-block rounded px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-primary transition duration-150 ease-in-out hover:bg-neutral-100 hover:text-primary-600 focus:text-primary-600 focus:outline-none focus:ring-0 active:text-primary-700 motion-reduce:transition-none">

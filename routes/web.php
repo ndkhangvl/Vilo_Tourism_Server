@@ -21,10 +21,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Route::get('/', function () {
-//     return view('home.home');
-// });
-
 Route::get('/login-check', [LoginController::class, 'loginCheck']);
 //Index
 Route::get('/', [HomeController::class, 'index']);
@@ -39,59 +35,29 @@ Route::post('/rating-place', [HomeController::class, 'ratingPlace']);
 Route::get('/recommend-place', [HomeController::class, 'recommendPlace']);
 
 //News
+Route::get('/news', [HomeController::class, 'fullListNews']);
 Route::get('/list-news', [HomeController::class, 'listNews']);
+Route::get('/list-event', [HomeController::class, 'listEvent']);
 Route::get('/detailnews/{id}', [HomeController::class, 'detail_news']);
 
-//Test
-Route::get('/map', function () {
-    return view('home.map');
-});
-
-Route::get('/test', function () {
-    return view('home.test');
-});
-
-Route::get('/routing', function () {
-    return view('home.routing');
-});
 
 Route::get('/introduction', function () {
     return view('home.introduction');
 });
 
-Route::get('/autosearch', function () {
-    return view('home.autosearch');
-});
 
-
+//Auth Project
 // Route::get('/place', [HomeController::class, 'getPlaceAPI']);
 Route::get('/login', [LoginController::class, 'index']);
 Route::get('/register', [LoginController::class, 'register_view']);
 // Route::post('/login/auth', [LoginController::class, 'login']);
+//Login for Modal
 Route::post('/login', [LoginController::class, 'login'])->name('login');
 Route::post('/register', [LoginController::class, 'register']);
-
-Route::get('/image', function () {
-    return view('home.image');
-});
-Route::post('/upload', [ImageController::class, 'upload']);
 
 Route::get('/logout', [LoginController::class, 'logout']);
 
 Route::get('/me', [LoginController::class, 'me']);
-
-// //For Admin Type
-// Route::get('/admin', [AdminController::class, 'index']);
-// //Admin Place
-// Route::get('/admin/place', [AdminPlaceController::class, 'index']);
-// Route::post('/admin/place/add', [AdminPlaceController::class, 'store']);
-// Route::put('/admin/place/edit/{id}', [AdminPlaceController::class, 'update']);
-// Route::get('/admin/place/detail/{id}', [AdminPlaceController::class, 'getVLPlace']);
-// Route::delete('/admin/place/delete/{id}', [AdminPlaceController::class, 'delete']);
-// //Admin News
-// Route::get('/admin/news', [AdminNewsController::class, 'index']);
-// //Admin User
-// Route::get('/admin/users', [AdminUserController::class, 'index']);
 
 Route::middleware(['auth', 'role-check:admin'])->group(function () {
     //For Admin Type

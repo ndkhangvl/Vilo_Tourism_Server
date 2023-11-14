@@ -13,12 +13,17 @@ class HomeController extends Controller
 {
     public function index(Request $request)
     {
-        $vlplaces = DB::table('VLPlace')->take(5)->get();
-        $vlnews = DB::table('VLNews')->take(5)->get();
+        $vlplaces = DB::table('vlplace')
+            ->select('vlplace.*', 'vlr.rating')
+            ->join(DB::raw('(SELECT id_place, AVG(place_ratings) AS rating FROM vlrating GROUP BY id_place) as vlr'), 'vlplace.id_place', '=', 'vlr.id_place')
+            ->orderByRaw('id_place')
+            ->take(5)
+            ->get();
+        $vlnews = DB::table('VLNews')->orderByDesc('date_post_news')->take(5)->get();
         // $vlplacecoordinate = DB::select('Select * from VLPlaceCoordinate');
         // $vlplacecoordinatejson = json_encode($vlplacecoordinate);
         // dd(json_encode($vlplacecoordinate));
-        $vlplacecoordinate = DB::select('select name_place, latitude, longitude from VLPlace');
+        $vlplacecoordinate = DB::select('select name_place, latitude, longitude from VLPlace order by name_place asc;');
 
 
         $customJson = [];
@@ -38,6 +43,7 @@ class HomeController extends Controller
         }
 
         $vlplacecoordinatejson = json_encode($customJson, JSON_UNESCAPED_UNICODE);
+        // dd($customJson);
 
         // dd($vlplacecoordinatejson);
         //dd($vlplaces);
@@ -45,6 +51,7 @@ class HomeController extends Controller
             'vlplaces' => $vlplaces,
             'vlnews' => $vlnews,
             'vlplacecoordinate' => $vlplacecoordinatejson,
+            'vlplacelist' => $customJson,
         ]);
     }
 
@@ -125,13 +132,37 @@ class HomeController extends Controller
     }
 
     //For News
-    public function listNews()
+    public function fullListNews()
     {
-        $vlnews = DB::table('VLNews')->take(3)->get();
-        $most_view_news = DB::table('VLNews')->get();
-        return view('home.list_news', [
+        $vlnews = DB::table('VLNews')->where('id_type_news', 1)->take(3)->get();
+        // dd($vlnews);
+        $vlnews_event = DB::table('VLNews')->where('id_type_news', 0)->take(3)->get();
+        // dd($vlnews_event);
+        $most_view_news = DB::table('VLNews')->orderByDesc('view_news')->take(6)->get();
+        return view('home.full_list_news', [
             'vlnews' => $vlnews,
             'most_view_news' => $most_view_news,
+            'vlnews_event' => $vlnews_event,
+        ]);
+    }
+
+    public function listNews()
+    {
+        $vlnews = DB::table('VLNews')->where('id_type_news', 1)->orderByDesc('date_post_news')->get();
+        $news_new = DB::select('SELECT * FROM VLNews ORDER BY date_post_news DESC');
+        return view('home.list_news', [
+            'vlnews' => $vlnews,
+            'news_new' => $news_new,
+        ]);
+    }
+
+    public function listEvent()
+    {
+        $vlnews_event = DB::table('VLNews')->where('id_type_news', 0)->get();
+        $news_new = DB::select('SELECT * FROM VLNews ORDER BY date_post_news DESC');
+        return view('home.list_event', [
+            'vlnews_event' => $vlnews_event,
+            'news_new' => $news_new,
         ]);
     }
 
@@ -180,12 +211,6 @@ class HomeController extends Controller
             // dd($response->json());
             // Lấy phản hồi từ API Flask dưới dạng JSON
             $responseData = $response->json();
-            // $data = json_decode($responseData, true);
-            // $json_data = $response->json_data;
-            // $jsonString = json_encode($responseData, JSON_UNESCAPED_UNICODE);
-            // dd($jsonString);
-            // Phân tích chuỗi JSON thành mảng PHP
-            // dd($responseData);
             // dd($responseData);
             // Xử lý phản hồi JSON ở đây
 

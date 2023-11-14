@@ -38,10 +38,11 @@ class AdminNewsController extends Controller
 
 
         $vlnews = new VLnews;
-        $vlnews->title_new = $request->title_news;
-        $vlnews->content_new = $request->content_news;
-        $vlnews->date_post_new = Carbon::now();
-        $vlnews->view_new = 0;
+        $vlnews->title_news = $request->title_news;
+        $vlnews->content_news = $request->content_news;
+        $vlnews->id_type_news = $request->type_news;
+        $vlnews->date_post_news = Carbon::now();
+        $vlnews->view_news = 0;
 
         if ($request->hasFile('image')) {
             $image = $request->file('image');
@@ -62,7 +63,7 @@ class AdminNewsController extends Controller
             $imageUrl = $bucket->object($fileName)->signedUrl(new \DateTime('2500-01-01T00:00:00Z'));
 
             // Lưu đường dẫn hình vào SQL Server
-            $vlnews->image_url_new = $imageUrl;
+            $vlnews->image_url_news = $imageUrl;
         }
         // $vlplace->image_url = $imageUrl;
 
@@ -85,6 +86,7 @@ class AdminNewsController extends Controller
         $vlnews = VLNews::findOrFail($id);
         $vlnews->title_news = $request->edit_title_news;
         $vlnews->content_news = $request->content_edit_news;
+        $vlnews->id_type_news = $request->type_edit_news;
         // $vlplace->describe_place = $request->describe_edit_place;
         if ($vlnews->image_url_news == null) {
             if ($request->hasFile('image')) {

@@ -189,8 +189,6 @@
                             <div class="form-group col-md-12">
                                 <label for="label_view_title" class="font-weight-bold pr-2">Vai trò:</label>
                                 <div class="flex flex-row flex-nowrap">
-                                    <input type="radio" name="roleGroup" value="2" class="mr-2"><span
-                                        class="badge badge-soft-danger mr-4">Super Admin</span>
                                     <input type="radio" name="roleGroup" value="1" class="mr-2"><span
                                         class="badge badge-soft-success mr-4">Admin</span>
                                     <input type="radio" name="roleGroup" value="0" class="mr-2">
@@ -555,16 +553,12 @@
                     var roleValue = detailData.role;
                     var viewRoleUser = $('#view_role_user');
 
-                    if (roleValue == 2) {
+                    if (roleValue == 1) {
                         viewRoleUser.removeAttr('class');
-                        viewRoleUser.text('Super Admin');
+                        viewRoleUser.text('Admin');
                         viewRoleUser.addClass('badge badge-soft-danger p-2');
                         // viewRoleUser.removeClass('badge-soft-success');
                         // viewRoleUser.removeClass('badge-soft-primary');
-                    } else if (roleValue == 1) {
-                        viewRoleUser.removeAttr('class');
-                        viewRoleUser.text('Admin');
-                        viewRoleUser.addClass('badge badge-soft-success p-2');
                     } else {
                         viewRoleUser.removeAttr('class');
                         viewRoleUser.text('User');

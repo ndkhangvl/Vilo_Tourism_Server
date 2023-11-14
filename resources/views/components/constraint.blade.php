@@ -11,3 +11,5 @@
 {{-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tw-elements/dist/css/tw-elements.min.css" /> --}}
 <!-- Sweetalrt -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+{{-- <!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/rateYo/2.3.2/jquery.rateyo.min.css"> --}}

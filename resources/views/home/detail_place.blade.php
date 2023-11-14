@@ -18,8 +18,8 @@
 
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/rateYo/2.3.2/jquery.rateyo.min.css">
-    <!-- Latest compiled and minified JavaScript -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/rateYo/2.3.2/jquery.rateyo.min.js"></script>
+    {{-- <!-- Latest compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/rateYo/2.3.2/jquery.rateyo.min.js"></script> --}}
     @include('/components.constraint')
     <style>
         .devider {
@@ -98,15 +98,18 @@
                         <span class="devider mb-2"></span>
                         <div id="map"></div>
                     </div>
-                    <form method="POST" action="/rating-place" role="form" id="formRating">
-                        @csrf
-                        <div class="form-group">
-                            <input type="" class="form-contrl" name="place_rating" id="place_rating">
-                            <input type="" class="form-contrl" name="id_user" value="{{ Auth::user()->id }}">
-                            <input type="" class="form-contrl" name="id_place"
-                                value="{{ $detail_place->id_place }}">
-                        </div>
-                    </form>
+                    {{-- Rating Place Form --}}
+                    @if (Auth::check())
+                        <form method="POST" action="/rating-place" role="form" id="formRating">
+                            @csrf
+                            <div class="form-group">
+                                <input type="hidden" class="form-contrl" name="place_rating" id="place_rating">
+                                <input type="hidden" class="form-contrl" name="id_user" value="{{ Auth::user()->id }}">
+                                <input type="hidden" class="form-contrl" name="id_place"
+                                    value="{{ $detail_place->id_place }}">
+                            </div>
+                        </form>
+                    @endif
                 @endforeach
                 <div class="center pt-2">
                     <div class="text-center font-bold">
@@ -218,14 +221,14 @@
                                     <div class="mt-3">
                                         <label for="username" class="block text-base mb-2">Email
                                             (<span class="text-rose-600">*</span>)</label>
-                                        <input type="text" id="email"
+                                        <input type="text" id="email" name="email"
                                             class="border w-full text-base px-2 py-1 focus:outline-none focus:ring-0 focus:border-gray-600"
                                             placeholder="Nhập vào mail..." />
                                     </div>
                                     <div class="mt-3">
                                         <label for="password" class="block text-base mb-2">Mật khẩu (<span
                                                 class="text-rose-600">*</span>)</label></label>
-                                        <input type="password" id="password"
+                                        <input type="password" id="password" name="password"
                                             class="border w-full text-base px-2 py-1 focus:outline-none focus:ring-0 focus:border-gray-600"
                                             placeholder="Nhập vào mật khẩu..." />
                                     </div>
@@ -255,21 +258,21 @@
                                     <div class="mt-3">
                                         <label for="username" class="block text-base mb-2">Tên (<span
                                                 class="text-rose-600">*</span>)</label></label>
-                                        <input type="text" id="name"
+                                        <input type="text" id="name" name="name"
                                             class="border w-full text-base px-2 py-1 focus:outline-none focus:ring-0 focus:border-gray-600"
                                             placeholder="Nhập vào tên..." />
                                     </div>
                                     <div class="mt-3">
                                         <label for="username" class="block text-base mb-2">Email (<span
                                                 class="text-rose-600">*</span>)</label></label>
-                                        <input type="text" id="email"
+                                        <input type="text" id="email" name="email"
                                             class="border w-full text-base px-2 py-1 focus:outline-none focus:ring-0 focus:border-gray-600"
                                             placeholder="Nhập vào mail..." />
                                     </div>
                                     <div class="mt-3">
                                         <label for="password" class="block text-base mb-2">Mật khẩu (<span
                                                 class="text-rose-600">*</span>)</label></label>
-                                        <input type="password" id="password"
+                                        <input type="password" id="password" name="password"
                                             class="border w-full text-base px-2 py-1 focus:outline-none focus:ring-0 focus:border-gray-600"
                                             placeholder="Nhập vào mật khẩu..." />
                                     </div>

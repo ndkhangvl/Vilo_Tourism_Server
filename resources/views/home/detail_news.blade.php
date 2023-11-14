@@ -8,7 +8,7 @@
     <title>Chi tiết tin tức</title>
     <link rel="stylesheet" href="{{ asset('assets/css/ckeditor-tailwind-reset.css') }}">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/moment@2.29.4/moment.min.js"></script>
+    {{-- <script src="https://cdn.jsdelivr.net/npm/moment@2.29.4/moment.min.js"></script> --}}
     @include('/components.constraint')
     <style>
         .devider {
@@ -48,7 +48,8 @@
                         <h1 class="md:text-3xl text-md font-bold text-justify">{{ $detail_news->title_news }}</h1>
                     </div>
                     <div class="flex flex-row justify-start pb-3">
-                        <h1>Ngày đăng: <span id="date_post_news" class="mr-2 italic"></span></h1>
+                        <h1>Ngày đăng: <span id="date_post_news" class="mr-2 italic">
+                                {{ \Carbon\Carbon::parse($detail_news->date_post_news)->format('d/m/Y') }}</span></h1>
                         <h1 class="">Số lượt xem: <span class="italic">{{ $detail_news->view_news }}</span></h1>
                     </div>
                     <div class="ck-content text-justify" id="content">
@@ -78,11 +79,4 @@
         </div>
     </div>
     @include('/components.footer')
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            var formattedDate = moment("{{ $detail_news->date_post_news }}").format('DD/MM/YYYY');
-            // console.log(formattedDate);
-            $("#date_post_news").text(formattedDate);
-        });
-    </script>
 </body>
