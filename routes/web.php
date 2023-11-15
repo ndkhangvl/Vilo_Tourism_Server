@@ -21,13 +21,17 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+//Information User
+Route::get("/accountprofile", [HomeController::class, "accountProfile"]);
+Route::post("/change-password", [LoginController::class, 'changePassword']);
+Route::post("/change-info", [LoginController::class, 'changeInfo']);
 Route::get('/login-check', [LoginController::class, 'loginCheck']);
 //Index
 Route::get('/', [HomeController::class, 'index']);
 
 //Place
 Route::get('/list-place', [HomeController::class, 'listPlace']);
-Route::get('/detailplace/{id}', [HomeController::class, 'detail_place']);
+Route::get('/detailplace/{id}', [HomeController::class, 'detailPlace']);
 //Rating
 Route::post('/rating-place', [HomeController::class, 'ratingPlace']);
 
@@ -38,7 +42,7 @@ Route::get('/recommend-place', [HomeController::class, 'recommendPlace']);
 Route::get('/news', [HomeController::class, 'fullListNews']);
 Route::get('/list-news', [HomeController::class, 'listNews']);
 Route::get('/list-event', [HomeController::class, 'listEvent']);
-Route::get('/detailnews/{id}', [HomeController::class, 'detail_news']);
+Route::get('/detailnews/{id}', [HomeController::class, 'detailNews']);
 
 
 Route::get('/introduction', function () {
@@ -49,7 +53,7 @@ Route::get('/introduction', function () {
 //Auth Project
 // Route::get('/place', [HomeController::class, 'getPlaceAPI']);
 Route::get('/login', [LoginController::class, 'index']);
-Route::get('/register', [LoginController::class, 'register_view']);
+Route::get('/register', [LoginController::class, 'registerView']);
 // Route::post('/login/auth', [LoginController::class, 'login']);
 //Login for Modal
 Route::post('/login', [LoginController::class, 'login'])->name('login');
@@ -57,8 +61,8 @@ Route::post('/register', [LoginController::class, 'register']);
 
 Route::get('/logout', [LoginController::class, 'logout']);
 
-Route::get('/me', [LoginController::class, 'me']);
 
+//Admin check
 Route::middleware(['auth', 'role-check:admin'])->group(function () {
     //For Admin Type
     Route::get('/admin', [AdminController::class, 'index']);

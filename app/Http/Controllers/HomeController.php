@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Carbon;
 
 
 class HomeController extends Controller
@@ -63,14 +65,18 @@ class HomeController extends Controller
 
     public function listPlace()
     {
-        $vlplace = DB::table('VLPlace')->get();
+        $vlplace = DB::table('vlplace')
+            ->select('vlplace.*', 'vlr.rating')
+            ->join(DB::raw('(SELECT id_place, AVG(place_ratings) AS rating FROM vlrating GROUP BY id_place) as vlr'), 'vlplace.id_place', '=', 'vlr.id_place')
+            ->orderByRaw('id_place')
+            ->get();
         // dd($vlplace);
         return view('home.list_place', [
             'vlplace' => $vlplace,
         ]);
     }
 
-    public function detail_place($id)
+    public function detailPlace($id)
     {
         // $detail_place = DB::select(
         //     "select * from VLPlace where id_place=:id;",
@@ -80,6 +86,15 @@ class HomeController extends Controller
         // );
         $fixedLocation = DB::select('select latitude,longitude from VLPlace where id_place=?', [$id]);
         $location = DB::select('EXEC GetAllLocation;');
+
+        $userReview = DB::select('SELECT * FROM VLRating WHERE id_user = ? AND id_place = ?', [Auth::user()->id, $id]);
+        // dd($userReview);
+        if (count($userReview) > 0) {
+            $userHasReview = true;
+        } else {
+            $userHasReview = false;
+        }
+        // dd($userHasReview);
         $ratingValue = DB::select('select avg(place_ratings) as rating from VLRating where id_place=?', [$id]);
         $detailRatingValue = DB::select('SELECT place_ratings, COUNT(*) as count FROM VLRating WHERE id_place = ? GROUP BY place_ratings', [$id]);
         $listRating = DB::table('VLRating')
@@ -128,6 +143,7 @@ class HomeController extends Controller
             'ratingValue' => $ratingValue,
             'detailRatingValue' => $detailRatingValue,
             'listRating' => $listRating,
+            'userHasReview' => $userHasReview,
         ]);
     }
 
@@ -166,7 +182,7 @@ class HomeController extends Controller
         ]);
     }
 
-    public function detail_news($id)
+    public function detailNews($id)
     {
         $detail_news = DB::select('select * from VLNews WHERE id_news=?;', [$id]);
         $news_new = DB::select('SELECT * FROM VLNews ORDER BY date_post_news DESC');
@@ -225,6 +241,26 @@ class HomeController extends Controller
 
     public function ratingPlace(Request $request)
     {
-        dd($request->all());
+        // dd($request->all());
+        $vlrating = new VLRating();
+        $vlrating->id_user = $request->id_user;
+        $vlrating->id_place = $request->id_place;
+        $vlrating->place_ratings = $request->place_rating;
+        $vlrating->date_post_rating = Carbon::now();
+        $vlrating->save();
+
+        return response()->json([
+            'success' => true,
+            'input' => $request->all()
+        ]);
+    }
+
+    public function accountProfile()
+    {
+        if (Auth::check()) {
+            return view('home.information_user');
+        } else {
+            return view('/');
+        }
     }
 }

@@ -14,9 +14,13 @@ use Illuminate\Support\Facades\Session;
 
 class LoginController extends Controller
 {
-    public function register_view()
+    public function registerView()
     {
-        return view('auth.register');
+        if (Auth::check()) {
+            return redirect('/');
+        } else {
+            return view('auth.register');
+        }
     }
 
     public function index()
@@ -24,7 +28,7 @@ class LoginController extends Controller
         // Xem người dùng đã đăng nhập chưa
         if (Auth::check()) {
             // Người dùng đã đăng nhập
-            return redirect('/home');
+            return redirect('/');
         } else {
             // Người dùng chưa đăng nhập
             return view('auth.login');
@@ -109,9 +113,52 @@ class LoginController extends Controller
 
     }
 
-    public function me(Request $request)
+    public function changePassword(Request $request)
     {
-        return $request->user();
+        $request->validate([
+            'old_password' => 'required|min:6|max:50',
+            'new_password' => 'required|min:6|max:50',
+            'confirm_password' => 'required|same:new_password'
+        ]);
+
+        // dd($request->all());
+
+        $current_user = auth()->user();
+        if (Hash::check($request->old_password, $current_user->password)) {
+            $current_user->update([
+                'password' => bcrypt($request->new_password)
+            ]);
+            return response()->json([
+                'success' => true,
+            ]);
+        } else {
+            return response()->json([
+                'success' => false,
+            ]);
+        }
+    }
+
+    public function changeInfo(Request $request)
+    {
+        $request->validate([
+        ]);
+
+        // dd($request->all());
+
+        $current_user = auth()->user();
+        if ($request->has('name_change') || $request->has('email_change')) {
+            $current_user->update([
+                'name' => $request->name_change,
+                'email' => $request->email_change
+            ]);
+            return response()->json([
+                'success' => true,
+            ]);
+        } else {
+            return response()->json([
+                'success' => false,
+            ]);
+        }
     }
 
     public function logout()

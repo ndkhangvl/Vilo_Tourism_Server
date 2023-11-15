@@ -170,6 +170,50 @@
                         {{ $listRating->appends(request()->all())->links() }}
                     </div>
                 </div> --}}
+                @if (Auth::check())
+                    @if ($userHasReview == true)
+                        <button onclick="expandDiv()"
+                            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4">
+                            Bạn đã sửa rồi bạn có muốn sửa đánh giá
+                        </button>
+                        <div class="h-0 overflow-hidden transition-height duration-300 ease-in-out border p-4"
+                            id="myDiv">
+                            <!-- Nội dung bạn muốn hiển thị trong div -->
+                            <p class="mb-4">This is some content inside the expandable div.</p>
+                        </div>
+                    @else
+                        <div class="mb-4 p-2">
+                            <label for="username" class="block text-gray-700 text-sm font-bold mb-2">Hãy đánh
+                                giá</label>
+                            <div class="flex p-2">
+                                <div class="l-list-rating">
+                                    <div
+                                        class="inline-flex rounded-full bg-slate-300 text-white w-12 h-12 items-center justify-center">
+                                        <span
+                                            class="text-md font-medium">{{ strtoupper(substr(Auth::user()->name, 0, 1)) }}</span>
+                                    </div>
+                                </div>
+                                <div class="r-list-rating ml-5">
+                                    <div class="relative">
+                                        <input type="text" id="username" name="username"
+                                            class="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500">
+
+                                        <div id="rateYo-rating" class="absolute top-0 right-0 left-0 mt-2 mr-2">
+                                            <!-- Your rating widget goes here -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
+                @else
+                    <div>
+                        <button id="openLoginRegisterModalButton"
+                            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                            Open Login Modal
+                        </button>
+                    </div>
+                @endif
                 <livewire:list-rating-place :idPlace="$detail_place->id_place" />
             </div>
             <div class="content w-full md:w-1/4 pt-2 md:pt-0"
@@ -467,6 +511,11 @@
         document.getElementById('closeLoginRegisterModalButton').addEventListener('click', function() {
             document.getElementById('loginRegisterModal').classList.add('hidden');
         });
+
+        function expandDiv() {
+            var div = document.getElementById('myDiv');
+            div.style.height = div.style.height === '0px' ? '200px' : '0px';
+        }
     </script>
     @livewireScripts
 </body>

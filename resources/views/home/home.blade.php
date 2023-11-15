@@ -441,14 +441,6 @@
                 readOnly: true,
             });
         }
-        // $(function() {
-        //     $(".rateYoPlace").rateYo({
-        //         starWidth: "30px",
-        //         rating: 5,
-        //         fullStar: true,
-        //         readOnly: true,
-        //     });
-        // });
     </script>
     <script src="https://cdn.jsdelivr.net/npm/tw-elements/dist/js/tw-elements.umd.min.js"></script>
 </body>
