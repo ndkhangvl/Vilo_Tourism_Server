@@ -17,7 +17,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
 
     <!-- CKEDitor -->
-    <script src="https://cdn.ckeditor.com/ckeditor5/40.0.0/classic/ckeditor.js"></script>
+    <script src="https://cdn.ckeditor.com/ckeditor5/40.1.0/classic/ckeditor.js"></script>
+
 
     <!-- CSS Implementing Plugins -->
     <link rel="stylesheet" href="{{ asset('/../assets/css/vendor.min.css') }}">
@@ -92,7 +93,7 @@
                                 <td class="text-center text-truncate align-middle" style="max-width: 200px">
                                     {{ $vlnew->title_news }}</td>
                                 <td class="text-center text-truncate align-middle" style="max-width: 150px;">
-                                    {{ $vlnew->content_news }}</td>
+                                    {!! strip_tags($vlnew->content_news) !!}</td>
                                 <td class="text-center align-middle">{{ $vlnew->date_post_news }}</td>
                                 <td class="text-center align-middle">{{ $vlnew->view_news }}</td>
                                 <td class="d-flex align-items-center">
@@ -465,12 +466,34 @@
                 .create(document.querySelector('#addNewsCKEditor'), {
                     contentCss: [
                         '{{ asset('assets/css/ckeditor-tailwind-reset.css') }}',
-                        // Thêm các đường dẫn CSS khác tại đây nếu cần
-                    ]
+                        // Add other CSS paths here if needed
+                    ],
+                    toolbar: {
+                        items: [
+                            'heading',
+                            '|',
+                            'bold',
+                            'italic',
+                            'underline',
+                            'alignment:left',
+                            'alignment:right',
+                            'alignment:center',
+                            'alignment:justify',
+                            '|',
+                            'bulletedList',
+                            'numberedList',
+                            '|',
+                            'blockQuote',
+                            '|',
+                            'undo',
+                            'redo'
+                        ]
+                    },
                 })
                 .catch(error => {
-                    console.error(error);
+                    console.error('Error creating editor:', error);
                 });
+
 
             // ClassicEditor
             //     .create(document.querySelector('#editCKeditor'))
@@ -537,7 +560,29 @@
                     // console.log(myEditorSend.setData(detailData.describe_place));
                     if (!myEditorSend) {
                         ClassicEditor
-                            .create(document.querySelector('#editCKeditor'))
+                            .create(document.querySelector('#editCKeditor'), {
+                                toolbar: {
+                                    items: [
+                                        'heading',
+                                        '|',
+                                        'bold',
+                                        'italic',
+                                        'underline',
+                                        'alignment:left',
+                                        'alignment:right',
+                                        'alignment:center',
+                                        'alignment:justify',
+                                        '|',
+                                        'bulletedList',
+                                        'numberedList',
+                                        '|',
+                                        'blockQuote',
+                                        '|',
+                                        'undo',
+                                        'redo'
+                                    ]
+                                },
+                            })
                             .then(newEditor => {
                                 myEditorSend = newEditor;
                                 setCKEditorData(detailData.content_news);

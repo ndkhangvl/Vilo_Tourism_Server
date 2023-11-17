@@ -5,7 +5,6 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     @vite('resources/css/app.css')
-    @include('/components.constraint')
 </head>
 
 <body>
@@ -17,32 +16,26 @@
             <!-- form -->
             <div class="p-6 lg:w-1/2 sm:p-8">
 
-                <h2 class="text-2xl text-center uppercase font-semibold mt-8 mb-6 text-gray-700">Đăng nhập</h2>
+                <h2 class="text-2xl text-center uppercase font-semibold mt-8 mb-6 text-gray-700">Quên mật khẩu</h2>
 
-                <form action="/login" method="POST" class="flex flex-col">
+                <form action="/forgot-pass" method="POST" class="flex flex-col">
                     @csrf
                     <div id="input-field" class="flex flex-col mb-4 relative">
                         <i class="fi fi-rr-envelope absolute top-11 right-5 text-zinc-400"></i>
                         <label for="email" class="mb-2 text-gray-700">Email</label>
-                        <input type="email" name="email" id="email" placeholder="email@gmail.com"
+                        <input type="email" name="forgot_pass" id="forgot_pass" placeholder="email@gmail.com"
                             class="px-4 py-2 border-2 border-slate-300 rounded-md max-w-full focus:border-blue-500 focus:outline-none">
+                        @error('forgot_pass')
+                            <span class="text-danger" id="forgot_pass_error">{{ $message }}</span>
+                        @enderror
                     </div>
-
-                    <div id="input-field" class="flex flex-col relative">
-                        <i class="fi fi-rr-lock absolute top-11 right-5 text-zinc-400"></i>
-                        <label for="Password" class="mb-2 text-gray-700">Mật khẩu</label>
-                        <input type="password" name="password" id="password" placeholder="*********"
-                            class="px-4 py-2 border-2 border-slate-300 rounded-md max-w-full focus:outline-none focus:border-blue-500">
-                    </div>
-                    <a href="/forgot-passwd" class="text-blue-500 font-semibold no-underline text-right">Quên mật
-                        khẩu?</a>
                     <button type="submit"
-                        class="my-6 bg-blue-600 hover:bg-blue-700 text-white font-medium text-lg px-4 py-2 rounded-md">Đăng
-                        nhập</button>
+                        class="my-6 bg-blue-600 hover:bg-blue-700 text-white font-medium text-lg px-4 py-2 rounded-md">Xác
+                        nhận</button>
                 </form>
 
-                <p class="text-gray-500">Bạn không có tài khoản? <a href="/register"
-                        class="text-blue-500 font-semibold no-underline">Đăng kí</a></p>
+                <p class="text-gray-500">Bạn không có tài khoản? <a href="/forgot-passwd"
+                        class="text-blue-500 font-semibold no-underline">Xác nhận</a></p>
 
             </div>
 

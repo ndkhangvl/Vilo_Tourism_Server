@@ -22,9 +22,9 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::get('/place', [APIController::class, 'getPlaceAPI']);
 
-Route::get('/recommend-place', [HomeController::class, 'getRecommendPlace']);
-Route::get('/recommend-rating', [HomeController::class, 'getRecommendRating']);
-Route::get('/recommend-user', [HomeController::class, 'getRecommendUser']);
+Route::get('/recommend-place', [APIController::class, 'getRecommendPlace']);
+Route::get('/recommend-rating', [APIController::class, 'getRecommendRating']);
+Route::get('/recommend-user', [APIController::class, 'getRecommendUser']);
 
 //Recommend Place
-Route::get('/recommend-place', [APIController::class, 'recommendPlace']);
+Route::get('/recommend-lplace', [APIController::class, 'recommendPlace']);

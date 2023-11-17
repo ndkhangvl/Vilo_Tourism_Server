@@ -23,8 +23,10 @@ use Illuminate\Support\Facades\Route;
 
 //Information User
 Route::get("/accountprofile", [HomeController::class, "accountProfile"]);
-Route::post("/change-password", [LoginController::class, 'changePassword']);
-Route::post("/change-info", [LoginController::class, 'changeInfo']);
+Route::post('/change-password', [LoginController::class, 'changePassword']);
+Route::get('/forgot-passwd', [LoginController::class, 'forgotPassword']);
+Route::post('/forgot-pass', [LoginController::class, 'forgotPass']);
+Route::post('/change-info', [LoginController::class, 'changeInfo']);
 Route::get('/login-check', [LoginController::class, 'loginCheck']);
 //Index
 Route::get('/', [HomeController::class, 'index']);
@@ -37,6 +39,7 @@ Route::post('/rating-place', [HomeController::class, 'ratingPlace']);
 
 //Recommend Place
 Route::get('/recommend-place', [HomeController::class, 'recommendPlace']);
+Route::post('/recommend-content', [HomeController::class, 'recommendContent']);
 
 //News
 Route::get('/news', [HomeController::class, 'fullListNews']);

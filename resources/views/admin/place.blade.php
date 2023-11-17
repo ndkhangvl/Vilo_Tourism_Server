@@ -190,15 +190,9 @@
                         </div>
                         <div class="form-row">
                             <div class="form-group col-md-4">
-                                <label for="type_service">Loại dịch vụ</label>
-                                <select id="type_service" class="js-select2-custom custom-select" size="1"
-                                    style="opacity: 0;"
-                                    data-hs-select2-options='{
-          "minimumResultsForSearch": "Infinity"
-        }'>
-                                    <option value="1003">Miễn phí</option>
-                                    <option value="1002">Có phí</option>
-                                </select>
+                                <label for="type_service">Đặc trưng dịch vụ</label>
+                                <input type="text" name="name_type_service" id="name_type_service"
+                                    class="form-control" placeholder="Nhập vào đặc trưng">
                             </div>
                             <div class="form-group col-md-4">
                                 <label for="name_place">Tên địa điểm</label>
@@ -510,15 +504,9 @@
                         </div>
                         <div class="form-row">
                             <div class="form-group col-md-4">
-                                <label for="type_service">Loại dịch vụ</label>
-                                <select id="type_edit_service" class="js-select2-custom custom-select" size="1"
-                                    style="opacity: 0;"
-                                    data-hs-select2-options='{
-          "minimumResultsForSearch": "Infinity"
-        }'>
-                                    <option value="1003">Miễn phí</option>
-                                    <option value="1002">Có phí</option>
-                                </select>
+                                <label for="type_service">Đặc trưng dịch vụ</label>
+                                <input type="text" name="name_edit_type_service" id="name_edit_type_service"
+                                    class="form-control" placeholder="Nhập vào đặc trưng">
                             </div>
                             <div class="form-group col-md-4">
                                 <label for="name_place">Tên địa điểm</label>
@@ -760,7 +748,24 @@
 
             //CKEditor 
             ClassicEditor
-                .create(document.querySelector('#addCKeditor'))
+                .create(document.querySelector('#addCKeditor'), {
+                    toolbar: {
+                        items: [
+                            'heading',
+                            '|',
+                            'bold',
+                            'italic',
+                            '|',
+                            'bulletedList',
+                            'numberedList',
+                            '|',
+                            'blockQuote',
+                            '|',
+                            'undo',
+                            'redo'
+                        ]
+                    },
+                })
                 .catch(error => {
                     console.error(error);
                 });
@@ -1137,7 +1142,24 @@
                     // console.log(myEditorSend.setData(detailData.describe_place));
                     if (!myEditorSend) {
                         ClassicEditor
-                            .create(document.querySelector('#editCKeditor'))
+                            .create(document.querySelector('#editCKeditor'), {
+                                toolbar: {
+                                    items: [
+                                        'heading',
+                                        '|',
+                                        'bold',
+                                        'italic',
+                                        '|',
+                                        'bulletedList',
+                                        'numberedList',
+                                        '|',
+                                        'blockQuote',
+                                        '|',
+                                        'undo',
+                                        'redo'
+                                    ]
+                                },
+                            })
                             .then(newEditor => {
                                 myEditorSend = newEditor;
                                 setCKEditorData(detailData.describe_place);

@@ -13,6 +13,23 @@ class APIController extends Controller
         $vlplace = DB::select('select * from VLPlace');
         return response()->json($vlplace);
     }
+    public function getRecommendPlace()
+    {
+        $vlplace = DB::select('select * from VLPlace');
+        return response()->json($vlplace);
+    }
+
+    public function getRecommendRating()
+    {
+        $vlrating = DB::select('select * from VLRating');
+        return response()->json($vlrating);
+    }
+
+    public function getRecommendUser()
+    {
+        $vluser = DB::select('select * from users');
+        return response()->json($vluser);
+    }
 
     public function recommendPlace(Request $request)
     {

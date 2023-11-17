@@ -36,14 +36,39 @@
     });
     $(function() {
         $("#rateYo-rating").rateYo({
-            starWidth: "30px",
+            starWidth: "40px",
             rating: 0,
             fullStar: true,
+            spacing: "10px",
+
         }).on("rateyo.set", function(e, data) {
             $('#place_rating').val(data.rating);
             $('#formRating').submit();
-        });
+        }).on("rateyo.change", function(e, data) {
+            // Hiển thị văn bản khi rê vào
+            var rating = data.rating;
+            var feedbackText = getFeedbackText(rating);
+
+            // Hiển thị văn bản phản hồi
+            $("#feedbackText").text(feedbackText);
+        });;
     });
+
+    function getFeedbackText(rating) {
+        if (rating == 0) {
+            return "";
+        } else if (rating === 1) {
+            return "Rất không hài lòng 😡";
+        } else if (rating === 2) {
+            return "Không hài lòng 😤";
+        } else if (rating === 3) {
+            return "Bình thường 😑";
+        } else if (rating === 4) {
+            return "Hài lòng 😁";
+        } else {
+            return "Rất hài lòng 🥰";
+        }
+    }
 
     function changeData() {
         // console.log('Change Data Clicked');

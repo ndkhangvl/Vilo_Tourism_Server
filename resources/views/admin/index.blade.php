@@ -57,7 +57,7 @@
                                 </div>
 
                                 <div class="col-6">
-                                    <!-- Chart -->
+                                    {{-- <!-- Chart -->
                                     <div class="chartjs-custom" style="height: 3rem;">
                                         <canvas class="js-chart"
                                             data-hs-chartjs-options='{
@@ -95,7 +95,7 @@
                               }'>
                                         </canvas>
                                     </div>
-                                    <!-- End Chart -->
+                                    <!-- End Chart --> --}}
                                 </div>
                             </div>
                             <!-- End Row -->
@@ -121,7 +121,7 @@
                                 </div>
 
                                 <div class="col-6">
-                                    <!-- Chart -->
+                                    {{-- <!-- Chart -->
                                     <div class="chartjs-custom" style="height: 3rem;">
                                         <canvas class="js-chart"
                                             data-hs-chartjs-options='{
@@ -159,7 +159,7 @@
                               }'>
                                         </canvas>
                                     </div>
-                                    <!-- End Chart -->
+                                    <!-- End Chart --> --}}
                                 </div>
                             </div>
                             <!-- End Row -->
@@ -185,7 +185,7 @@
                                 </div>
 
                                 <div class="col-6">
-                                    <!-- Chart -->
+                                    {{-- <!-- Chart -->
                                     <div class="chartjs-custom" style="height: 3rem;">
                                         <canvas class="js-chart"
                                             data-hs-chartjs-options='{
@@ -223,7 +223,7 @@
                               }'>
                                         </canvas>
                                     </div>
-                                    <!-- End Chart -->
+                                    <!-- End Chart --> --}}
                                 </div>
                             </div>
                             <!-- End Row -->
@@ -241,14 +241,14 @@
                     <!-- Card -->
                     <a class="card card-hover-shadow h-100" href="/admin">
                         <div class="card-body">
-                            <h6 class="card-subtitle">Lượt ghé trang</h6>
+                            <h6 class="card-subtitle">Tổng lượt đánh giá </h6>
 
                             <div class="row align-items-center gx-2 mb-1">
                                 <div class="col-6">
-                                    <span class="card-title h2">92,913</span>
+                                    <span class="card-title h2">{{ $vltotal[0]->RatingCount }}</span>
                                 </div>
 
-                                <div class="col-6">
+                                {{-- <div class="col-6">
                                     <!-- Chart -->
                                     <div class="chartjs-custom" style="height: 3rem;">
                                         <canvas class="js-chart"
@@ -287,21 +287,157 @@
                               }'>
                                         </canvas>
                                     </div>
-                                    <!-- End Chart -->
-                                </div>
+                                    <!-- End Chart --> --}}
                             </div>
-                            <!-- End Row -->
-
-                            {{-- <span class="badge badge-soft-secondary">0.0%</span>
-                            <span class="text-body font-size-sm ml-1">from 2,913</span> --}}
                         </div>
-                    </a>
+                        <!-- End Row -->
+
+                        {{-- <span class="badge badge-soft-secondary">0.0%</span>
+                            <span class="text-body font-size-sm ml-1">from 2,913</span> --}}
+                </div>
+                </a>
+                <!-- End Card -->
+            </div>
+        </div>
+        <!-- End Stats -->
+        </div>
+        {{-- Bar Chart --}}
+        <div class="content container-fluid">
+            <div class="row">
+                <div class="col-lg-8 mb-3 mb-lg-5">
+                    <!-- Card -->
+                    <div class="card h-100">
+                        <!-- Header -->
+                        <div class="card-header">
+                            <h4 class="card-header-title">Thống kê lượt tạo tài khoản</h4>
+
+                            <!-- Daterangepicker -->
+                            {{-- <button id="js-daterangepicker-predefined"
+                                class="btn btn-sm btn-ghost-secondary dropdown-toggle">
+                                <i class="tio-date-range"></i>
+                                <span class="js-daterangepicker-predefined-preview ml-1"></span>
+                            </button> --}}
+                            <!-- End Daterangepicker -->
+                        </div>
+                        <!-- End Header -->
+
+                        <!-- Body -->
+                        <div class="card-body">
+                            <!-- Bar Chart -->
+                            <div class="chartjs-custom">
+                                <canvas class="js-chart" style="height: 15rem;"
+                                    data-hs-chartjs-options='{
+                            "type": "bar",
+                            "data": {
+                              "labels": ["Jan", "Feb", "March", "Apr", "May", "June", "July", "Aug", "Sep", "Oct", "Nov", "Dec"],
+                              "datasets": [{
+                                "data": [{{ implode(', ', $accountcounts) }}],
+                                "backgroundColor": "#377dff",
+                                "hoverBackgroundColor": "#377dff",
+                                "borderColor": "#377dff"
+                              }]
+                            },
+                            "options": {
+                              "scales": {
+                                "yAxes": [{
+                                  "gridLines": {
+                                    "color": "#e7eaf3",
+                                    "drawBorder": false,
+                                    "zeroLineColor": "#e7eaf3"
+                                  },
+                                  "ticks": {
+                                    "beginAtZero": true,
+                                    "stepSize": 100,
+                                    "fontSize": 12,
+                                    "fontColor": "#97a4af",
+                                    "fontFamily": "Open Sans, sans-serif",
+                                    "padding": 10,
+                                    "postfix": ""
+                                  }
+                                }],
+                                "xAxes": [{
+                                  "gridLines": {
+                                    "display": false,
+                                    "drawBorder": false
+                                  },
+                                  "ticks": {
+                                    "fontSize": 12,
+                                    "fontColor": "#97a4af",
+                                    "fontFamily": "Open Sans, sans-serif",
+                                    "padding": 5
+                                  },
+                                  "categoryPercentage": 0.5,
+                                  "maxBarThickness": "10"
+                                }]
+                              },
+                              "cornerRadius": 2,
+                              "tooltips": {
+                                "prefix": "",
+                                "hasIndicator": true,
+                                "mode": "index",
+                                "intersect": false
+                              },
+                              "hover": {
+                                "mode": "nearest",
+                                "intersect": true
+                              }
+                            }
+                          }'></canvas>
+                            </div>
+                            <!-- End Bar Chart -->
+                        </div>
+                        <!-- End Body -->
+                    </div>
+                    <!-- End Card -->
+                </div>
+                <div class="col-lg-4 mb-3 mb-lg-5">
+                    <!-- Card -->
+                    <div class="card h-100">
+                        <!-- Header -->
+                        <div class="card-header">
+                            <h4 class="card-header-title">Địa điểm đánh giá cao<i class="tio-verified text-primary"
+                                    data-toggle="tooltip" data-placement="top"
+                                    title="This report is based on 100% of sessions."></i></h4>
+                            <a class="btn btn-sm btn-ghost-secondary" href="/admin/news">View all</a>
+                        </div>
+                        <!-- End Header -->
+
+                        <!-- Body -->
+                        <div class="card-body">
+                            <div class="list-group list-group-lg list-group-flush list-group-no-gutters">
+                                <!-- List Item -->
+                                @foreach ($places as $places)
+                                    <div class="list-group-item">
+                                        <div class="media align-items-center">
+                                            {{-- <img class="avatar avatar-xss avatar-circle mr-2"
+                                                src="assets\vendor\flag-icon-css\flags\1x1\us.svg" alt="Flag"> --}}
+
+                                            <div class="media-body">
+                                                <div class="row align-items-center">
+                                                    <div class="col">
+                                                        <span class="d-block">{{ $places->name_place }}</span>
+                                                    </div>
+
+                                                    <div class="col-auto">
+                                                        <h5>{{ $places->rating }}⭐</h5>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endforeach
+                                <!-- End List Item -->
+                            </div>
+                        </div>
+                        <!-- End Body -->
+                    </div>
                     <!-- End Card -->
                 </div>
             </div>
-            <!-- End Stats -->
+            <!-- End Row -->
         </div>
     </main>
+
 
     <!-- ========== END MAIN CONTENT ========== -->
 
@@ -433,8 +569,8 @@
     <!-- End Modal -->
 
     <!-- JS Implementing Plugins -->
-    <script src="assets\js\vendor.min.js"></script>
-    <script src="assets\vendor\chart.js\dist\Chart.min.js"></script>
+    <script src="\..\assets\js\vendor.min.js"></script>
+    <script src="\..\assets\vendor\chart.js\dist\Chart.min.js"></script>
     <script src="assets\vendor\chart.js.extensions\chartjs-extensions.js"></script>
     <script src="assets\vendor\chartjs-plugin-datalabels\dist\chartjs-plugin-datalabels.min.js"></script>
     <script src="../node_modules/select2/dist/js/select2.full.min.js"></script>
@@ -543,6 +679,11 @@
                 // var select2 = $(this).select2();
             });
 
+            // INITIALIZATION OF CHARTJS
+            // =======================================================
+            $('.js-chart').each(function() {
+                $.HSCore.components.HSChartJS.init($(this));
+            });
 
             // INITIALIZATION OF DATATABLES
             // =======================================================

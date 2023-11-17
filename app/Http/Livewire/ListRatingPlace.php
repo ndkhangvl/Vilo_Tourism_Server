@@ -40,6 +40,7 @@ class ListRatingPlace extends Component
             ->where('id_place', $this->idPlace)
             ->orderBy('VLRating.date_post_rating', 'desc')
             ->paginate(5);
+        $this->emit('renderedPlace');
         return view('livewire.list-rating-place', compact('listRating'));
     }
 }

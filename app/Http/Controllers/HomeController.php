@@ -86,8 +86,11 @@ class HomeController extends Controller
         // );
         $fixedLocation = DB::select('select latitude,longitude from VLPlace where id_place=?', [$id]);
         $location = DB::select('EXEC GetAllLocation;');
-
-        $userReview = DB::select('SELECT * FROM VLRating WHERE id_user = ? AND id_place = ?', [Auth::user()->id, $id]);
+        if (Auth::check()) {
+            $userReview = DB::select('SELECT * FROM VLRating WHERE id_user = ? AND id_place = ?', [Auth::user()->id, $id]);
+        } else {
+            $userReview = [];
+        }
         // dd($userReview);
         if (count($userReview) > 0) {
             $userHasReview = true;
@@ -193,46 +196,67 @@ class HomeController extends Controller
         ]);
     }
 
-    public function getRecommendPlace()
-    {
-        $vlplace = DB::select('select * from VLPlace');
-        return response()->json($vlplace);
-    }
-
-    public function getRecommendRating()
-    {
-        $vlrating = DB::select('select * from VLRating');
-        return response()->json($vlrating);
-    }
-
-    public function getRecommendUser()
-    {
-        $vluser = DB::select('select * from users');
-        return response()->json($vluser);
-    }
-
     public function recommendPlace(Request $request)
     {
         $apiUrl = 'http://127.0.0.1:5000/recommend_tourism';
 
-        $postData = [
-            'id_user' => $request->user()->id,
+        if (Auth::check()) {
+            $postData = [
+                'id_user' => Auth::user()->id,
+            ];
 
-        ];
+            try {
+                $response = Http::post($apiUrl, $postData);
 
-        // dd(Http::get('https://jsonplaceholder.typicode.com/posts')->json());
+                // Lấy phản hồi từ API Flask dưới dạng JSON
+                $responseData = $response->json();
 
+                // Xử lý phản hồi JSON ở đây
+
+                return view('home.recommend_place', [
+                    'responseData' => $responseData,
+                ]);
+            } catch (\Exception $e) {
+                // Xử lý lỗi (nếu có)
+                return response()->json(['error' => $e->getMessage()], 500);
+            }
+        } else {
+            return view('auth.login');
+        }
+    }
+
+    public function recommendContent(Request $request)
+    {
+        // dd($request->all());
+        // Lấy các giá trị từ request
+        $token = $request->input('_token');
+        $history = $request->input('history');
+        $landscape = $request->input('landscape');
+        $view = $request->input('view');
+        $chua = $request->input('chua');
+        $tuongdai = $request->input('tuongdai');
+        $khust = $request->input('khust');
+
+        // Tạo mảng hashtags từ các giá trị cần chuyển đổi
+        $hashtags = [$history, $landscape, $view, $chua, $tuongdai, $khust];
+
+        // Loại bỏ các giá trị null hoặc trống từ mảng hashtags
+        $hashtags = array_filter($hashtags, function ($value) {
+            return !is_null($value) && $value !== '';
+        });
+
+        $newData = ['hashtags' => array_values($hashtags)];
+        $jdonDecode = json_encode($hashtags);
+        $apiUrl = 'http://127.0.0.1:5000/recommend';
         try {
-            $response = Http::post($apiUrl, $postData);
-            // dd($response->json());
+            $response = Http::get($apiUrl, $newData);
+
             // Lấy phản hồi từ API Flask dưới dạng JSON
-            $responseData = $response->json();
+            $responseData2 = $response->json();
             // dd($responseData);
             // Xử lý phản hồi JSON ở đây
 
-            return view('home.recommend_place', [
-                'responseData' => $responseData,
-            ]);
+            return response()->json(['responseData2' => $responseData2]);
         } catch (\Exception $e) {
             // Xử lý lỗi (nếu có)
             return response()->json(['error' => $e->getMessage()], 500);

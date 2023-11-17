@@ -10,6 +10,9 @@ use Illuminate\Support\Facades\Auth;
 // use Kreait\Firebase\ServiceAccount;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\ForgotPasswordMail;
+use Illuminate\Support\Str;
 
 
 class LoginController extends Controller
@@ -21,6 +24,16 @@ class LoginController extends Controller
         } else {
             return view('auth.register');
         }
+    }
+
+    public function forgotPassword(Request $request)
+    {
+        if (Auth::check()) {
+            return redirect('/');
+        } else {
+            return view('auth.forgot_passwd');
+        }
+
     }
 
     public function index()
@@ -165,6 +178,31 @@ class LoginController extends Controller
     {
         Auth::logout();
         return redirect('/');
+    }
+
+    public function forgotPass(Request $request)
+    {
+        $request->validate([
+            'forgot_pass' => 'required'
+
+        ], [
+            'forgot_pass.required' => 'Vui lòng nhập email.'
+        ]);
+
+
+        $user = User::where('email', '=', $request->forgot_pass)->first();
+        if (!$user) {
+            return back()->with('fail', 'Tài khoản không tồn tại với thông tin email.');
+        } else {
+            $newpass = Str::random(8);
+            User::where('email', $request->forgot_pass)
+                ->update([
+                    'password' => $newpass,
+                ]);
+            $user_after = User::where('email', '=', $request->forgot_pass)->first();
+            Mail::to($request->forgot_pass)->send(new ForgotPasswordMail($user_after));
+        }
+        return redirect('/login');
     }
 }
 

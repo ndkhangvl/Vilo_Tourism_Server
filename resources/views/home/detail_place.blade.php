@@ -170,50 +170,54 @@
                         {{ $listRating->appends(request()->all())->links() }}
                     </div>
                 </div> --}}
-                @if (Auth::check())
-                    @if ($userHasReview == true)
-                        <button onclick="expandDiv()"
+                <div class="pt-2">
+                    @if (Auth::check())
+                        @if ($userHasReview == true)
+                            {{-- <button onclick="expandDiv()"
                             class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4">
                             Bạn đã sửa rồi bạn có muốn sửa đánh giá
-                        </button>
-                        <div class="h-0 overflow-hidden transition-height duration-300 ease-in-out border p-4"
-                            id="myDiv">
-                            <!-- Nội dung bạn muốn hiển thị trong div -->
-                            <p class="mb-4">This is some content inside the expandable div.</p>
-                        </div>
-                    @else
-                        <div class="mb-4 p-2">
-                            <label for="username" class="block text-gray-700 text-sm font-bold mb-2">Hãy đánh
-                                giá</label>
-                            <div class="flex p-2">
-                                <div class="l-list-rating">
-                                    <div
-                                        class="inline-flex rounded-full bg-slate-300 text-white w-12 h-12 items-center justify-center">
-                                        <span
-                                            class="text-md font-medium">{{ strtoupper(substr(Auth::user()->name, 0, 1)) }}</span>
+                        </button> --}}
+                            <div class="border p-4" id="myDiv">
+                                <!-- Nội dung bạn muốn hiển thị trong div -->
+                                <p class="mb-4 text-xl text-green-700 font-bold italic">Bạn đã đánh giá địa điểm này
+                                    rồi</p>
+                            </div>
+                        @else
+                            <div class="mb-4 p-2">
+                                <label for="username" class="block text-gray-700 text-sm font-bold mb-2">Hãy đánh
+                                    giá</label>
+                                <div class="flex p-2">
+                                    <div class="l-list-rating">
+                                        <div
+                                            class="inline-flex rounded-full bg-slate-300 text-white w-12 h-12 items-center justify-center">
+                                            <span
+                                                class="text-md font-medium">{{ strtoupper(substr(Auth::user()->name, 0, 1)) }}</span>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="r-list-rating ml-5">
-                                    <div class="relative">
-                                        <input type="text" id="username" name="username"
-                                            class="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500">
+                                    <div class="w-full ml-5">
+                                        <div class="relative border shadow">
+                                            <div id="feedbackText" class="text-center text-2xl italic font-bold">
+                                            </div>
+                                            {{-- <input type="text" id="username" name="username"
+                                                class="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500"> --}}
 
-                                        <div id="rateYo-rating" class="absolute top-0 right-0 left-0 mt-2 mr-2">
-                                            <!-- Your rating widget goes here -->
+                                            <div id="rateYo-rating" class="mt-2 mx-auto mb-2">
+                                                <!-- Your rating widget goes here -->
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+                        @endif
+                    @else
+                        <div>
+                            <button id="openLoginRegisterModalButton"
+                                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                                Open Login Modal
+                            </button>
                         </div>
                     @endif
-                @else
-                    <div>
-                        <button id="openLoginRegisterModalButton"
-                            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                            Open Login Modal
-                        </button>
-                    </div>
-                @endif
+                </div>
                 <livewire:list-rating-place :idPlace="$detail_place->id_place" />
             </div>
             <div class="content w-full md:w-1/4 pt-2 md:pt-0"
@@ -339,9 +343,9 @@
         // apikey =
         //     'https://maps.vietmap.vn/api/dm/{z}/{x}/{y}@2x.png?apikey=c3d0f188ff669f89042771a20656579073cffec5a8a69747';
         //Open map
-        // L.tileLayer('https://maps.vietmap.vn/tm/{z}/{x}/{y}.png?apikey=9cbf0bc15d3901b7e043d8f76be8d73f370a82fe629a2d46', {
-        //     attribution: '&copy; <a href="https://maps.vietmap.vn/copyright">Vietmap</a> contributors'
-        // }).addTo(map);
+        L.tileLayer('https://maps.vietmap.vn/tm/{z}/{x}/{y}.png?apikey=9cbf0bc15d3901b7e043d8f76be8d73f370a82fe629a2d46', {
+            attribution: '&copy; <a href="https://maps.vietmap.vn/copyright">Vietmap</a> contributors'
+        }).addTo(map);
         // L.tileLayer('https://maps.vietmap.vn/tm/{z}/{x}/{y}.png?apikey=c3d0f188ff669f89042771a20656579073cffec5a8a69747', {
         //     attribution: '&copy; <a href="https://maps.vietmap.vn/copyright">Vietmap</a> contributors'
         // }).addTo(map);
@@ -485,6 +489,96 @@
             });
         });
 
+        //Ajax for Rating Place
+        $(document).ready(function() {
+            $(document).on('submit', '#formRating', function(event) {
+                event.preventDefault();
+                var csrfToken = $('input[name="_token"]').val();
+                // Lấy dữ liệu từ form
+                var formData = new FormData(this);
+                // var ckEditorData = myEditorSend.getData();
+                // formData.append('describe_edit_place', ckEditorData);
+                Swal.fire({
+                    title: 'Bạn muốn đánh giá địa điểm này?',
+                    // text: "Thông tin địa điểm " + $('#name_edit_place').val() +
+                    //     " sẽ được chỉnh sửa!",
+                    icon: 'info',
+                    showCancelButton: true,
+                    confirmButtonColor: '#35A745',
+                    cancelButtonColor: '#6c757d',
+                    confirmButtonText: 'Xác nhận',
+                    cancelButtonText: 'Hủy'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        Swal.fire({
+                            title: 'Đang xử lý...',
+                            allowOutsideClick: false,
+                            allowEscapeKey: false,
+                            allowEnterKey: false,
+                            onBeforeOpen: () => {
+                                Swal.showLoading();
+                            },
+                            onClose: () => {
+                                Swal.hideLoading();
+                            }
+                        });
+                        $.ajax({
+                            url: '/rating-place',
+                            data: formData,
+                            type: 'POST',
+                            enctype: 'multipart/form-data',
+                            processData: false,
+                            contentType: false,
+                            beforeSend: function() {
+                                Swal.showLoading();
+                            },
+                            headers: {
+                                'X-CSRF-TOKEN': csrfToken
+                            },
+                            success: function(response) {
+                                Swal.close();
+                                if (response.success) {
+                                    Swal.fire({
+                                        icon: 'success',
+                                        title: 'Thành công!',
+                                        text: 'Đánh giá địa điểm thành công'
+                                    }).then(() => {
+                                        location.reload();
+                                    });
+                                } else {
+                                    Swal.fire({
+                                        icon: 'error',
+                                        title: 'Không thể thêm địa điểm!',
+                                        text: 'Đã xảy ra lỗi, vui lòng kiểm tra lại.'
+                                    });
+                                }
+                            },
+                            error: function(xhr) {
+                                Swal.close();
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Lỗi!',
+                                    text: 'Có lỗi xảy ra trong quá trình xử lý, vui lòng thực hiện lại sau'
+                                });
+                                if (xhr.status === 422) {
+                                    $('.invalid-feedback').empty();
+                                    var response = JSON.parse(xhr.responseText);
+                                    var errors = response.errors;
+                                    for (var field in errors) {
+                                        if (errors.hasOwnProperty(field)) {
+                                            var errorMessage = errors[field][0];
+                                            $('#' + field + '_error').text(errorMessage)
+                                                .show();
+                                        }
+                                    }
+                                }
+                            }
+                        });
+                    }
+                });
+            });
+        });
+
         document.getElementById('showLoginTab').addEventListener('click', function() {
             document.getElementById('loginTab').classList.remove('hidden');
             document.getElementById('registerTab').classList.add('hidden');
@@ -511,11 +605,6 @@
         document.getElementById('closeLoginRegisterModalButton').addEventListener('click', function() {
             document.getElementById('loginRegisterModal').classList.add('hidden');
         });
-
-        function expandDiv() {
-            var div = document.getElementById('myDiv');
-            div.style.height = div.style.height === '0px' ? '200px' : '0px';
-        }
     </script>
     @livewireScripts
 </body>
