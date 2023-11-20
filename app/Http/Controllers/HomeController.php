@@ -236,6 +236,7 @@ class HomeController extends Controller
         $chua = $request->input('chua');
         $tuongdai = $request->input('tuongdai');
         $khust = $request->input('khust');
+        // dd($request->all());
 
         // Tạo mảng hashtags từ các giá trị cần chuyển đổi
         $hashtags = [$history, $landscape, $view, $chua, $tuongdai, $khust];
@@ -249,7 +250,7 @@ class HomeController extends Controller
         $jdonDecode = json_encode($hashtags);
         $apiUrl = 'http://127.0.0.1:5000/recommend';
         try {
-            $response = Http::get($apiUrl, $newData);
+            $response = Http::post($apiUrl, $newData);
 
             // Lấy phản hồi từ API Flask dưới dạng JSON
             $responseData2 = $response->json();

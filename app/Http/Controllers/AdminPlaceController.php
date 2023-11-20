@@ -57,13 +57,16 @@ class AdminPlaceController extends Controller
             'email_contact_place.email' => 'Định dạng email không đúng',
             'describe_place.required' => 'Trường mô tả địa điểm là bắt buộc.',
         ]);
-
+        $convert_name_type_service = implode('|', $request->name_type_service);
+        // dd($request->all());]
+        // dd($request->name_place);
+        // dd($convert_name_type_service);
         $vlplace = new VLPlace;
         $vlplace->id_area = $request->id_area;
-        $vlplace->id_service = $request->id_service;
         $vlplace->id_price = $request->id_price;
         $vlplace->id_type = $request->id_type;
         $vlplace->name_place = $request->name_place;
+        $vlplace->feature_place = $convert_name_type_service;
         $vlplace->address_place = $request->address_place;
         $vlplace->start_time = $request->start_time;
         $vlplace->end_time = $request->end_time;
@@ -138,13 +141,14 @@ class AdminPlaceController extends Controller
         //             'longitude' => $request->longitude_place
         //         ]);
         // }
-
+        $convert_name_type_service = implode('|', $request->name_edit_type_service);
         $vlplace = VLPlace::findOrFail($id);
         $vlplace->id_area = $request->id_edit_area;
         $vlplace->id_price = $request->id_edit_price;
         $vlplace->id_type = $request->id_edit_type;
         $vlplace->name_place = $request->name_edit_place;
         $vlplace->address_place = $request->address_edit_place;
+        $vlplace->feature_place = $convert_name_type_service;
         $vlplace->start_time = $request->start_edit_time;
         $vlplace->end_time = $request->end_edit_time;
         $vlplace->latitude = $request->edit_latitude_place;

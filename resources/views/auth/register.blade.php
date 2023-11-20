@@ -39,7 +39,7 @@
 
                     <div id="input-field" class="flex flex-col relative">
                         <i class="fi fi-rr-lock absolute top-11 right-5 text-zinc-400"></i>
-                        <label for="Password" class="mb-2 text-gray-700">Mật khậu (<span
+                        <label for="Password" class="mb-2 text-gray-700">Mật khẩu (<span
                                 class="text-red-500">*</span>)</label>
                         <input type="password" name="password" id="password"
                             class="px-4 py-2 border-2 border-slate-300 rounded-md max-w-full focus:outline-none focus:border-blue-500">
@@ -47,7 +47,7 @@
 
                     <button
                         class="my-6 bg-blue-600 hover:bg-blue-700 text-white font-medium text-lg px-4 py-2 rounded-md">Đăng
-                        nhập</button>
+                        ký</button>
                 </form>
 
                 <p class="text-gray-500">Bạn có tài khoản? <a href="/login"

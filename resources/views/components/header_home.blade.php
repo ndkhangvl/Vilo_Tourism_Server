@@ -56,7 +56,7 @@
                 </li>
                 <li class="my-4 pl-2 lg:my-0 lg:pl-2 lg:pr-1" data-te-nav-item-ref>
                     <a class="font-bold text-neutral-500 hover-bounce hover:border-b border-gray-500 focus:text-neutral-700 disabled:text-black/30 dark:text-neutral-200 dark:hover:text-neutral-400 dark:focus:text-neutral-400 lg:px-2 [&.active]:text-black/90 dark:[&.active]:text-neutral-400"
-                        aria-current="page" href="/recommend-place" data-te-nav-link-ref>Gợi
+                        aria-current="page" href="/recommend-place" onclick="checkLogin()" data-te-nav-link-ref>Gợi
                         ý</a>
                 </li>
                 <li class="my-4 pl-2 lg:my-0 lg:pl-2 lg:pr-1" data-te-nav-item-ref>
@@ -110,12 +110,12 @@
                     window.location.href = "/recommend-place";
                 } else {
                     // Người dùng chưa đăng nhập
-                    Swal.fire('Thông báo', 'Hãy đăng nhập để sử dụng gợi ý.', 'error');
+                    Swal.fire('Lỗi', 'Hãy đăng nhập để sử dụng gợi ý.', 'error');
                 }
             },
             error: function(error) {
                 // Xử lý lỗi
-                Swal.fire('Thông báo', 'Bạn chưa đăng nhập.', 'error');
+                Swal.fire('Lỗi', 'Bạn chưa đăng nhập.', 'error');
             }
         });
     }

@@ -20,6 +20,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::post('/login', [APIController::class, 'login']);
 Route::get('/place', [APIController::class, 'getPlaceAPI']);
 
 Route::get('/recommend-place', [APIController::class, 'getRecommendPlace']);

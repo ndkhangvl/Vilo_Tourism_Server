@@ -5,9 +5,32 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
+use App\Models\User;
+use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 
 class APIController extends Controller
 {
+    public function login(Request $reqeust)
+    {
+        $reqeust->validate([
+            'email' => 'required|email',
+            'password' => 'required',
+        ]);
+
+        $user = User::where('email', $reqeust->email)->first();
+
+        if (!$user || !Hash::check($reqeust->password, $user->password)) {
+            throw ValidationException::withMessages([
+                'email' => ['The provided credentials are incorrect'],
+            ]);
+        }
+
+        //then return generated token
+        return $user->createToken($reqeust->email)->plainTextToken;
+    }
+
     public function getPlaceAPI()
     {
         $vlplace = DB::select('select * from VLPlace');

@@ -61,7 +61,8 @@
     <!-- ========== MAIN CONTENT ========== -->
     <main id="content" role="main" class="main pointer-event">
         <div class="p-2">
-            <button data-toggle="modal" data-target="#addPlaceModal" class="btn btn-primary btn-lg px-3 py-2">
+            <button id="openNewPlace" data-toggle="modal" data-target="#addPlaceModal"
+                class="btn btn-primary btn-lg px-3 py-2">
                 <i class="tio-add"></i>
                 Thêm mới
             </button>
@@ -189,18 +190,35 @@
                             </div>
                         </div>
                         <div class="form-row">
-                            <div class="form-group col-md-4">
+                            <div class="form-group col-md-12">
                                 <label for="type_service">Đặc trưng dịch vụ</label>
-                                <input type="text" name="name_type_service" id="name_type_service"
-                                    class="form-control" placeholder="Nhập vào đặc trưng">
+                                <select class="js-select2-custom custom-select" multiple size="2"
+                                    style="opacity: 0;" name="name_type_service[]" id="name_type_service"
+                                    data-hs-select2-options='{
+          "tags": true
+        }'>
+                                    <option value="Cửa hàng lưu niệm">Cửa hàng lưu niệm</option>
+                                    <option value="Kiến trúc và nghệ thuật">Kiến trúc và nghệ thuật</option>
+                                    <option value="Văn hóa và lịch sử">Văn hóa và lịch sử</option>
+                                    <option value="Ẩm thực đa dạng">Ẩm thực đa dạng</option>
+                                    <option value="Khu nghỉ dưỡng">Khu nghỉ dưỡng</option>
+                                    <option value="Câu cá">Câu cá</option>
+                                    <option value="Trò chơi dân gian">Trò chơi dân gian</option>
+                                    <option value="Phong cảnh đẹp">Phong cảnh đẹp</option>
+                                    <option value="Đền & Tượng đài">Đền & Tượng đài</option>
+                                    <option value="Chùa">Chùa</option>
+                                    <option value="Khu tưởng niệm">Khu tưởng niệm</option>
+                                    <option value="Làng nghề">Làng nghề</option>
+                                </select>
+                                <!-- End Select2 -->
                             </div>
-                            <div class="form-group col-md-4">
+                            <div class="form-group col-md-6">
                                 <label for="name_place">Tên địa điểm</label>
                                 <input type="text" name="name_place" id="name_place" class="form-control"
                                     placeholder="Nhập vào tên địa điểm">
                                 <span class="invalid-feedback" id="name_place_error"></span>
                             </div>
-                            <div class="form-group col-md-4">
+                            <div class="form-group col-md-6">
                                 <label for="address_place">Địa chỉ</label>
                                 <input type="text" name="address_place" id="address_place" class="form-control"
                                     placeholder="Nhập vào địa chỉ">
@@ -345,20 +363,10 @@
                                         </div>
                                         <div class="form-group col-md-6">
                                             <label for="type_view_service"><span class="font-weight-bold">Loại du
-                                                    lịch</span></label>
-                                            <select id="type_view_service" class="js-select2-custom1 custom-select"
-                                                size="1" style="opacity: 0;"
-                                                data-hs-select2-options='{
-          "minimumResultsForSearch": "Infinity"
-        }'
-                                                disabled>
-                                                <option value="2000">Trò chơi trong nhà</option>
-                                                <option value="2001">Chèo xuồng</option>
-                                                <option value="2002">Tát ao bắt cá</option>
-                                                <option value="2003">Đạp vịt</option>
-                                                <option value="2004">Cửa hàng lưu niệm</option>
-                                                <option value="2005">Câu cá sấu</option>
-                                            </select>
+                                                    lịch</span></label>name_edit_type_service
+                                            <input type="text" name="name_view_type_service"
+                                                id="name_view_type_service" class="form-control"
+                                                placeholder="Nhập vào tên địa điểm" readonly>
                                         </div>
                                     </div>
                                     <div class="form-row">
@@ -503,18 +511,36 @@
                             </div>
                         </div>
                         <div class="form-row">
-                            <div class="form-group col-md-4">
+                            <div class="form-group col-md-12">
                                 <label for="type_service">Đặc trưng dịch vụ</label>
-                                <input type="text" name="name_edit_type_service" id="name_edit_type_service"
-                                    class="form-control" placeholder="Nhập vào đặc trưng">
+                                <!-- Select2 -->
+                                <select class="js-select2-custom custom-select" multiple size="2"
+                                    style="opacity: 0;" name="name_edit_type_service[]" id="name_edit_type_service"
+                                    data-hs-select2-options='{
+          "tags": true
+        }'>
+                                    <option value="Cửa hàng lưu niệm">Cửa hàng lưu niệm</option>
+                                    <option value="Kiến trúc và nghệ thuật">Kiến trúc và nghệ thuật</option>
+                                    <option value="Văn hóa và lịch sử">Văn hóa và lịch sử</option>
+                                    <option value="Ẩm thực đa dạng">Ẩm thực đa dạng</option>
+                                    <option value="Khu nghỉ dưỡng">Khu nghỉ dưỡng</option>
+                                    <option value="Câu cá">Câu cá</option>
+                                    <option value="Trò chơi dân gian">Trò chơi dân gian</option>
+                                    <option value="Phong cảnh đẹp">Phong cảnh đẹp</option>
+                                    <option value="Đền & Tượng đài">Đền & Tượng đài</option>
+                                    <option value="Chùa">Chùa</option>
+                                    <option value="Khu tưởng niệm">Khu tưởng niệm</option>
+                                    <option value="Làng nghề">Làng nghề</option>
+                                </select>
+                                <!-- End Select2 -->
                             </div>
-                            <div class="form-group col-md-4">
+                            <div class="form-group col-md-6">
                                 <label for="name_place">Tên địa điểm</label>
                                 <input type="text" name="name_edit_place" id="name_edit_place"
                                     class="form-control" placeholder="Nhập vào tên địa điểm">
                                 <span class="invalid-feedback" id="name_edit_place_error"></span>
                             </div>
-                            <div class="form-group col-md-4">
+                            <div class="form-group col-md-6">
                                 <label for="address_place">Địa chỉ</label>
                                 <input type="text" name="address_edit_place" id="address_edit_place"
                                     class="form-control" placeholder="Nhập vào địa chỉ">
@@ -1060,10 +1086,9 @@
                     $('#start_view_time').val(detailData.start_time);
                     $('#end_view_time').val(detailData.end_time);
                     $('#email_view_contact_place').val(detailData.email_contact_place);
-
                     $('#latitude_view_place').val(detailData.latitude);
                     $('#longitude_view_place').val(detailData.longitude);
-
+                    $('#name_view_type_service').val(detailData.feature_place);
                     $('#showDescribe').html(detailData.describe_place);
                     var thumbnailLinkView = $('.picture-view-from-firebase');
                     if (!detailData.image_url) {
@@ -1114,6 +1139,8 @@
                     // console.log(response);
                     $('.invalid-feedback').empty();
                     var detailData = response.vlplace[0];
+                    var dataArray = detailData.feature_place.split('|');
+                    console.log(dataArray);
                     id = detailData.id_place;
                     $('#id_edit_price').val(detailData.id_price).trigger('change');
                     $('#id_edit_area').val(detailData.id_area).trigger('change');
@@ -1125,6 +1152,7 @@
                     $('#start_edit_time').val(detailData.start_time);
                     $('#end_edit_time').val(detailData.end_time);
                     $('#email_edit_contact_place').val(detailData.email_contact_place);
+                    $('#name_edit_type_service').val(dataArray).trigger('change');
 
                     $('#edit_latitude_place').val(detailData.latitude);
                     $('#edit_longitude_place').val(detailData.longitude);
@@ -1179,6 +1207,14 @@
                 }
             });
         }
+
+        $('#openNewPlace').click(function() {
+            // Đặt lại giá trị của form
+            $('#addPlace')[0].reset();
+            $('#name_type_service').val(null).trigger('change');
+            $("#addCKeditor").val("");
+            // Đặt lại CKEditor
+        });
     </script>
 
     <!-- IE Support -->
