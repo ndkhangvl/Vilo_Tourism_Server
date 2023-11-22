@@ -40,6 +40,13 @@
     <script src="{{ asset('js/select2.min.js') }}"></script> --}}
 
 
+    <style>
+        #map {
+            width: 400px;
+            height: 500px;
+            /* padding-right: 20px; */
+        }
+    </style>
 
     <!-- CSS Front Template -->
     <link rel="stylesheet" href="{{ asset('assets/css/theme.min.css?v=1.0') }}">
@@ -143,144 +150,148 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form action="#" class="" method="POST" id="addPlace" enctype="multipart/form-data">
-                        @csrf
-                        <div class="form-row">
-                            <div class="form-group col-md-4">
-                                <label for="id_area">Khu vực</label>
-                                <select id="id_area" name="id_area" class="js-select2-custom custom-select"
-                                    size="1" style="opacity: 0;"
-                                    data-hs-select2-options='{
+                    <div class="flex">
+                        <div id="map" class=""></div>
+                        <form action="#" class="" method="POST" id="addPlace"
+                            enctype="multipart/form-data">
+                            @csrf
+                            <div class="form-row">
+                                <div class="form-group col-md-4">
+                                    <label for="id_area">Khu vực</label>
+                                    <select id="id_area" name="id_area" class="js-select2-custom custom-select"
+                                        size="1" style="opacity: 0;"
+                                        data-hs-select2-options='{
           "minimumResultsForSearch": "Infinity"
         }'>
-                                    <option value="1000">Huyện Bình Tân</option>
-                                    <option value="1001">Huyện Long Hồ</option>
-                                    <option value="1002">Huyện Mang Thít</option>
-                                    <option value="1003">Huyện Tam Bình</option>
-                                    <option value="1004">Huyện Trà Ôn</option>
-                                    <option value="1005">Huyện Vũng Liêm</option>
-                                    <option value="1006">Thành phố Vĩnh Long</option>
-                                    <option value="1007">Thị xã Bình Minh</option>
-                                </select>
-                            </div>
-                            <div class="form-group col-md-4">
-                                <label for="id_price">Loại giá</label>
-                                <select id="id_price" name="id_price" class="js-select2-custom custom-select"
-                                    size="1" style="opacity: 0;"
-                                    data-hs-select2-options='{
+                                        <option value="1000">Huyện Bình Tân</option>
+                                        <option value="1001">Huyện Long Hồ</option>
+                                        <option value="1002">Huyện Mang Thít</option>
+                                        <option value="1003">Huyện Tam Bình</option>
+                                        <option value="1004">Huyện Trà Ôn</option>
+                                        <option value="1005">Huyện Vũng Liêm</option>
+                                        <option value="1006">Thành phố Vĩnh Long</option>
+                                        <option value="1007">Thị xã Bình Minh</option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label for="id_price">Loại giá</label>
+                                    <select id="id_price" name="id_price" class="js-select2-custom custom-select"
+                                        size="1" style="opacity: 0;"
+                                        data-hs-select2-options='{
           "minimumResultsForSearch": "Infinity"
         }'>
-                                    <option value="3000">Miễn phí</option>
-                                    <option value="3001">Có phí</option>
-                                </select>
-                            </div>
-                            <div class="form-group col-md-4">
-                                <label for="id_type">Loại dịch vụ</label>
-                                <select id="id_type" name="id_type" class="js-select2-custom custom-select"
-                                    size="1" style="opacity: 0;"
-                                    data-hs-select2-options='{
+                                        <option value="3000">Miễn phí</option>
+                                        <option value="3001">Có phí</option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label for="id_type">Loại dịch vụ</label>
+                                    <select id="id_type" name="id_type" class="js-select2-custom custom-select"
+                                        size="1" style="opacity: 0;"
+                                        data-hs-select2-options='{
           "minimumResultsForSearch": "Infinity"
         }'>
-                                    <option value="4000">Du lịch sinh thái</option>
-                                    <option value="4001">Du lịch làng nghề</option>
-                                    <option value="4002">Du lịch lịch sử - văn hóa</option>
-                                    <option value="4003">Du lịch tâm linh</option>
-                                    <option value="4004">Du lịch trở về nguồn cội</option>
-                                </select>
+                                        <option value="4000">Du lịch sinh thái</option>
+                                        <option value="4001">Du lịch làng nghề</option>
+                                        <option value="4002">Du lịch lịch sử - văn hóa</option>
+                                        <option value="4003">Du lịch tâm linh</option>
+                                        <option value="4004">Du lịch trở về nguồn cội</option>
+                                    </select>
+                                </div>
                             </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group col-md-12">
-                                <label for="type_service">Đặc trưng dịch vụ</label>
-                                <select class="js-select2-custom custom-select" multiple size="2"
-                                    style="opacity: 0;" name="name_type_service[]" id="name_type_service"
-                                    data-hs-select2-options='{
+                            <div class="form-row">
+                                <div class="form-group col-md-12">
+                                    <label for="type_service">Đặc trưng dịch vụ</label>
+                                    <select class="js-select2-custom custom-select" multiple size="2"
+                                        style="opacity: 0;" name="name_type_service[]" id="name_type_service"
+                                        data-hs-select2-options='{
           "tags": true
         }'>
-                                    <option value="Cửa hàng lưu niệm">Cửa hàng lưu niệm</option>
-                                    <option value="Kiến trúc và nghệ thuật">Kiến trúc và nghệ thuật</option>
-                                    <option value="Văn hóa và lịch sử">Văn hóa và lịch sử</option>
-                                    <option value="Ẩm thực đa dạng">Ẩm thực đa dạng</option>
-                                    <option value="Khu nghỉ dưỡng">Khu nghỉ dưỡng</option>
-                                    <option value="Câu cá">Câu cá</option>
-                                    <option value="Trò chơi dân gian">Trò chơi dân gian</option>
-                                    <option value="Phong cảnh đẹp">Phong cảnh đẹp</option>
-                                    <option value="Đền & Tượng đài">Đền & Tượng đài</option>
-                                    <option value="Chùa">Chùa</option>
-                                    <option value="Khu tưởng niệm">Khu tưởng niệm</option>
-                                    <option value="Làng nghề">Làng nghề</option>
-                                </select>
-                                <!-- End Select2 -->
+                                        <option value="Cửa hàng lưu niệm">Cửa hàng lưu niệm</option>
+                                        <option value="Kiến trúc và nghệ thuật">Kiến trúc và nghệ thuật</option>
+                                        <option value="Văn hóa và lịch sử">Văn hóa và lịch sử</option>
+                                        <option value="Ẩm thực đa dạng">Ẩm thực đa dạng</option>
+                                        <option value="Khu nghỉ dưỡng">Khu nghỉ dưỡng</option>
+                                        <option value="Câu cá">Câu cá</option>
+                                        <option value="Trò chơi dân gian">Trò chơi dân gian</option>
+                                        <option value="Phong cảnh đẹp">Phong cảnh đẹp</option>
+                                        <option value="Đền & Tượng đài">Đền & Tượng đài</option>
+                                        <option value="Chùa">Chùa</option>
+                                        <option value="Khu tưởng niệm">Khu tưởng niệm</option>
+                                        <option value="Làng nghề">Làng nghề</option>
+                                    </select>
+                                    <!-- End Select2 -->
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="name_place">Tên địa điểm</label>
+                                    <input type="text" name="name_place" id="name_place" class="form-control"
+                                        placeholder="Nhập vào tên địa điểm">
+                                    <span class="invalid-feedback" id="name_place_error"></span>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="address_place">Địa chỉ</label>
+                                    <input type="text" name="address_place" id="address_place"
+                                        class="form-control" placeholder="Nhập vào địa chỉ">
+                                    <span class="invalid-feedback" id="address_place_error"></span>
+                                </div>
                             </div>
-                            <div class="form-group col-md-6">
-                                <label for="name_place">Tên địa điểm</label>
-                                <input type="text" name="name_place" id="name_place" class="form-control"
-                                    placeholder="Nhập vào tên địa điểm">
-                                <span class="invalid-feedback" id="name_place_error"></span>
+                            <div class="form-row">
+                                <div class="form-group col-md-4">
+                                    <label for="phone_place">Số điện thoại</label>
+                                    <input type="text" name="phone_place" id="phone_place" class="form-control"
+                                        placeholder="Nhập vào số điện thoại">
+                                    <span class="invalid-feedback" id="phone_place_error"></span>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label for="start_time">Thời gian mở cửa</label>
+                                    <input type="text" name="start_time" id="start_time" class="form-control"
+                                        placeholder="Nhập thời gian mở cửa">
+                                    <span class="invalid-feedback" id="start_time_error"></span>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label for="end_time">Thời gian đóng cửa</label>
+                                    <input type="text" name="end_time" id="end_time" class="form-control"
+                                        placeholder="Nhập thời gian đóng cửa">
+                                    <span class="invalid-feedback" id="end_time_error"></span>
+                                </div>
                             </div>
-                            <div class="form-group col-md-6">
-                                <label for="address_place">Địa chỉ</label>
-                                <input type="text" name="address_place" id="address_place" class="form-control"
-                                    placeholder="Nhập vào địa chỉ">
-                                <span class="invalid-feedback" id="address_place_error"></span>
+                            <div class="form-group">
+                                <label for="email_contact_place">Email</label>
+                                <input type="text" name="email_contact_place" id="email_contact_place"
+                                    class="form-control" placeholder="Nhập vào email">
+                                <span class="invalid-feedback" id="email_contact_place_error"></span>
                             </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group col-md-4">
-                                <label for="phone_place">Số điện thoại</label>
-                                <input type="text" name="phone_place" id="phone_place" class="form-control"
-                                    placeholder="Nhập vào số điện thoại">
-                                <span class="invalid-feedback" id="phone_place_error"></span>
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="lat_place" class="font-weight-bold">Vĩ độ</label>
+                                    <input type="text" name="latitude_place" id="latitude_place"
+                                        class="form-control" placeholder="Nhập vĩ độ">
+                                    <span class="invalid-feedback" id="latitude_place_error"></span>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="long_place" class="font-weight-bold">Kinh độ</label>
+                                    <input type="text" name="longitude_place" id="longitude_place"
+                                        class="form-control" placeholder="Nhập kinh độ">
+                                    <span class="invalid-feedback" id="longitude_place_error"></span>
+                                </div>
                             </div>
-                            <div class="form-group col-md-4">
-                                <label for="start_time">Thời gian mở cửa</label>
-                                <input type="text" name="start_time" id="start_time" class="form-control"
-                                    placeholder="Nhập thời gian mở cửa">
-                                <span class="invalid-feedback" id="start_time_error"></span>
+                            <div class="form-group">
+                                <label for="describe_place">Mô tả</label>
+                                <textarea id="addCKeditor" class="form-control" name="describe_place"></textarea>
+                                <span class="invalid-feedback" id="describe_place_error"></span>
                             </div>
-                            <div class="form-group col-md-4">
-                                <label for="end_time">Thời gian đóng cửa</label>
-                                <input type="text" name="end_time" id="end_time" class="form-control"
-                                    placeholder="Nhập thời gian đóng cửa">
-                                <span class="invalid-feedback" id="end_time_error"></span>
+                            <div class="form-group">
+                                <label for="file_input">Upload file</label>
+                                <input class="js-dropzone dropzone-custom custom-file-boxed dz-clickable"
+                                    id="file_input" type="file" name="image">
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="email_contact_place">Email</label>
-                            <input type="text" name="email_contact_place" id="email_contact_place"
-                                class="form-control" placeholder="Nhập vào email">
-                            <span class="invalid-feedback" id="email_contact_place_error"></span>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group col-md-6">
-                                <label for="lat_place" class="font-weight-bold">Vĩ độ</label>
-                                <input type="text" name="latitude_place" id="latitude_place" class="form-control"
-                                    placeholder="Nhập vĩ độ">
-                                <span class="invalid-feedback" id="latitude_place_error"></span>
+                            <div class="form-group">
+                                <button data-modal-hide="defaultModal" type="submit" class="btn btn-primary">Thêm
+                                    mới</button>
                             </div>
-                            <div class="form-group col-md-6">
-                                <label for="long_place" class="font-weight-bold">Kinh độ</label>
-                                <input type="text" name="longitude_place" id="longitude_place"
-                                    class="form-control" placeholder="Nhập kinh độ">
-                                <span class="invalid-feedback" id="longitude_place_error"></span>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="describe_place">Mô tả</label>
-                            <textarea id="addCKeditor" class="form-control" name="describe_place"></textarea>
-                            <span class="invalid-feedback" id="describe_place_error"></span>
-                        </div>
-                        <div class="form-group">
-                            <label for="file_input">Upload file</label>
-                            <input class="js-dropzone dropzone-custom custom-file-boxed dz-clickable" id="file_input"
-                                type="file" name="image">
-                        </div>
-                        <div class="form-group">
-                            <button data-modal-hide="defaultModal" type="submit" class="btn btn-primary">Thêm
-                                mới</button>
-                        </div>
-                    </form>
+                        </form>
 
+                    </div>
                 </div>
             </div>
         </div>
@@ -1208,8 +1219,56 @@
             });
         }
 
+        //Map
+        var map = L.map('map').setView([10.246602, 105.971673], 14);
+        // L.tileLayer('https://maps.vietmap.vn/tm/{z}/{x}/{y}.png?apikey=9cbf0bc15d3901b7e043d8f76be8d73f370a82fe629a2d46', {
+        //     attribution: '&copy; <a href="https://maps.vietmap.vn/copyright">Vietmap</a> contributors'
+        // }).addTo(map);
+
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+        var currentMarker = null;
+        map.on('click', function(e) {
+            // Logging for debugging
+            console.log("Clicked at:", e.latlng);
+
+            // Extracting latitude and longitude
+            var lat = e.latlng.lat;
+            var lng = e.latlng.lng;
+            // Remove the current marker if it exists
+            if (currentMarker) {
+                map.removeLayer(currentMarker);
+            }
+
+            // Create a new marker
+            var customIcon = L.icon({
+                iconUrl: 'https://cdn.jsdelivr.net/npm/leaflet@1.7.1/dist/images/marker-icon.png',
+                iconSize: [25, 41],
+                iconAnchor: [12, 41],
+                popupAnchor: [1, -34]
+            });
+
+            currentMarker = L.marker([lat, lng], {
+                icon: customIcon,
+                title: 'Click Point'
+            }).addTo(map);
+
+            // Now 'lat' and 'lng' contain the clicked coordinates
+            console.log("Latitude:", lat, "Longitude:", lng);
+            $('#latitude_place').val(lat);
+            $('#longitude_place').val(lng);
+        });
+
+
         $('#openNewPlace').click(function() {
             // Đặt lại giá trị của form
+            map.invalidateSize();
+
+            // Remove the current marker if it exists
+            if (currentMarker) {
+                map.removeLayer(currentMarker);
+            }
             $('#addPlace')[0].reset();
             $('#name_type_service').val(null).trigger('change');
             $("#addCKeditor").val("");

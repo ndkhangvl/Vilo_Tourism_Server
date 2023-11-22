@@ -58,7 +58,7 @@
         if (rating == 0) {
             return "";
         } else if (rating === 1) {
-            return "Rất không hài lòng 😡";
+            return "{{ __('msg.onesao') }}";
         } else if (rating === 2) {
             return "Không hài lòng 😤";
         } else if (rating === 3) {

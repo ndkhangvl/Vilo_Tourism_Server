@@ -10,6 +10,7 @@
         /* Chiều rộng của thanh gạch dưới khi hover */
     }
 </style>
+<meta name="csrf-token" content="{{ csrf_token() }}">
 <nav class="relative flex w-full flex-wrap items-center justify-between bg-[#FBFBFB] py-2 text-neutral-500 shadow-lg hover:text-neutral-700 focus:text-neutral-700 dark:bg-neutral-600 lg:py-4"
     data-te-navbar-ref>
     <div class="flex w-full flex-wrap items-center justify-between px-3">
@@ -94,6 +95,12 @@
                     @endif
                 @endif
             </div>
+            <div class="flex gap-2 pl-2">
+                <a href="javascript:void(0)" class="w-full h-full" onclick="changeLanguage('en')" data-locale="en"><img
+                        src="https://vinhlongtourist.vn/Images/language/en.png" /></a>
+                <a href="javascript:void(0)" class="w-full h-full" onclick="changeLanguage('vi')" data-locale="vi"><img
+                        src="https://vinhlongtourist.vn/Images/language/vi.png" /></a>
+            </div>
         </div>
     </div>
 </nav>
@@ -116,6 +123,28 @@
             error: function(error) {
                 // Xử lý lỗi
                 Swal.fire('Lỗi', 'Bạn chưa đăng nhập.', 'error');
+            }
+        });
+    }
+
+    function changeLanguage(culture) {
+        var jsondata = {
+            culture: culture
+        };
+        var csrfToken = $('meta[name="csrf-token"]').attr('content');
+        $.ajax({
+            type: "POST",
+            url: "/updatelocale",
+            headers: {
+                'X-CSRF-TOKEN': csrfToken
+            },
+            data: jsondata,
+            success: function(response) {
+                if (response.success) {
+                    console.log(response.test);
+                    //localStorage.setItem('selectedLanguage', response.test);
+                    window.location.reload();
+                }
             }
         });
     }

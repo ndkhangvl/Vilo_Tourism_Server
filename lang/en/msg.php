@@ -1,0 +1,26 @@
+<?php
+
+return [
+    'forgotpassword' => 'Forgot Password?',
+    'onesao' => 'No 😡',
+    'login-a' => ' login',
+    'submit-forgot' => 'Submit',
+    'title-login' => 'Contract Management',
+    'username' => 'Username',
+    'passwd' => 'Password',
+    'captcha' => 'Captcha',
+    'btnLogin' => 'Sign In',
+    'customer' => 'Customer',
+    'contract' => 'Contract',
+    'bill' => 'Bill',
+    'statistical' => 'Statistical',
+    'history' => 'History',
+    'info' => 'Information',
+    'english' => 'English',
+    'vietnamese' => 'Vietnamese',
+    'logout' => 'Log Out',
+    'infomation' => 'Information Customer',
+    'listcus' => 'Customer Type',
+    'loading' => 'Loading...',
+    'updatepw' => 'Change Password',
+];

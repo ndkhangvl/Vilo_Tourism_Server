@@ -45,69 +45,64 @@
                 @csrf
                 <div class="grid grid-cols-4 gap-4 p-2">
                     <label class="flex items-center">
-                        <input type="checkbox" name="history" value="Cửa hàng lưu niệm"
+                        <input type="checkbox" name="souvneirStore" value="Cửa_hàng_lưu_niệm"
                             class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                         <span class="ml-2">Cửa hàng lưu niệm</span>
                     </label>
 
                     <label class="flex items-center">
-                        <input type="checkbox" name="landscape" value="Kiến trúc và nghệ thuật"
+                        <input type="checkbox" name="archArt" value="Kiến_trúc_và_nghệ_thuật"
                             class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                         <span class="ml-2">Kiến trúc và nghệ thuật</span>
                     </label>
 
                     <label class="flex items-center">
-                        <input type="checkbox" name="view" value="Tìm hiểu lịch sử"
-                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                        <span class="ml-2">Tìm hiểu lịch sử</span>
-                    </label>
-                    <label class="flex items-center">
-                        <input type="checkbox" name="chua" value="Văn hóa và lịch sử"
+                        <input type="checkbox" name="culHistory" value="Văn_hóa_và_lịch_sử"
                             class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                         <span class="ml-2">Văn hóa và lịch sử</span>
                     </label>
                     <label class="flex items-center">
-                        <input type="checkbox" name="tuongdai" value="Ẩm thực đa dạng"
+                        <input type="checkbox" name="diCuisine" value="Ẩm_thực_đa_dạng"
                             class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                         <span class="ml-2">Ẩm thực đa dạng</span>
                     </label>
                     <label class="flex items-center">
-                        <input type="checkbox" name="khust" value="Khu nghỉ dưỡng"
+                        <input type="checkbox" name="resort" value="Khu_nghỉ_dưỡng"
                             class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                         <span class="ml-2">Khu nghỉ dưỡng</span>
                     </label>
                     <label class="flex items-center">
-                        <input type="checkbox" name="khust" value="Câu cá"
+                        <input type="checkbox" name="goFishing" value="Câu_cá"
                             class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                         <span class="ml-2">Câu cá</span>
                     </label>
                     <label class="flex items-center">
-                        <input type="checkbox" name="khust" value="Trò chơi dân gian"
+                        <input type="checkbox" name="folkGames" value="Trò_chơi_dân_gian"
                             class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                         <span class="ml-2">Trò chơi dân gian</span>
                     </label>
                     <label class="flex items-center">
-                        <input type="checkbox" name="khust" value="Phong cảnh đẹp"
+                        <input type="checkbox" name="scenic" value="Phong_cảnh_đẹp"
                             class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                         <span class="ml-2">Phong cảnh đẹp</span>
                     </label>
                     <label class="flex items-center">
-                        <input type="checkbox" name="khust" value="Khu tưởng niệm"
+                        <input type="checkbox" name="meArea" value="Khu_tưởng_niệm"
                             class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                         <span class="ml-2">Khu tưởng niệm</span>
                     </label>
                     <label class="flex items-center">
-                        <input type="checkbox" name="khust" value="Đền & tượng đài"
+                        <input type="checkbox" name="temMonuments" value="Đền_&_tượng_đài"
                             class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                         <span class="ml-2">Đền & tượng đài</span>
                     </label>
                     <label class="flex items-center">
-                        <input type="checkbox" name="khust" value="Làng nghề"
+                        <input type="checkbox" name="crafVillage" value="Làng_nghề"
                             class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                         <span class="ml-2">Làng nghề</span>
                     </label>
                     <label class="flex items-center">
-                        <input type="checkbox" name="khust" value="Chùa"
+                        <input type="checkbox" name="pagoda" value="Chùa"
                             class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                         <span class="ml-2">Chùa</span>
                     </label>
@@ -124,19 +119,25 @@
         </div>
         <span class="devider mb-2"></span>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-3 p-2 border shadow mb-2">
-            @foreach ($responseData as $responseData)
-                @if ($loop->index < 6)
-                    <div class="relative rounded overflow-hidden">
-                        <a href="/detailplace/{{ $responseData['id'] }}" target="_blank">
-                            <img class="w-full" style="height: 300px" src="{{ $responseData['image_url'] }}" />
-                        </a>
-                        <p class="absolute bg-gray-600 bg-opacity-50 text-white text-center inset-x-0 bottom-0">
-                            {{ $responseData['name'] }}</p>
-                    </div>
-                @else
-                @break
-            @endif
-        @endforeach
+            @if (count($responseData) > 0)
+                @foreach ($responseData as $responseItem)
+                    @if ($loop->index < 6)
+                        <div class="relative rounded overflow-hidden">
+                            <a href="/detailplace/{{ $responseItem['id'] }}" target="_blank">
+                                <img class="w-full" style="height: 300px" src="{{ $responseItem['image_url'] }}" />
+                            </a>
+                            <p class="absolute bg-gray-600 bg-opacity-50 text-white text-center inset-x-0 bottom-0">
+                                {{ $responseItem['name'] }}
+                            </p>
+                        </div>
+                    @else
+                    @break
+                @endif
+            @endforeach
+        @else
+            <p>Bạn cần đánh giá ít nhất 1 địa điểm để hệ thống đưa ra gợi ý.</p>
+        @endif
+
     </div>
 </div>
 @include('/components.footer')
@@ -156,15 +157,18 @@
                 data: formData,
                 success: function(response) {
                     var responseData = response.responseData2;
-
+                    console.log(responseData);
                     var container = $('#dynamicContentContainer');
 
                     container.empty();
-
-                    // Iterate through the data and append HTML dynamically
-                    $.each(responseData, function(index, data) {
-                        if (index < 6) {
-                            var html = `
+                    if (responseData.length == 0) {
+                        // container.empty();
+                        Swal.fire("Hãy chọn ít nhất 1 lựa chọn!");
+                        // container.append(`<div><p>Hãy chọn ít nhất 1 lựa chọn</p></div>`);
+                    } else {
+                        $.each(responseData, function(index, data) {
+                            if (index < 6) {
+                                var html = `
                     <div class="relative rounded overflow-hidden">
                         <a href="/detailplace/${data.id_place}" target="_blank">
                             <img class="w-full" style="height: 300px" src="${data.image_url}" />
@@ -175,10 +179,12 @@
                     </div>
                 `;
 
-                            // Append the HTML to the container
-                            container.append(html);
-                        }
-                    });
+                                // Append the HTML to the container
+                                container.append(html);
+                            }
+                        });
+                    }
+                    // Iterate through the data and append HTML dynamically
                 },
                 error: function(error) {
                     // Handle errors here

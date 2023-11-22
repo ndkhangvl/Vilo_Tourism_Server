@@ -13,8 +13,13 @@
         integrity="sha512-GffPMF3RvMeYyc1LWMHtK8EbPv0iNZ8/oTtHPx9/cc2ILxQ+u905qIwdpULaqDkyBKgOaB57QTMg7ztg8Jm2Og=="
         crossorigin=""></script>
     <script src="https://cdn.jsdelivr.net/npm/polyline-encoded@0.0.9/Polyline.encoded.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+    {{-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script> --}}
     <script src="https://cdn.jsdelivr.net/npm/geolib@3.3.4/lib/index.min.js"></script>
+
+    <!-- Owl Carousel CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css">
 
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/rateYo/2.3.2/jquery.rateyo.min.css">
@@ -42,6 +47,19 @@
             border: 1px solid #ccc;
             padding: 5px 10px;
             border-radius: 5px;
+        }
+
+        .owl-carousel .item img {
+            width: 100%;
+            height: 300px;
+            /* Set a fixed height */
+            object-fit: cover;
+            /* Maintain aspect ratio */
+        }
+
+        .owl-carousel .item {
+            width: 250px;
+            /* Set a fixed width */
         }
     </style>
 </head>
@@ -180,11 +198,14 @@
                             <div class="border p-4" id="myDiv">
                                 <!-- Nội dung bạn muốn hiển thị trong div -->
                                 <p class="mb-4 text-xl text-green-700 font-bold italic">Bạn đã đánh giá địa điểm này
-                                    rồi</p>
+                                    rồi! Hãy chọn lại nếu bạn muốn sửa đánh giá</p>
+                                <div id="feedbackText" class="text-center text-2xl italic font-bold"></div>
+                                <div id="rateYo-rating1" class="mt-2 mx-auto mb-2"></div>
                             </div>
                         @else
                             <div class="mb-4 p-2">
-                                <label for="username" class="block text-gray-700 text-sm font-bold mb-2">Hãy đánh
+                                <label for="username" class="block text-gray-700 text-sm font-bold mb-2">Hãy
+                                    đánh
                                     giá</label>
                                 <div class="flex p-2">
                                     <div class="l-list-rating">
@@ -219,6 +240,36 @@
                     @endif
                 </div>
                 <livewire:list-rating-place :idPlace="$detail_place->id_place" />
+                <div class="text-center font-bold">
+                    <h3 class="text-xl p-2">Địa điểm tương tự</h3>
+                </div>
+                <span class="devider mb-2"></span>
+                <div class="border shadow p-2">
+                    <div id="banner-thumbs-link" class="owl-carousel owl-loaded owl-drag">
+                        @foreach ($responseData2 as $responseData2)
+                            {{-- <div class="item relative mb-4 flex-shrink-0">
+                            <a href="/detailplace/{{ $responseData2['id'] }}">
+                                <img src="{{ $responseData2['image_url'] }}" alt="Image" class="">
+                            </a>
+                            <div
+                                class="absolute bottom-0 left-0 w-full bg-gray-500 bg-opacity-50 text-white text-center">
+                                <h1 class="xl:text-sm max-sm:text-xs">{{ $distance['name_place'] }}</h1>
+                                <h1 class="xl:text-sm max-sm:text-xs">{{ $distance['distance'] }}km</h1>
+                            </div>
+                        </div> --}}
+                            <div class="relative rounded overflow-hidden">
+                                <a href="/detailplace/{{ $responseData2['id_place'] }}" target="_blank">
+                                    <img class="w-full" style="height: 300px"
+                                        src="{{ $responseData2['image_url'] }}" />
+                                </a>
+                                <p
+                                    class="absolute bg-gray-600 bg-opacity-50 text-white text-center inset-x-0 bottom-0">
+                                    {{ $responseData2['name_place'] }}
+                                </p>
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
             </div>
             <div class="content w-full md:w-1/4 pt-2 md:pt-0"
                 style="align-self: flex-start; top: 0px; position: sticky">
@@ -260,7 +311,7 @@
                     </div>
                     <div class="p-5">
                         <div id="loginTab" class="tab-content">
-                            <form method="POST" action="/login">
+                            <form method="POST" action="/login" id="sendLogin">
                                 @csrf
                                 <div class="w-96 bg-white rounded-md">
                                     {{-- <h1 class="text-3xl block text-center font-semibold"><i class="fa-solid fa-user"></i>
@@ -272,13 +323,15 @@
                                         <input type="text" id="email" name="email"
                                             class="border w-full text-base px-2 py-1 focus:outline-none focus:ring-0 focus:border-gray-600"
                                             placeholder="Nhập vào mail..." />
+                                        <span class="text-bold text-red-700" id="email_error"></span>
                                     </div>
                                     <div class="mt-3">
                                         <label for="password" class="block text-base mb-2">Mật khẩu (<span
                                                 class="text-rose-600">*</span>)</label></label>
                                         <input type="password" id="password" name="password"
                                             class="border w-full text-base px-2 py-1 focus:outline-none focus:ring-0 focus:border-gray-600"
-                                            placeholder="Nhập vào mật khẩu..." />
+                                            placeholder="Nhập vào mật khẩu..." oninput="" />
+                                        <span class="text-bold text-red-700" id="password_error"></span>
                                     </div>
                                     <div class="mt-3 flex justify-between items-center">
                                         <div>
@@ -295,34 +348,33 @@
                         </div>
 
                         <div id="registerTab" class="tab-content hidden">
-                            {{-- <h1 class="text-2xl font-semibold text-gray-900 mb-4">Register</h1> --}}
                             <!-- Register form content -->
-                            <form method="POST" action="/register">
+                            <form method="POST" action="/register" id="sendRegister">
                                 @csrf
                                 <div class="w-96 bg-white rounded-md">
-                                    {{-- <h1 class="text-3xl block text-center font-semibold"><i class="fa-solid fa-user"></i>
-                                    Login</h1> --}}
-                                    {{-- <hr class="mt-3"> --}}
                                     <div class="mt-3">
                                         <label for="username" class="block text-base mb-2">Tên (<span
                                                 class="text-rose-600">*</span>)</label></label>
-                                        <input type="text" id="name" name="name"
+                                        <input type="text" id="name_register" name="name_register"
                                             class="border w-full text-base px-2 py-1 focus:outline-none focus:ring-0 focus:border-gray-600"
                                             placeholder="Nhập vào tên..." />
+                                        <span class="text-bold text-red-700" id="name_register_error"></span>
                                     </div>
                                     <div class="mt-3">
                                         <label for="username" class="block text-base mb-2">Email (<span
                                                 class="text-rose-600">*</span>)</label></label>
-                                        <input type="text" id="email" name="email"
+                                        <input type="text" id="email_register" name="email_register"
                                             class="border w-full text-base px-2 py-1 focus:outline-none focus:ring-0 focus:border-gray-600"
                                             placeholder="Nhập vào mail..." />
+                                        <span class="text-bold text-red-700" id="email_register_error"></span>
                                     </div>
                                     <div class="mt-3">
                                         <label for="password" class="block text-base mb-2">Mật khẩu (<span
                                                 class="text-rose-600">*</span>)</label></label>
-                                        <input type="password" id="password" name="password"
+                                        <input type="password" id="password_register" name="password_register"
                                             class="border w-full text-base px-2 py-1 focus:outline-none focus:ring-0 focus:border-gray-600"
                                             placeholder="Nhập vào mật khẩu..." />
+                                        <span class="text-bold text-red-700" id="password_register_error"></span>
                                     </div>
                                     <div class="flex mt-5">
                                         <button type="submit"
@@ -343,12 +395,15 @@
         // apikey =
         //     'https://maps.vietmap.vn/api/dm/{z}/{x}/{y}@2x.png?apikey=c3d0f188ff669f89042771a20656579073cffec5a8a69747';
         //Open map
-        L.tileLayer('https://maps.vietmap.vn/tm/{z}/{x}/{y}.png?apikey=9cbf0bc15d3901b7e043d8f76be8d73f370a82fe629a2d46', {
-            attribution: '&copy; <a href="https://maps.vietmap.vn/copyright">Vietmap</a> contributors'
-        }).addTo(map);
+        // L.tileLayer('https://maps.vietmap.vn/tm/{z}/{x}/{y}.png?apikey=9cbf0bc15d3901b7e043d8f76be8d73f370a82fe629a2d46', {
+        //     attribution: '&copy; <a href="https://maps.vietmap.vn/copyright">Vietmap</a> contributors'
+        // }).addTo(map);
         // L.tileLayer('https://maps.vietmap.vn/tm/{z}/{x}/{y}.png?apikey=c3d0f188ff669f89042771a20656579073cffec5a8a69747', {
         //     attribution: '&copy; <a href="https://maps.vietmap.vn/copyright">Vietmap</a> contributors'
         // }).addTo(map);
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
         // console.log($distances);
         $(document).ready(function() {
             if (navigator.geolocation) {
@@ -367,80 +422,80 @@
                     });
                     console.log("Khoảng cách là: " + distance / 1000 + " km");
 
-                    $.ajax({
-                        url: 'https://maps.vietmap.vn/api/route?point=' + latitude + ',' +
-                            longitude +
-                            '&point=' + {{ $detail_place->latitude }} + ',' +
-                            {{ $detail_place->longitude }} +
-                            '&apikey=c3d0f188ff669f89042771a20656579073cffec5a8a69747',
-                        type: 'get',
-                        success: function(res) {
-                            // console.log(res);
-                            var colors = ['red', 'blue', 'green', 'yellow', 'orange'];
-                            // var html = '<h2 class="title">Kết quả lộ trình</h2>';
-                            for (var i = 0; i < res.paths.length; i++) {
-                                var totalmeter = 0;
-                                var num = Number(i + 1);
-                                // var subhtml = '';
-                                // subhtml += '<ul class="list">';
-                                var instructions = res.paths[i].instructions;
-                                // var points = res.paths[i].points.coordinates;
-                                var points = res.paths[i].points;
-                                // console.log(points);
-                                var polyline = L.Polyline.fromEncoded(points);
-                                var coordinates = polyline.getLatLngs();
-                                // console.log(coordinates);
-                            }
+                    // $.ajax({
+                    //     url: 'https://maps.vietmap.vn/api/route?point=' + latitude + ',' +
+                    //         longitude +
+                    //         '&point=' + {{ $detail_place->latitude }} + ',' +
+                    //         {{ $detail_place->longitude }} +
+                    //         '&apikey=c3d0f188ff669f89042771a20656579073cffec5a8a69747',
+                    //     type: 'get',
+                    //     success: function(res) {
+                    //         // console.log(res);
+                    //         var colors = ['red', 'blue', 'green', 'yellow', 'orange'];
+                    //         // var html = '<h2 class="title">Kết quả lộ trình</h2>';
+                    //         for (var i = 0; i < res.paths.length; i++) {
+                    //             var totalmeter = 0;
+                    //             var num = Number(i + 1);
+                    //             // var subhtml = '';
+                    //             // subhtml += '<ul class="list">';
+                    //             var instructions = res.paths[i].instructions;
+                    //             // var points = res.paths[i].points.coordinates;
+                    //             var points = res.paths[i].points;
+                    //             // console.log(points);
+                    //             var polyline = L.Polyline.fromEncoded(points);
+                    //             var coordinates = polyline.getLatLngs();
+                    //             // console.log(coordinates);
+                    //         }
 
-                            //draw line
-                            var latlngs = [];
+                    //         //draw line
+                    //         var latlngs = [];
 
-                            for (var k = 0; k < coordinates.length; k++) {
-                                latlngs.push([coordinates[k].lat, coordinates[k].lng]);
-                            }
+                    //         for (var k = 0; k < coordinates.length; k++) {
+                    //             latlngs.push([coordinates[k].lat, coordinates[k].lng]);
+                    //         }
 
-                            var colorIdx = i % colors.length;
-                            var polyline = L.polyline(latlngs, {
-                                color: colors[colorIdx]
-                            }).addTo(map);
+                    //         var colorIdx = i % colors.length;
+                    //         var polyline = L.polyline(latlngs, {
+                    //             color: colors[colorIdx]
+                    //         }).addTo(map);
 
-                            //Test
-                            var distanceTooltip = L.tooltip({
-                                permanent: true,
-                                direction: 'center',
-                                className: 'distance-tooltip'
-                            }).setContent(distance / 1000 + ' km');
+                    //         //Test
+                    //         var distanceTooltip = L.tooltip({
+                    //             permanent: true,
+                    //             direction: 'center',
+                    //             className: 'distance-tooltip'
+                    //         }).setContent(distance / 1000 + ' km');
 
-                            polyline.bindTooltip(distanceTooltip).openTooltip();
+                    //         polyline.bindTooltip(distanceTooltip).openTooltip();
 
-                            // Zoom the map to the polyline and fit the polyline bounds
-                            map.fitBounds(polyline.getBounds()).addLayer(polyline);
-                            var endIcon = L.icon({
-                                iconUrl: 'https://cdn-icons-png.flaticon.com/512/2775/2775994.png',
-                                iconSize: [35, 35], // size of the icon
-                                iconAnchor: [17,
-                                    17
-                                ], // point of the icon which will correspond to marker's location
-                            });
-                            var startIcon = L.icon({
-                                iconUrl: 'https://cdn-icons-png.flaticon.com/512/2775/2775994.png',
-                                iconSize: [35, 35], // size of the icon
-                                iconAnchor: [17,
-                                    17
-                                ], // point of the icon which will correspond to marker's location
-                            });
+                    //         // Zoom the map to the polyline and fit the polyline bounds
+                    //         map.fitBounds(polyline.getBounds()).addLayer(polyline);
+                    //         var endIcon = L.icon({
+                    //             iconUrl: 'https://cdn-icons-png.flaticon.com/512/2775/2775994.png',
+                    //             iconSize: [35, 35], // size of the icon
+                    //             iconAnchor: [17,
+                    //                 17
+                    //             ], // point of the icon which will correspond to marker's location
+                    //         });
+                    //         var startIcon = L.icon({
+                    //             iconUrl: 'https://cdn-icons-png.flaticon.com/512/2775/2775994.png',
+                    //             iconSize: [35, 35], // size of the icon
+                    //             iconAnchor: [17,
+                    //                 17
+                    //             ], // point of the icon which will correspond to marker's location
+                    //         });
 
-                            L.marker(latlngs[0], {
-                                icon: startIcon,
-                            }).bindPopup('<p style="color: green; font-weight: bold">' +
-                                "Vị trí hiện tại" + '</p>').addTo(map);
-                            L.marker(latlngs[latlngs.length - 1], {
-                                icon: endIcon
-                            }).bindPopup('<p style="color: green; font-weight: bold">' +
-                                "{{ $detail_place->name_place }}" + '</p>').addTo(map);
+                    //         L.marker(latlngs[0], {
+                    //             icon: startIcon,
+                    //         }).bindPopup('<p style="color: green; font-weight: bold">' +
+                    //             "Vị trí hiện tại" + '</p>').addTo(map);
+                    //         L.marker(latlngs[latlngs.length - 1], {
+                    //             icon: endIcon
+                    //         }).bindPopup('<p style="color: green; font-weight: bold">' +
+                    //             "{{ $detail_place->name_place }}" + '</p>').addTo(map);
 
-                        }
-                    })
+                    //     }
+                    // })
                 });
             } else {
                 console.log('Geolocation is not supported by this browser.');
@@ -448,8 +503,25 @@
         })
     </script>
     <!-- Latest compiled and minified JavaScript -->
+    <!-- Owl Carousel JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/rateYo/2.3.2/jquery.rateyo.min.js"></script>
     <script>
+        $(document).ready(function() {
+            $('.owl-carousel').owlCarousel({
+                center: true,
+                items: 2,
+                dots: false,
+                loop: true,
+                margin: 5,
+                responsive: {
+                    600: {
+                        items: 4
+                    }
+                }
+            });
+        })
+
         $(function() {
             $("#rateYo1").rateYo({
                 starWidth: "30px",
@@ -486,6 +558,34 @@
                 starWidth: "30px",
                 fullStar: true,
                 readOnly: true,
+            });
+        });
+        $(function() {
+            var rateYoInstance = $("#rateYo-rating1").rateYo({
+                starWidth: "40px",
+                rating: 0,
+                fullStar: true,
+                spacing: "10px",
+            });
+
+
+            var initialRating = {{ $userReview[0]->place_ratings ?? 0 }};
+            rateYoInstance.rateYo("rating", initialRating);
+
+            // Display feedbackText for the initial rating
+            var initialFeedbackText = getFeedbackText(initialRating);
+            $("#feedbackText").text(initialFeedbackText);
+
+            rateYoInstance.on("rateyo.set", function(e, data) {
+                $('#place_rating').val(data.rating);
+                $('#formRating').submit();
+            }).on("rateyo.change", function(e, data) {
+                // Hiển thị văn bản khi rê vào
+                var rating = data.rating;
+                var feedbackText = getFeedbackText(rating);
+
+                // Hiển thị văn bản phản hồi
+                $("#feedbackText").text(feedbackText);
             });
         });
 
@@ -579,6 +679,110 @@
             });
         });
 
+        //Ajax for login
+        $(document).ready(function() {
+            $(document).on('submit', '#sendLogin', function(event) {
+                event.preventDefault();
+                var csrfToken = $('input[name="_token"]').val();
+                // Lấy dữ liệu từ form
+                var formData = new FormData(this);
+                $.ajax({
+                    url: '/login',
+                    data: formData,
+                    type: 'POST',
+                    enctype: 'multipart/form-data',
+                    processData: false,
+                    contentType: false,
+                    beforeSend: function() {
+                        Swal.showLoading();
+                    },
+                    headers: {
+                        'X-CSRF-TOKEN': csrfToken
+                    },
+                    success: function(response) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Thành công!',
+                            text: 'Đăng nhập thành công'
+                        }).then(() => {
+                            location.reload();
+                        });
+                    },
+                    error: function(xhr) {
+                        Swal.close();
+                        if (xhr.status === 422) {
+                            $('.invalid-feedback').empty();
+                            var response = JSON.parse(xhr.responseText);
+                            var errors = response.errors;
+                            for (var field in errors) {
+                                if (errors.hasOwnProperty(field)) {
+                                    var errorMessage = errors[field][0];
+                                    $('#' + field + '_error').text(errorMessage)
+                                        .show();
+                                }
+                            }
+                        }
+                    }
+                });
+            });
+        });
+
+        //Ajax for register
+        $(document).ready(function() {
+            $(document).on('submit', '#sendRegister', function(event) {
+                event.preventDefault();
+                var csrfToken = $('input[name="_token"]').val();
+                // Lấy dữ liệu từ form
+                var formData = new FormData(this);
+                $.ajax({
+                    url: '/register',
+                    data: formData,
+                    type: 'POST',
+                    enctype: 'multipart/form-data',
+                    processData: false,
+                    contentType: false,
+                    beforeSend: function() {
+                        Swal.showLoading();
+                    },
+                    headers: {
+                        'X-CSRF-TOKEN': csrfToken
+                    },
+                    success: function(response) {
+                        Swal.close();
+                        if (response.success) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Thành công!',
+                                text: 'Đăng ký thành công'
+                            }).then(() => {
+                                location.reload();
+                            });
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Không thể thêm địa điểm!',
+                                text: 'Đã xảy ra lỗi, vui lòng kiểm tra lại.'
+                            });
+                        }
+                    },
+                    error: function(xhr) {
+                        Swal.close();
+                        if (xhr.status === 422) {
+                            $('.invalid-feedback').empty();
+                            var response = JSON.parse(xhr.responseText);
+                            var errors = response.errors;
+                            for (var field in errors) {
+                                if (errors.hasOwnProperty(field)) {
+                                    var errorMessage = errors[field][0];
+                                    $('#' + field + '_error').text(errorMessage)
+                                        .show();
+                                }
+                            }
+                        }
+                    }
+                });
+            });
+        });
         document.getElementById('showLoginTab').addEventListener('click', function() {
             document.getElementById('loginTab').classList.remove('hidden');
             document.getElementById('registerTab').classList.add('hidden');
@@ -605,6 +809,40 @@
         document.getElementById('closeLoginRegisterModalButton').addEventListener('click', function() {
             document.getElementById('loginRegisterModal').classList.add('hidden');
         });
+
+        function checkOldPassword() {
+            // Thực hiện kiểm tra validate cho mật khẩu cũ và cập nhật thông báo lỗi
+            var oldPassword = document.getElementById('old_password').value;
+            // Thêm logic kiểm tra và hiển thị thông báo lỗi
+            // Ví dụ: (chỉ để minh họa)
+            if (oldPassword.length < 6 || oldPassword.length > 50) {
+                document.getElementById('old_password_error').innerText = 'Mật khẩu cũ phải có ít nhất 8 ký tự.';
+            } else {
+                document.getElementById('old_password_error').innerText = '';
+            }
+        }
+
+        function checkNewPassword() {
+            // Thực hiện kiểm tra validate cho mật khẩu cũ và cập nhật thông báo lỗi
+            var newPassword = document.getElementById('new_password').value;
+            // Thêm logic kiểm tra và hiển thị thông báo lỗi
+            // Ví dụ: (chỉ để minh họa)
+            if (newPassword.length < 6 || newPassword.length > 50) {
+                document.getElementById('new_password_error').innerText = 'Mật khẩu mới phải có ít nhất 8 ký tự.';
+            } else {
+                document.getElementById('new_password_error').innerText = '';
+            }
+        }
+
+        function checkConfirmPassword() {
+            var newPassword = document.getElementById('new_password').value;
+            var confirmPassword = document.getElementById('confirm_password').value;
+            if (confirmPassword !== newPassword) {
+                document.getElementById('confirm_password_error').innerText = 'Không khớp với mật khẩu mới.';
+            } else {
+                document.getElementById('confirm_password_error').innerText = '';
+            }
+        }
     </script>
     @livewireScripts
 </body>

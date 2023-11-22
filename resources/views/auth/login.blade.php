@@ -26,6 +26,7 @@
                         <label for="email" class="mb-2 text-gray-700">Email</label>
                         <input type="email" name="email" id="email" placeholder="email@gmail.com"
                             class="px-4 py-2 border-2 border-slate-300 rounded-md max-w-full focus:border-blue-500 focus:outline-none">
+                        <span class="text-bold text-red-700" id="email_error"></span>
                     </div>
 
                     <div id="input-field" class="flex flex-col relative">
@@ -33,9 +34,10 @@
                         <label for="Password" class="mb-2 text-gray-700">Mật khẩu</label>
                         <input type="password" name="password" id="password" placeholder="*********"
                             class="px-4 py-2 border-2 border-slate-300 rounded-md max-w-full focus:outline-none focus:border-blue-500">
+                        <span class="text-bold text-red-700" id="password_error"></span>
                     </div>
-                    <a href="/forgot-passwd" class="text-blue-500 font-semibold no-underline text-right">Quên mật
-                        khẩu?</a>
+                    <a href="/forgot-passwd"
+                        class="text-blue-500 font-semibold no-underline text-right">{{ trans('msg.forgotpassword') }}</a>
                     <button type="submit"
                         class="my-6 bg-blue-600 hover:bg-blue-700 text-white font-medium text-lg px-4 py-2 rounded-md">Đăng
                         nhập</button>

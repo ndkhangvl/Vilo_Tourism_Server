@@ -59,19 +59,32 @@ class LoginController extends Controller
 
     }
 
-    function register(Request $R)
+    function register(Request $request)
     {
+        $request->validate([
+            'name_register' => 'required',
+            'email_register' => 'required|email|unique:users,email', // Assuming your users table has an 'email' column
+            'password_register' => 'required'
+        ], [
+            'name_register.required' => 'Vui lòng nhập tên của bạn',
+            'email_register.required' => 'Vui lòng nhập email.',
+            'email_register.email' => 'Không đúng định dạng email (example@gmail.com).',
+            'email_register.unique' => 'Email đã tồn tại trong hệ thống.',
+            'password_register.required' => 'Vui lòng nhập mật khẩu.',
+        ]);
+        // dd($request->all());
         try {
             $cred = new User();
-            $cred->name = $R->name;
-            $cred->email = $R->email;
-            $cred->password = Hash::make($R->password);
+            $cred->name = $request->name_register;
+            $cred->email = $request->email_register;
+            $cred->password = Hash::make($request->password_register);
             $cred->role = 0;
             $cred->save();
+            // dd($cred);
             // $response = ['status' => 200, 'message' => 'Register Successfully! Welcome to Our Community'];
             return redirect('/login');
         } catch (Exception $e) {
-            $response = ['status' => 500, 'message' => $e];
+            return response()->json(['error' => $e->getMessage()], 500);
         }
     }
 
@@ -80,6 +93,10 @@ class LoginController extends Controller
         $request->validate([
             'email' => 'required|email',
             'password' => 'required'
+        ], [
+            'email.required' => 'Vui lòng nhập email.',
+            'email.email' => 'Không đúng định dạng email (example@gmail.com).',
+            'password.required' => 'Vui lòng nhập mật khẩu.',
         ]);
 
         $credentials = [

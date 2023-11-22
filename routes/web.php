@@ -3,6 +3,7 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AdminPlaceController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\LocaleController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PlaceController;
 use App\Http\Controllers\ImageController;
@@ -20,6 +21,8 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+//Change Locale
+Route::post('/updatelocale', [LocaleController::class, 'updateLocale'])->name('updateLocale');
 
 //Information User
 Route::get("/accountprofile", [HomeController::class, "accountProfile"]);

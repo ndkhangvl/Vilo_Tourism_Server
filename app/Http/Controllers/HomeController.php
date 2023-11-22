@@ -87,7 +87,7 @@ class HomeController extends Controller
         $fixedLocation = DB::select('select latitude,longitude from VLPlace where id_place=?', [$id]);
         $location = DB::select('EXEC GetAllLocation;');
         if (Auth::check()) {
-            $userReview = DB::select('SELECT * FROM VLRating WHERE id_user = ? AND id_place = ?', [Auth::user()->id, $id]);
+            $userReview = DB::select('SELECT place_ratings FROM VLRating WHERE id_user = ? AND id_place = ?', [Auth::user()->id, $id]);
         } else {
             $userReview = [];
         }
@@ -105,9 +105,6 @@ class HomeController extends Controller
             ->select('users.id', 'users.name', 'VLRating.place_ratings')
             ->where('id_place', $id)
             ->paginate(10);
-        // dd($ratingValue);
-        // dd($detailRatingValue);
-        // dd($listRating);
         $R = 6371.0;
         $distances = [];
 
@@ -137,9 +134,26 @@ class HomeController extends Controller
         $sortDistance = collect($distances)->sortBy('distance')->toArray();
         $limitedDistances = collect($sortDistance)->slice(1, 5)->toArray();
 
-        // dd($limitedDistances);
         $detail_place = DB::select('EXEC GetVLPlaceID ?;', [$id]);
-        DB::table('VLPlace')->where('id_place', $id)->increment('view_place');
+        $testData = DB::select('SELECT feature_place FROM VLPlace WHERE id_place=?;', [$id]);
+        $featurePlaceString = $testData[0]->feature_place;
+        $featuresArray = explode('|', $featurePlaceString);
+        $hashtags = array_map(function ($feature) {
+            return strtolower(str_replace(' ', '_', $feature));
+        }, $featuresArray);
+        $resultArray = ['hashtags' => $hashtags];
+        // dd($resultArray);
+        //Recommend Content
+        $apiUrl = 'http://127.0.0.1:5000/recommend';
+        try {
+            $response = Http::post($apiUrl, $resultArray);
+            $responseData2 = $response->json();
+
+        } catch (\Exception $e) {
+            // Xử lý lỗi (nếu có)
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+
         return view('home.detail_place', [
             'detail_place' => $detail_place,
             'distances' => $limitedDistances,
@@ -147,6 +161,8 @@ class HomeController extends Controller
             'detailRatingValue' => $detailRatingValue,
             'listRating' => $listRating,
             'userHasReview' => $userHasReview,
+            'userReview' => $userReview,
+            'responseData2' => $responseData2
         ]);
     }
 
@@ -200,27 +216,38 @@ class HomeController extends Controller
     {
         $apiUrl = 'http://127.0.0.1:5000/recommend_tourism';
 
+        // Kiểm tra xem người dùng có đăng nhập không
         if (Auth::check()) {
+            $checkRating = DB::select('select * from VLRating where id_user = ?', [Auth::user()->id]);
+
             $postData = [
                 'id_user' => Auth::user()->id,
             ];
 
-            try {
-                $response = Http::post($apiUrl, $postData);
+            if (count($checkRating) > 0) {
+                try {
 
-                // Lấy phản hồi từ API Flask dưới dạng JSON
-                $responseData = $response->json();
+                    $response = Http::post($apiUrl, $postData);
 
-                // Xử lý phản hồi JSON ở đây
+                    $responseData = $response->json();
 
+
+                    return view('home.recommend_place', [
+                        'responseData' => $responseData,
+                    ]);
+                } catch (\Exception $e) {
+                    return response()->json(['error' => $e->getMessage()], 500);
+                }
+            } else {
+                $responseData = [];
+                // Người dùng không có đánh giá
                 return view('home.recommend_place', [
+                    'checkRating' => $checkRating,
                     'responseData' => $responseData,
                 ]);
-            } catch (\Exception $e) {
-                // Xử lý lỗi (nếu có)
-                return response()->json(['error' => $e->getMessage()], 500);
             }
         } else {
+            // Người dùng chưa đăng nhập
             return view('auth.login');
         }
     }
@@ -230,49 +257,92 @@ class HomeController extends Controller
         // dd($request->all());
         // Lấy các giá trị từ request
         $token = $request->input('_token');
-        $history = $request->input('history');
-        $landscape = $request->input('landscape');
-        $view = $request->input('view');
-        $chua = $request->input('chua');
-        $tuongdai = $request->input('tuongdai');
-        $khust = $request->input('khust');
+        $souvneirStore = $request->input('souvneirStore');
+        $archArt = $request->input('archArt');
+        $culHistory = $request->input('culHistory');
+        $diCuisine = $request->input('diCuisine');
+        $resort = $request->input('resort');
+        $goFishing = $request->input('goFishing');
+        $folkGames = $request->input('folkGames');
+        $scenic = $request->input('scenic');
+        $temMonuments = $request->input('temMonuments');
+        $pagoda = $request->input('pagoda');
+        $meArea = $request->input('meArea');
+        $crafVillage = $request->input('crafVillage');
         // dd($request->all());
 
         // Tạo mảng hashtags từ các giá trị cần chuyển đổi
-        $hashtags = [$history, $landscape, $view, $chua, $tuongdai, $khust];
-
-        // Loại bỏ các giá trị null hoặc trống từ mảng hashtags
-        $hashtags = array_filter($hashtags, function ($value) {
-            return !is_null($value) && $value !== '';
-        });
-
-        $newData = ['hashtags' => array_values($hashtags)];
-        $jdonDecode = json_encode($hashtags);
-        $apiUrl = 'http://127.0.0.1:5000/recommend';
-        try {
-            $response = Http::post($apiUrl, $newData);
-
-            // Lấy phản hồi từ API Flask dưới dạng JSON
-            $responseData2 = $response->json();
-            // dd($responseData);
-            // Xử lý phản hồi JSON ở đây
-
+        $hashtags = [$souvneirStore, $archArt, $culHistory, $diCuisine, $resort, $goFishing, $folkGames, $scenic, $temMonuments, $pagoda, $meArea, $crafVillage];
+        if (
+            empty($souvneirStore) &&
+            empty($archArt) &&
+            empty($culHistory) &&
+            empty($diCuisine) &&
+            empty($resort) &&
+            empty($goFishing) &&
+            empty($folkGames) &&
+            empty($scenic) &&
+            empty($temMonuments) &&
+            empty($pagoda) &&
+            empty($meArea) &&
+            empty($crafVillage)
+        ) {
+            $responseData2 = [];
             return response()->json(['responseData2' => $responseData2]);
-        } catch (\Exception $e) {
-            // Xử lý lỗi (nếu có)
-            return response()->json(['error' => $e->getMessage()], 500);
+        } else {
+            // Loại bỏ các giá trị null hoặc trống từ mảng hashtags
+            $hashtags = array_filter($hashtags, function ($value) {
+                return !is_null($value) && $value !== '';
+            });
+
+            $newData = ['hashtags' => array_values($hashtags)];
+            // dd($newData);
+            $jdonDecode = json_encode($hashtags);
+            $apiUrl = 'http://127.0.0.1:5000/recommend';
+            try {
+                $response = Http::post($apiUrl, $newData);
+
+                // Lấy phản hồi từ API Flask dưới dạng JSON
+                $responseData2 = $response->json();
+                // dd($responseData);
+                // Xử lý phản hồi JSON ở đây
+
+                return response()->json(['responseData2' => $responseData2]);
+            } catch (\Exception $e) {
+                // Xử lý lỗi (nếu có)
+                return response()->json(['error' => $e->getMessage()], 500);
+            }
         }
     }
 
     public function ratingPlace(Request $request)
     {
         // dd($request->all());
-        $vlrating = new VLRating();
-        $vlrating->id_user = $request->id_user;
-        $vlrating->id_place = $request->id_place;
-        $vlrating->place_ratings = $request->place_rating;
-        $vlrating->date_post_rating = Carbon::now();
-        $vlrating->save();
+        $record = DB::table('VLRating')
+            ->where('id_user', $request->id_user)
+            ->where('id_place', $request->id_place)
+            ->first();
+
+        // dd($record);
+        if ($record) {
+            DB::table('VLRating')
+                ->where('id_user', $request->id_user)
+                ->where('id_place', $request->id_place)
+                ->delete();
+            $vlrating = new VLRating();
+            $vlrating->id_user = $request->id_user;
+            $vlrating->id_place = $request->id_place;
+            $vlrating->place_ratings = $request->place_rating;
+            $vlrating->date_post_rating = Carbon::now();
+            $vlrating->save();
+        } else {
+            $vlrating = new VLRating();
+            $vlrating->id_user = $request->id_user;
+            $vlrating->id_place = $request->id_place;
+            $vlrating->place_ratings = $request->place_rating;
+            $vlrating->date_post_rating = Carbon::now();
+            $vlrating->save();
+        }
 
         return response()->json([
             'success' => true,

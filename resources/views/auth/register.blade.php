@@ -19,30 +19,33 @@
 
                 <h2 class="text-2xl text-center uppercase font-semibold mt-8 mb-6 text-gray-700">Đăng ký</h2>
 
-                <form action="/register" method="POST" class="flex flex-col">
+                <form action="/register" method="POST" class="flex flex-col" id="sendRegister">
                     @csrf
                     <div id="input-field" class="flex flex-col mb-4 relative">
                         <i class="fi fi-rr-envelope absolute top-11 right-5 text-zinc-400"></i>
                         <label for="name" class="mb-2 text-gray-700">Tên người dùng (<span
                                 class="text-red-500">*</span>)</label>
-                        <input type="name" name="name" id="name"
+                        <input type="name" name="name_register" id="name_register"
                             class="px-4 py-2 border-2 border-slate-300 rounded-md max-w-full focus:border-blue-500 focus:outline-none">
+                        <span class="text-bold text-red-700" id="name_register_error"></span>
                     </div>
 
                     <div id="input-field" class="flex flex-col mb-4 relative">
                         <i class="fi fi-rr-envelope absolute top-11 right-5 text-zinc-400"></i>
                         <label for="email" class="mb-2 text-gray-700">Email (<span
                                 class="text-red-500">*</span>)</label>
-                        <input type="email" name="email" id="email"
+                        <input type="email" name="email_register" id="email_register"
                             class="px-4 py-2 border-2 border-slate-300 rounded-md max-w-full focus:border-blue-500 focus:outline-none">
+                        <span class="text-bold text-red-700" id="email_register_error"></span>
                     </div>
 
                     <div id="input-field" class="flex flex-col relative">
                         <i class="fi fi-rr-lock absolute top-11 right-5 text-zinc-400"></i>
                         <label for="Password" class="mb-2 text-gray-700">Mật khẩu (<span
                                 class="text-red-500">*</span>)</label>
-                        <input type="password" name="password" id="password"
+                        <input type="password" name="password_register" id="password_register"
                             class="px-4 py-2 border-2 border-slate-300 rounded-md max-w-full focus:outline-none focus:border-blue-500">
+                        <span class="text-bold text-red-700" id="password_register_error"></span>
                     </div>
 
                     <button
@@ -68,6 +71,64 @@
         </div>
     </main>
     @include('/components.footer')
+    <script>
+        //Ajax for register
+        $(document).ready(function() {
+            $(document).on('submit', '#sendRegister', function(event) {
+                event.preventDefault();
+                var csrfToken = $('input[name="_token"]').val();
+                // Lấy dữ liệu từ form
+                var formData = new FormData(this);
+                $.ajax({
+                    url: '/register',
+                    data: formData,
+                    type: 'POST',
+                    enctype: 'multipart/form-data',
+                    processData: false,
+                    contentType: false,
+                    beforeSend: function() {
+                        Swal.showLoading();
+                    },
+                    headers: {
+                        'X-CSRF-TOKEN': csrfToken
+                    },
+                    success: function(response) {
+                        Swal.close();
+                        if (response.success) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Thành công!',
+                                text: 'Đăng ký thành công'
+                            }).then(() => {
+                                location.reload();
+                            });
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Không thể thêm địa điểm!',
+                                text: 'Đã xảy ra lỗi, vui lòng kiểm tra lại.'
+                            });
+                        }
+                    },
+                    error: function(xhr) {
+                        Swal.close();
+                        if (xhr.status === 422) {
+                            $('.invalid-feedback').empty();
+                            var response = JSON.parse(xhr.responseText);
+                            var errors = response.errors;
+                            for (var field in errors) {
+                                if (errors.hasOwnProperty(field)) {
+                                    var errorMessage = errors[field][0];
+                                    $('#' + field + '_error').text(errorMessage)
+                                        .show();
+                                }
+                            }
+                        }
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 
 </html>
