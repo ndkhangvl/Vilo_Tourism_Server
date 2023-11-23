@@ -398,7 +398,7 @@
                             <h4 class="card-header-title">Địa điểm đánh giá cao<i class="tio-verified text-primary"
                                     data-toggle="tooltip" data-placement="top"
                                     title="This report is based on 100% of sessions."></i></h4>
-                            <a class="btn btn-sm btn-ghost-secondary" href="/admin/news">View all</a>
+                            <a class="btn btn-sm btn-ghost-secondary" href="/admin/place">Xem tất cả</a>
                         </div>
                         <!-- End Header -->
 

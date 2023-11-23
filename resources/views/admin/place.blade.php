@@ -42,7 +42,13 @@
 
     <style>
         #map {
-            width: 400px;
+            /* width: 900px; */
+            height: 500px;
+            /* padding-right: 20px; */
+        }
+
+        #map1 {
+            /* width: 900px; */
             height: 500px;
             /* padding-right: 20px; */
         }
@@ -83,7 +89,7 @@
                             <th class="p-2 text-center">Tên địa điểm</th>
                             <!-- <th class="p-2 text-center">Địa chỉ</th> -->
                             <!-- <th class="p-2 text-center">Thời gian mở cửa</th>
-                        <th class="p-2 text-center">Thời gian đóng cửa</th> -->
+                        <th class="p-2 text-center">Thời gian đóng cửas</th> -->
                             <th class="p-2 text-center">Số điện thoại</th>
                             <th class="p-2 text-center">Email</th>
                             <!-- <th class="p-2 text-center">Mô tả địa điểm</th> -->
@@ -137,9 +143,9 @@
     <!-- ========== END MAIN CONTENT ========== -->
 
     <!-- Modal Add -->
-    <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="addPlaceModal"
+    <div class="modal fade bd-example-modal-xl" tabindex="-1" role="dialog" aria-labelledby="addPlaceModal"
         aria-hidden="true" id="addPlaceModal">
-        <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-dialog modal-xl" role="document">
             <div class="modal-content">
 
                 <div class="modal-header">
@@ -150,8 +156,8 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <div class="flex">
-                        <div id="map" class=""></div>
+                    <div class="">
+
                         <form action="#" class="" method="POST" id="addPlace"
                             enctype="multipart/form-data">
                             @csrf
@@ -261,6 +267,7 @@
                                     class="form-control" placeholder="Nhập vào email">
                                 <span class="invalid-feedback" id="email_contact_place_error"></span>
                             </div>
+                            <div id="map" class=""></div>
                             <div class="form-row">
                                 <div class="form-group col-md-6">
                                     <label for="lat_place" class="font-weight-bold">Vĩ độ</label>
@@ -374,7 +381,7 @@
                                         </div>
                                         <div class="form-group col-md-6">
                                             <label for="type_view_service"><span class="font-weight-bold">Loại du
-                                                    lịch</span></label>name_edit_type_service
+                                                    lịch</span></label>
                                             <input type="text" name="name_view_type_service"
                                                 id="name_view_type_service" class="form-control"
                                                 placeholder="Nhập vào tên địa điểm" readonly>
@@ -584,11 +591,12 @@
                                 class="form-control" placeholder="Nhập vào email">
                             <span class="invalid-feedback" id="email_edit_contact_place_error"></span>
                         </div>
+                        <div id="map1" class=""></div>
                         <div class="form-row">
                             <div class="form-group col-md-6">
                                 <label for="start_time">Vĩ độ</label>
                                 <input type="text" name="edit_latitude_place" id="edit_latitude_place"
-                                    class="form-control" placeholder="Nhập vĩ độ">
+                                    value="2121" class="form-control" placeholder="Nhập vĩ độ">
                                 <span class="invalid-feedback" id="edit_latitude_place_error"></span>
                             </div>
                             <div class="form-group col-md-6">
@@ -1126,6 +1134,9 @@
             var fileInput = document.getElementById('file_edit_input');
             fileInput.value = '';
             fetchEditDetailData(url);
+            // setTimeout(function() {
+            //     console.log($('#edit_latitude_place').data('value'));
+            // }, 1000);
             // $('.picture-from-firebase').magnificPopup({
             //     type: 'image'
             //     // other options
@@ -1151,7 +1162,7 @@
                     $('.invalid-feedback').empty();
                     var detailData = response.vlplace[0];
                     var dataArray = detailData.feature_place.split('|');
-                    console.log(dataArray);
+                    // console.log(dataArray);
                     id = detailData.id_place;
                     $('#id_edit_price').val(detailData.id_price).trigger('change');
                     $('#id_edit_area').val(detailData.id_area).trigger('change');
@@ -1166,7 +1177,11 @@
                     $('#name_edit_type_service').val(dataArray).trigger('change');
 
                     $('#edit_latitude_place').val(detailData.latitude);
+                    $('#edit_latitude_place').attr('data-value', detailData.latitude);
+                    // document.getElementById('edit_latitude_place').value = detailData.latitude;
                     $('#edit_longitude_place').val(detailData.longitude);
+                    $('#edit_longitude_place').attr('data-value', detailData.longitude);
+
                     // $('#image_edit_url').val(detailData.image_url);
                     var thumbnailLink = $('.picture-from-firebase');
                     if (!detailData.image_url) {
@@ -1207,11 +1222,41 @@
                                 console.error(error);
                             });
                         // console.log(myEditorSend.getData());
+                        // console.log($('#edit_latitude_place').data('value'));
                     } else {
                         setCKEditorData(detailData.describe_place);
                         // console.log(myEditorSend.getData());
                     }
-                    $('#editPlaceModal').modal('show');
+                    $('#editPlaceModal').modal({
+                        show: true,
+                    }).on('shown.bs.modal', function() {
+                        // Đặt giá trị sau khi modal được hiển thị
+                        setTimeout(function() {
+                            map1.invalidateSize();
+                        }, 1);
+                        if (currentMarker) {
+                            map1.removeLayer(currentMarker);
+                        }
+
+                        if (map1.hasLayer(oldMarker)) {
+                            map1.removeLayer(oldMarker);
+                        }
+                        var oldMarkerIcon = L.icon({
+                            iconUrl: 'https://cdn-icons-png.flaticon.com/512/2775/2775994.png',
+                            iconSize: [35, 35], // size of the icon
+                            iconAnchor: [17,
+                                17
+                            ], // Điểm neo của biểu tượng, nơi nó sẽ được đặt trên bản đồ
+                            popupAnchor: [1, -34] // Điểm neo của cửa sổ pop-up, nếu bạn sử dụng
+                        });
+
+                        oldMarker = L.marker([detailData.latitude, detailData.longitude], {
+                            icon: oldMarkerIcon,
+                            title: 'Old Point'
+                        }).addTo(map1);
+                        // console.log(oldMarker);
+                    });
+
                 },
                 error: function() {
                     // Xử lý lỗi (nếu cần)
@@ -1231,7 +1276,7 @@
         var currentMarker = null;
         map.on('click', function(e) {
             // Logging for debugging
-            console.log("Clicked at:", e.latlng);
+            // console.log("Clicked at:", e.latlng);
 
             // Extracting latitude and longitude
             var lat = e.latlng.lat;
@@ -1255,15 +1300,59 @@
             }).addTo(map);
 
             // Now 'lat' and 'lng' contain the clicked coordinates
-            console.log("Latitude:", lat, "Longitude:", lng);
+            // console.log("Latitude:", lat, "Longitude:", lng);
             $('#latitude_place').val(lat);
             $('#longitude_place').val(lng);
         });
 
+        //Map Edit
+        var map1 = L.map('map1').setView([10.246602, 105.971673], 14);
+        // L.tileLayer('https://maps.vietmap.vn/tm/{z}/{x}/{y}.png?apikey=9cbf0bc15d3901b7e043d8f76be8d73f370a82fe629a2d46', {
+        //     attribution: '&copy; <a href="https://maps.vietmap.vn/copyright">Vietmap</a> contributors'
+        // }).addTo(map);
+
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map1);
+        var currentMarker = null;
+        var oldMarker = null;
+        map1.on('click', function(e) {
+            // Logging for debugging
+            // console.log("Clicked at:", e.latlng);
+
+            // Extracting latitude and longitude
+            var lat = e.latlng.lat;
+            var lng = e.latlng.lng;
+            // Remove the current marker if it exists
+            if (currentMarker) {
+                map1.removeLayer(currentMarker);
+            }
+
+            // Create a new marker
+            var customIcon = L.icon({
+                iconUrl: 'https://cdn.jsdelivr.net/npm/leaflet@1.7.1/dist/images/marker-icon.png',
+                iconSize: [25, 41],
+                iconAnchor: [12, 41],
+                popupAnchor: [1, -34]
+            });
+
+            currentMarker = L.marker([lat, lng], {
+                icon: customIcon,
+                title: 'Click Point'
+            }).addTo(map1);
+
+            // Now 'lat' and 'lng' contain the clicked coordinates
+            // console.log("Latitude:", lat, "Longitude:", lng);
+            $('#edit_latitude_place').val(lat);
+            $('#edit_longitude_place').val(lng);
+        });
 
         $('#openNewPlace').click(function() {
             // Đặt lại giá trị của form
-            map.invalidateSize();
+
+            setTimeout(function() {
+                map.invalidateSize();
+            }, 1);
 
             // Remove the current marker if it exists
             if (currentMarker) {

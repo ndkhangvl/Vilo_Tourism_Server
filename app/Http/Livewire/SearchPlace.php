@@ -28,7 +28,7 @@ class SearchPlace extends Component
     {
         $query = DB::table('vlplace')
             ->select('vlplace.*', 'vlr.rating')
-            ->join(DB::raw('(SELECT id_place, AVG(place_ratings) AS rating FROM vlrating GROUP BY id_place) as vlr'), 'vlplace.id_place', '=', 'vlr.id_place')
+            ->join(DB::raw('(SELECT id_place, CAST(AVG(CAST(place_ratings AS FLOAT)) AS DECIMAL(3, 1)) AS rating FROM vlrating GROUP BY id_place) as vlr'), 'vlplace.id_place', '=', 'vlr.id_place')
             ->whereRaw("vlplace.name_place COLLATE SQL_Latin1_General_CP1_CI_AI LIKE ?", ['%' . $this->searchTerm . '%'])
             ->when($this->idArea, function ($query) {
                 $query->where('vlplace.id_area', $this->idArea);

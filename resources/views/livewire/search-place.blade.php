@@ -91,7 +91,7 @@
             $(element).rateYo({
                 rating: element.getAttribute('data-rating'),
                 starWidth: "16px",
-                fullStar: true,
+                // fullStar: true,
                 readOnly: true,
             });
         }

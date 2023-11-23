@@ -13,7 +13,7 @@ class AdminController extends Controller
     public function index()
     {
         $vltotal = DB::select('EXEC CountDashboard;');
-        $places = VLPlace::select('VLPlace.name_place', DB::raw('AVG(VLRating.place_ratings) AS rating'))
+        $places = VLPlace::select('VLPlace.name_place', DB::raw('CAST(AVG(CAST(place_ratings AS FLOAT)) AS DECIMAL(3, 1)) AS rating'))
             ->join('VLRating', 'VLPlace.id_place', '=', 'VLRating.id_place')
             ->groupBy('VLPlace.id_place', 'VLPlace.name_place')
             ->orderBy('rating', 'DESC')

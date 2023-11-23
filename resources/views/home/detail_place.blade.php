@@ -140,7 +140,7 @@
                             <div class="flex flex-col gap-2 justify-center text-center bg-neutral-100 rounded-l-lg">
                                 <p class="text-2xl font-bold">Đánh giá trung bình</p>
                                 <p class="text-4xl font-serif text-emerald-600 font-bold">
-                                    {{ $ratingValue[0]->rating }}/5</p>
+                                    {{ $ratingValue[0]->rating }}/5.0</p>
                                 <div class="mx-auto" id="rateYo" data-rating="{{ $ratingValue[0]->rating }}"
                                     style="height: 50px">
                                 </div>
@@ -556,7 +556,7 @@
             $("#rateYo").rateYo({
                 rating: $("#rateYo").data("rating"),
                 starWidth: "30px",
-                fullStar: true,
+                // fullStar: true,
                 readOnly: true,
             });
         });

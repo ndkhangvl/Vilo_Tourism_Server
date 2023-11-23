@@ -98,7 +98,7 @@ class HomeController extends Controller
             $userHasReview = false;
         }
         // dd($userHasReview);
-        $ratingValue = DB::select('select avg(place_ratings) as rating from VLRating where id_place=?', [$id]);
+        $ratingValue = DB::select('SELECT CAST(AVG(CAST(place_ratings AS FLOAT)) AS DECIMAL(3, 1)) AS rating FROM VLRating WHERE id_place=?', [$id]);
         $detailRatingValue = DB::select('SELECT place_ratings, COUNT(*) as count FROM VLRating WHERE id_place = ? GROUP BY place_ratings', [$id]);
         $listRating = DB::table('VLRating')
             ->join('users', 'VLRating.id_user', '=', 'users.id')
