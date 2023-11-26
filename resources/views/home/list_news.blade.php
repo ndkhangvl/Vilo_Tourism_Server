@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Chi tiết tin tức</title>
+    <title>{{ trans('msg.detail_news') }}</title>
     <link rel="stylesheet" href="{{ asset('assets/css/ckeditor-tailwind-reset.css') }}">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
     @include('/components.constraint')
@@ -50,10 +50,11 @@
                                         class="md:text-3xl text-md font-bold text-justify line-clamp-3 hover:text-emerald-500">
                                         {{ $vlnews->title_news }}</h1>
                                     <div class="flex flex-row justify-start pb-3">
-                                        <h1>Ngày đăng: <span id="date_post_news" class="mr-2 italic">
+                                        <h1>{{ trans('msg.date_post_news') }}: <span id="date_post_news"
+                                                class="mr-2 italic">
                                                 {{ \Carbon\Carbon::parse($vlnews->date_post_news)->format('d/m/Y') }}</span>
                                         </h1>
-                                        <h1 class="">Số lượt xem: <span
+                                        <h1 class="">{{ trans('msg.view_news') }}: <span
                                                 class="italic">{{ $vlnews->view_news }}</span>
                                         </h1>
                                     </div>
@@ -65,12 +66,12 @@
                         </a>
                     @endforeach
                 @else
-                    <p>Không có bài viết khả dụng</p>
+                    <p>{{ trans('msg.no_news') }}</p>
                 @endif
             </div>
             <div class="content w-full md:w-4/12 md:pl-4" style="align-self: flex-start; top: 0px; position: sticky">
                 <div class="text-black text-left font-bold">
-                    <h2>Tin mới nhất</h2>
+                    <h2>{{ trans('msg.new_news') }}</h2>
                 </div>
                 <hr class="mt-2" />
                 <div class="md:p-2">

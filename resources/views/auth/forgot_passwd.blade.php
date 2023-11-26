@@ -5,6 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     @vite('resources/css/app.css')
+    <title>{{ trans('msg.forgotpasswd') }}</title>
 </head>
 
 <body>
@@ -16,13 +17,14 @@
             <!-- form -->
             <div class="p-6 lg:w-1/2 sm:p-8">
 
-                <h2 class="text-2xl text-center uppercase font-semibold mt-8 mb-6 text-gray-700">Quên mật khẩu</h2>
+                <h2 class="text-2xl text-center uppercase font-semibold mt-8 mb-6 text-gray-700">
+                    {{ trans('msg.forgotpasswd') }}</h2>
 
                 <form action="/forgot-pass" method="POST" class="flex flex-col">
                     @csrf
                     <div id="input-field" class="flex flex-col mb-4 relative">
                         <i class="fi fi-rr-envelope absolute top-11 right-5 text-zinc-400"></i>
-                        <label for="email" class="mb-2 text-gray-700">Email</label>
+                        <label for="email" class="mb-2 text-gray-700">{{ trans('msg.email') }}</label>
                         <input type="email" name="forgot_pass" id="forgot_pass" placeholder="email@gmail.com"
                             class="px-4 py-2 border-2 border-slate-300 rounded-md max-w-full focus:border-blue-500 focus:outline-none">
                         @error('forgot_pass')
@@ -30,12 +32,11 @@
                         @enderror
                     </div>
                     <button type="submit"
-                        class="my-6 bg-blue-600 hover:bg-blue-700 text-white font-medium text-lg px-4 py-2 rounded-md">Xác
-                        nhận</button>
+                        class="my-6 bg-blue-600 hover:bg-blue-700 text-white font-medium text-lg px-4 py-2 rounded-md">{{ trans('msg.confirm') }}</button>
                 </form>
 
-                <p class="text-gray-500">Bạn không có tài khoản? <a href="/forgot-passwd"
-                        class="text-blue-500 font-semibold no-underline">Xác nhận</a></p>
+                <p class="text-gray-500">{{ trans('msg.not_account') }}<a href="/register"
+                        class="text-blue-500 font-semibold no-underline">{{ trans('msg.register') }}</a></p>
 
             </div>
 

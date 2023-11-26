@@ -7,24 +7,26 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     @include('/components.constraint')
-    <title>Tài khoản</title>
+    <title>{{ trans('msg.account') }}</title>
 </head>
 
 <body>
     @include('/components.header_home')
     <div class="container md:pt-6 md:px-56 mx-auto sm:w-750 md:w-970 lg:w-1170">
         <div class="p-2 border shadow mb-4">
-            <h1 class="text-2xl text-black font-bold text-center">Thông tin tài khoản</h1>
+            <h1 class="text-2xl text-black font-bold text-center">{{ trans('msg.info_account') }}</h1>
             <hr class="m-2 mx-auto w-24 h-1 bg-green-700" />
-            <p class="text-xl">Họ tên: <span class="text-2xl">{{ auth()->user()->name }}</span></p>
-            <p class="text-xl">Email: <span class="text-2xl">{{ auth()->user()->email }}</span></p>
-            <p class="text-xl">Ngày tạo: <span class="text-2xl">{{ auth()->user()->created_at }}</span></p>
+            <p class="text-xl">{{ trans('msg.full_name') }}: <span class="text-2xl">{{ auth()->user()->name }}</span>
+            </p>
+            <p class="text-xl">{{ trans('msg.email') }}: <span class="text-2xl">{{ auth()->user()->email }}</span></p>
+            <p class="text-xl">{{ trans('msg.date_create_account') }}: <span
+                    class="text-2xl">{{ auth()->user()->created_at }}</span></p>
 
             <div class="flex justify-center gap-2">
                 <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                    onclick="changeInfo()">Đổi thông tin</button>
+                    onclick="changeInfo()">{{ trans('msg.change_info') }}</button>
                 <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                    onclick="changePassword()">Đổi mật khẩu</button>
+                    onclick="changePassword()">{{ trans('msg.change_passwd') }}</button>
             </div>
         </div>
     </div>
@@ -35,27 +37,27 @@
 
             var str = '<div class="form-group">' +
                 '<div class="mb-4">' +
-                '<label for="username" class="block text-sm font-medium text-gray-600">Mật khẩu cũ</label>' +
+                '<label for="username" class="block text-sm font-medium text-gray-600">{{ trans('msg.old_pass') }}</label>' +
                 '<input type="password" id="old_password" oninput="checkOldPassword()" name="old_password" class="mt-1 p-2 border border-gray-300 rounded-md w-full" required>' +
                 '<span class="text-sm text-red-500" id="old_password_error"></span>' +
                 '</div>' +
                 '<div class="mb-4">' +
-                '<label for="username" class="block text-sm font-medium text-gray-600">Mật khẩu mới</label>' +
+                '<label for="username" class="block text-sm font-medium text-gray-600">{{ trans('msg.new_pass') }}</label>' +
                 '<input type="password" id="new_password" oninput="checkNewPassword()" name="new_password" class="mt-1 p-2 border border-gray-300 rounded-md w-full" required>' +
                 '<span class="text-sm text-red-500" id="new_password_error"></span>' +
                 '</div>' +
                 '<div class="mb-4">' +
-                '<label for="username" class="block text-sm font-medium text-gray-600">Xác nhận mật khẩu mới</label>' +
+                '<label for="username" class="block text-sm font-medium text-gray-600">{{ trans('msg.confirm_pass') }}</label>' +
                 '<input type="password" id="confirm_password" oninput="checkConfirmPassword()" name="confirm_password" class="mt-1 p-2 border border-gray-300 rounded-md w-full" required>' +
                 '<span class="text-sm text-red-500" id="confirm_password_error"></span>' +
                 '</div>' +
                 '</div>';
             Swal.fire({
-                title: "Thay đổi mật khẩu",
+                title: "{{ trans('msg.change_passwd2') }}",
                 html: str,
                 showDenyButton: true,
-                confirmButtonText: "Lưu thay đổi",
-                denyButtonText: "Thoát"
+                confirmButtonText: "{{ trans('msg.change_state') }}",
+                denyButtonText: "{{ trans('msg.exit') }}"
             }).then((result) => {
                 /* Read more about isConfirmed, isDenied below */
                 if (result.isConfirmed) {
@@ -75,20 +77,21 @@
                             if (response.success == true) {
                                 Swal.fire({
                                     icon: 'success',
-                                    title: 'Đã sửa!',
-                                    text: 'Sửa thông tin thành công'
+                                    title: '{{ trans('msg.fixed') }}',
+                                    text: '{{ trans('msg.success_fixed') }}'
                                 }).then(() => {
                                     location.reload();
                                 });
                             } else if (response.success == false)
                                 Swal.fire({
                                     icon: 'error',
-                                    title: 'Không thể sửa mật khẩu!',
-                                    text: 'Mật khẩu cũ không đúng, vui lòng thực hiện lại.'
+                                    title: '{{ trans('msg.not_change_passwd') }}',
+                                    text: '{{ trans('msg.not_same_old_passwd') }}'
                                 });
                         },
                         error: function(error) {
-                            Swal.fire("Lỗi!", "Bạn đang bỏ trống.", "error");
+                            Swal.fire("{{ trans('msg.error') }}", "{{ trans('msg.empty') }}",
+                                "error");
                         }
                     });
                 } else if (result.isDenied) {
@@ -100,21 +103,21 @@
         function changeInfo() {
             var str = '<div class="form-group">' +
                 '<div class="mb-4">' +
-                '<label for="username" class="block text-sm font-medium text-gray-600">Tên</label>' +
+                '<label for="username" class="block text-sm font-medium text-gray-600">{{ trans('msg.uname') }}</label>' +
                 '<input type="text" id="name_change" value="{{ auth()->user()->name }}" name="name_change" class="mt-1 p-2 border border-gray-300 rounded-md w-full">' +
                 '</div>' +
                 '<div class="mb-4">' +
-                '<label for="username" class="block text-sm font-medium text-gray-600">Email</label>' +
+                '<label for="username" class="block text-sm font-medium text-gray-600">{{ trans('msg.email') }}</label>' +
                 '<input type="email" id="email_change" value="{{ auth()->user()->email }}" name="email_change" class="mt-1 p-2 border border-gray-300 rounded-md w-full">' +
                 '</div>' +
                 '</div>';
 
             Swal.fire({
-                title: "Thay đổi thông tin",
+                title: "{{ trans('msg.change_info_user') }}",
                 html: str,
                 showDenyButton: true,
-                confirmButtonText: "Lưu thay đổi",
-                denyButtonText: "Thoát"
+                confirmButtonText: "{{ trans('msg.change_state') }}",
+                denyButtonText: "{{ trans('msg.exit') }}"
             }).then((result) => {
                 /* Read more about isConfirmed, isDenied below */
                 if (result.isConfirmed) {
@@ -133,16 +136,18 @@
                             if (response.success == true) {
                                 Swal.fire({
                                     icon: 'success',
-                                    title: 'Đã sửa!',
-                                    text: 'Sửa thông tin thành công'
+                                    title: '{{ trans('msg.fixed') }}',
+                                    text: '{{ trans('msg.success_fixed') }}'
                                 }).then(() => {
                                     location.reload();
                                 });
                             } else if (response.success == false)
-                                Swal.fire("Lỗi!", "Bạn đang bỏ trống.", "error");
+                                Swal.fire("{{ trans('msg.error') }}", "{{ trans('msg.empty') }}",
+                                    "error");
                         },
                         error: function(error) {
-                            Swal.fire("Error!", "There was an error.", "error");
+                            Swal.fire("{{ trans('msg.error') }}", "{{ trans('msg.have_error') }}",
+                                "error");
                         }
                     });
                 } else if (result.isDenied) {
@@ -157,7 +162,7 @@
             // Thêm logic kiểm tra và hiển thị thông báo lỗi
             // Ví dụ: (chỉ để minh họa)
             if (oldPassword.length < 6 || oldPassword.length > 50) {
-                document.getElementById('old_password_error').innerText = 'Mật khẩu cũ phải có ít nhất 8 ký tự.';
+                document.getElementById('old_password_error').innerText = '{{ trans('msg.pass_length') }}';
             } else {
                 document.getElementById('old_password_error').innerText = '';
             }
@@ -169,7 +174,7 @@
             // Thêm logic kiểm tra và hiển thị thông báo lỗi
             // Ví dụ: (chỉ để minh họa)
             if (newPassword.length < 6 || newPassword.length > 50) {
-                document.getElementById('new_password_error').innerText = 'Mật khẩu mới phải có ít nhất 8 ký tự.';
+                document.getElementById('new_password_error').innerText = '{{ trans('msg.pass_length_new') }}';
             } else {
                 document.getElementById('new_password_error').innerText = '';
             }
@@ -182,7 +187,7 @@
             // Thêm logic kiểm tra và hiển thị thông báo lỗi
             // Ví dụ: (chỉ để minh họa)
             if (confirmPassword !== newPassword) {
-                document.getElementById('confirm_password_error').innerText = 'Không khớp với mật khẩu mới.';
+                document.getElementById('confirm_password_error').innerText = '{{ trans('msg.no_same_pass') }}';
             } else {
                 document.getElementById('confirm_password_error').innerText = '';
             }

@@ -24,49 +24,51 @@ use Illuminate\Support\Facades\Route;
 //Change Locale
 Route::post('/updatelocale', [LocaleController::class, 'updateLocale'])->name('updateLocale');
 
-//Information User
-Route::get("/accountprofile", [HomeController::class, "accountProfile"]);
-Route::post('/change-password', [LoginController::class, 'changePassword']);
-Route::get('/forgot-passwd', [LoginController::class, 'forgotPassword']);
-Route::post('/forgot-pass', [LoginController::class, 'forgotPass']);
-Route::post('/change-info', [LoginController::class, 'changeInfo']);
-Route::get('/login-check', [LoginController::class, 'loginCheck']);
-//Index
-Route::get('/', [HomeController::class, 'index']);
+Route::middleware(['switchLanguage'])->group(function () {
+    //Information User
+    Route::get("/accountprofile", [HomeController::class, "accountProfile"]);
+    Route::post('/change-password', [LoginController::class, 'changePassword']);
+    Route::get('/forgot-passwd', [LoginController::class, 'forgotPassword']);
+    Route::post('/forgot-pass', [LoginController::class, 'forgotPass']);
+    Route::post('/change-info', [LoginController::class, 'changeInfo']);
+    Route::get('/login-check', [LoginController::class, 'loginCheck']);
+    //Index
+    Route::get('/', [HomeController::class, 'index']);
 
-//Place
-Route::get('/list-place', [HomeController::class, 'listPlace']);
-Route::get('/detailplace/{id}', [HomeController::class, 'detailPlace']);
-//Rating
-Route::post('/rating-place', [HomeController::class, 'ratingPlace']);
+    //Place
+    Route::get('/list-place', [HomeController::class, 'listPlace']);
+    Route::get('/detailplace/{id}', [HomeController::class, 'detailPlace']);
+    //Rating
+    Route::post('/rating-place', [HomeController::class, 'ratingPlace']);
 
-//Recommend Place
-Route::get('/recommend-place', [HomeController::class, 'recommendPlace']);
-Route::post('/recommend-content', [HomeController::class, 'recommendContent']);
+    //Recommend Place
+    Route::get('/recommend-place', [HomeController::class, 'recommendPlace']);
+    Route::post('/recommend-content', [HomeController::class, 'recommendContent']);
 
-//News
-Route::get('/news', [HomeController::class, 'fullListNews']);
-Route::get('/list-news', [HomeController::class, 'listNews']);
-Route::get('/list-event', [HomeController::class, 'listEvent']);
-Route::get('/detailnews/{id}', [HomeController::class, 'detailNews']);
-
-
-Route::get('/introduction', function () {
-    return view('home.introduction');
-});
+    //News
+    Route::get('/news', [HomeController::class, 'fullListNews']);
+    Route::get('/list-news', [HomeController::class, 'listNews']);
+    Route::get('/list-event', [HomeController::class, 'listEvent']);
+    Route::get('/detailnews/{id}', [HomeController::class, 'detailNews']);
 
 
-//Auth Project
+    Route::get('/introduction', function () {
+        return view('home.introduction');
+    });
+
+
+    //Auth Project
 // Route::get('/place', [HomeController::class, 'getPlaceAPI']);
-Route::get('/login', [LoginController::class, 'index']);
-Route::get('/register', [LoginController::class, 'registerView']);
-// Route::post('/login/auth', [LoginController::class, 'login']);
+    Route::get('/login', [LoginController::class, 'index']);
+    Route::get('/register', [LoginController::class, 'registerView']);
+    // Route::post('/login/auth', [LoginController::class, 'login']);
 //Login for Modal
-Route::post('/login', [LoginController::class, 'login'])->name('login');
-Route::post('/register', [LoginController::class, 'register']);
+    Route::post('/login', [LoginController::class, 'login'])->name('login');
+    Route::post('/register', [LoginController::class, 'register']);
 
-Route::get('/logout', [LoginController::class, 'logout']);
+    Route::get('/logout', [LoginController::class, 'logout']);
 
+});
 
 //Admin check
 Route::middleware(['auth', 'role-check:admin'])->group(function () {

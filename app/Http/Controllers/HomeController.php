@@ -153,7 +153,7 @@ class HomeController extends Controller
             // Xử lý lỗi (nếu có)
             return response()->json(['error' => $e->getMessage()], 500);
         }
-
+        DB::table('VLPlace')->where('id_place', [$id])->increment('view_place', 1);
         return view('home.detail_place', [
             'detail_place' => $detail_place,
             'distances' => $limitedDistances,
@@ -171,6 +171,7 @@ class HomeController extends Controller
     {
         $vlnews = DB::table('VLNews')->where('id_type_news', 1)->take(3)->get();
         // dd($vlnews);
+        // $vlnews = [];
         $vlnews_event = DB::table('VLNews')->where('id_type_news', 0)->take(3)->get();
         // dd($vlnews_event);
         $most_view_news = DB::table('VLNews')->orderByDesc('view_news')->take(6)->get();

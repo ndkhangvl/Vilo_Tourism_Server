@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Chi tiết địa diểm</title>
+    <title>{{ trans('msg.detail_place') }}</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css"
         integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
         crossorigin="" />
@@ -79,29 +79,35 @@
                     </div>
                     <div class="shadow border-2 pt-6">
                         <div class="text-center font-bold">
-                            <h3 class="text-xl p-2">Giới thiệu</h3>
+                            <h3 class="text-xl p-2">{{ trans('msg.introduction') }}</h3>
                         </div>
                         <span class="devider"></span>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
-                            <p class="text-xl p-2"><i class="fas fa-map-marker-alt pr-2" style="color: #01913d;"></i>Tên
-                                địa điểm:
+                            <p class="text-xl p-2"><i class="fas fa-map-marker-alt pr-2"
+                                    style="color: #01913d;"></i>{{ trans('msg.name_place') }}:
                                 {{ $detail_place->name_place }}
                             </p>
-                            <p class="text-xl p-2"><i class="fas fa-money-bill pr-2" style="color: #01913d;"></i>Giá:
+                            <p class="text-xl p-2"><i class="fas fa-money-bill pr-2"
+                                    style="color: #01913d;"></i>{{ trans('msg.price') }}:
                                 @if ($detail_place->id_price == 3000)
-                                    <span>Miễn phí</span>
+                                    <span>{{ trans('msg.price_free') }}</span>
                                 @elseif ($detail_place->id_price == 3001)
-                                    <span>Có phí</span>
+                                    <span>{{ trans('msg.price_nofree') }}</span>
                                 @endif
                             </p>
-                            <p class="text-xl p-2"><i class="far fa-clock pr-2" style="color: #01913d;"></i></i>Mở
-                                cửa: {{ $detail_place->start_time }}<i class="far fa-clock pr-2 pl-2"
-                                    style="color: #01913d;"></i>Đóng cửa: {{ $detail_place->end_time }}</p>
-                            <p class="text-xl p-2"><i class="fas fa-map-marked pr-2" style="color: #008f3a;"></i>Địa
-                                chỉ: {{ $detail_place->address_place }}</p>
+                            <p class="text-xl p-2"><i class="far fa-clock pr-2"
+                                    style="color: #01913d;"></i></i>{{ trans('msg.start_time') }}:
+                                {{ $detail_place->start_time }}<i class="far fa-clock pr-2 pl-2"
+                                    style="color: #01913d;"></i>{{ trans('msg.end_time') }}:
+                                {{ $detail_place->end_time }}</p>
+                            <p class="text-xl p-2"><i class="fas fa-map-marked pr-2"
+                                    style="color: #008f3a;"></i>{{ trans('msg.address') }}:
+                                {{ $detail_place->address_place }}</p>
                             <p class="text-xl p-2"><i class="fas fa-phone-square-alt pr-2"
-                                    style="color: #008f3a;"></i>Liên hệ: {{ $detail_place->phone_place }}</p>
-                            <p class="text-xl p-2"><i class="fas fa-envelope pr-2" style="color: #008f3a;"></i>Email:
+                                    style="color: #008f3a;"></i>{{ trans('msg.contact_phone') }}:
+                                {{ $detail_place->phone_place }}</p>
+                            <p class="text-xl p-2"><i class="fas fa-envelope pr-2"
+                                    style="color: #008f3a;"></i>{{ trans('msg.email_contact') }}:
                                 {{ $detail_place->email_contact_place }}</p>
                         </div>
                         <div class="p-2">
@@ -111,7 +117,7 @@
                     </div>
                     <div class="center pt-2">
                         <div class="text-center font-bold">
-                            <h3 class="text-xl p-2">Bản đồ</h3>
+                            <h3 class="text-xl p-2">{{ trans('msg.map') }}</h3>
                         </div>
                         <span class="devider mb-2"></span>
                         <div id="map"></div>
@@ -122,7 +128,8 @@
                             @csrf
                             <div class="form-group">
                                 <input type="hidden" class="form-contrl" name="place_rating" id="place_rating">
-                                <input type="hidden" class="form-contrl" name="id_user" value="{{ Auth::user()->id }}">
+                                <input type="hidden" class="form-contrl" name="id_user"
+                                    value="{{ Auth::user()->id }}">
                                 <input type="hidden" class="form-contrl" name="id_place"
                                     value="{{ $detail_place->id_place }}">
                             </div>
@@ -131,14 +138,14 @@
                 @endforeach
                 <div class="center pt-2">
                     <div class="text-center font-bold">
-                        <h3 class="text-xl p-2">Đánh giá địa điểm</h3>
+                        <h3 class="text-xl p-2">{{ trans('msg.rating_place') }}</h3>
                     </div>
                     <span class="devider mb-2"></span>
                     <div class="rating-box rounded-md shadow">
                         <div class="grid grid-cols-1 md:grid-cols-3 h-full md:h-56">
                             {{-- <div id="rateYo" style="height: 50px"></div> --}}
                             <div class="flex flex-col gap-2 justify-center text-center bg-neutral-100 rounded-l-lg">
-                                <p class="text-2xl font-bold">Đánh giá trung bình</p>
+                                <p class="text-2xl font-bold">{{ trans('msg.rating_avg') }}</p>
                                 <p class="text-4xl font-serif text-emerald-600 font-bold">
                                     {{ $ratingValue[0]->rating }}/5.0</p>
                                 <div class="mx-auto" id="rateYo" data-rating="{{ $ratingValue[0]->rating }}"
@@ -149,27 +156,27 @@
                                 <ul class="mx-auto">
                                     <li class="flex">
                                         <p class="text-xl font-bold pr-20 grow">5
-                                            Sao({{ $detailRatingValue[0]->count ?? 0 }})</p>
+                                            {{ trans('msg.star') }}({{ $detailRatingValue[0]->count ?? 0 }})</p>
                                         <div id="rateYo1"></div>
                                     </li>
                                     <li class="flex">
                                         <p class="text-xl font-bold pr-20 grow">4
-                                            Sao({{ $detailRatingValue[1]->count ?? 0 }})</p>
+                                            {{ trans('msg.star') }}({{ $detailRatingValue[1]->count ?? 0 }})</p>
                                         <div id="rateYo2"></div>
                                     </li>
                                     <li class="flex">
                                         <p class="text-xl font-bold pr-20 grow">3
-                                            Sao({{ $detailRatingValue[2]->count ?? 0 }})</p>
+                                            {{ trans('msg.star') }}({{ $detailRatingValue[2]->count ?? 0 }})</p>
                                         <div id="rateYo3"></div>
                                     </li>
                                     <li class="flex">
                                         <p class="text-xl font-bold pr-20 grow">2
-                                            Sao({{ $detailRatingValue[3]->count ?? 0 }})</p>
+                                            {{ trans('msg.star') }}({{ $detailRatingValue[3]->count ?? 0 }})</p>
                                         <div id="rateYo4"></div>
                                     </li>
                                     <li class="flex">
                                         <p class="text-xl font-bold pr-20 grow">1
-                                            Sao({{ $detailRatingValue[4]->count ?? 0 }})</p>
+                                            {{ trans('msg.star') }}({{ $detailRatingValue[4]->count ?? 0 }})</p>
                                         <div id="rateYo5"></div>
                                     </li>
                                 </ul>
@@ -197,16 +204,15 @@
                         </button> --}}
                             <div class="border p-4" id="myDiv">
                                 <!-- Nội dung bạn muốn hiển thị trong div -->
-                                <p class="mb-4 text-xl text-green-700 font-bold italic">Bạn đã đánh giá địa điểm này
-                                    rồi! Hãy chọn lại nếu bạn muốn sửa đánh giá</p>
+                                <p class="mb-4 text-xl text-green-700 font-bold italic">{{ trans('msg.fix_rating') }}
+                                </p>
                                 <div id="feedbackText" class="text-center text-2xl italic font-bold"></div>
                                 <div id="rateYo-rating1" class="mt-2 mx-auto mb-2"></div>
                             </div>
                         @else
                             <div class="mb-4 p-2">
-                                <label for="username" class="block text-gray-700 text-sm font-bold mb-2">Hãy
-                                    đánh
-                                    giá</label>
+                                <label for="username"
+                                    class="block text-gray-700 text-sm font-bold mb-2">{{ trans('msg.pls_rating') }}</label>
                                 <div class="flex p-2">
                                     <div class="l-list-rating">
                                         <div
@@ -234,14 +240,14 @@
                         <div>
                             <button id="openLoginRegisterModalButton"
                                 class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                                Open Login Modal
+                                {{ trans('msg.login_modal') }}
                             </button>
                         </div>
                     @endif
                 </div>
                 <livewire:list-rating-place :idPlace="$detail_place->id_place" />
                 <div class="text-center font-bold">
-                    <h3 class="text-xl p-2">Địa điểm tương tự</h3>
+                    <h3 class="text-xl p-2">{{ trans('msg.same_place') }}</h3>
                 </div>
                 <span class="devider mb-2"></span>
                 <div class="border shadow p-2">
@@ -274,7 +280,7 @@
             <div class="content w-full md:w-1/4 pt-2 md:pt-0"
                 style="align-self: flex-start; top: 0px; position: sticky">
                 <div class="text-black text-left font-bold">
-                    <h2>Địa điểm gần đây ({{ count($distances) }})</h2>
+                    <h2>{{ trans('msg.near_place') }} ({{ count($distances) }})</h2>
                 </div>
                 <hr class="mt-2" />
                 <div class="p-2">
@@ -305,9 +311,9 @@
                     </div>
                     <div class="grid grid-cols-2 mt-2">
                         <button id="showLoginTab"
-                            class="p-2 text-blue-500 focus:outline-none hover:bg-blue-300 hover:text-black">Login</button>
+                            class="p-2 text-blue-500 focus:outline-none hover:bg-blue-300 hover:text-black">{{ trans('msg.login') }}</button>
                         <button id="showRegisterTab"
-                            class="p-2 text-blue-500 focus:outline-none hover:bg-blue-300 hover:text-black">Register</button>
+                            class="p-2 text-blue-500 focus:outline-none hover:bg-blue-300 hover:text-black">{{ trans('msg.register') }}</button>
                     </div>
                     <div class="p-5">
                         <div id="loginTab" class="tab-content">
@@ -318,7 +324,7 @@
                                     Login</h1> --}}
                                     {{-- <hr class="mt-3"> --}}
                                     <div class="mt-3">
-                                        <label for="username" class="block text-base mb-2">Email
+                                        <label for="username" class="block text-base mb-2">{{ trans('msg.email') }}
                                             (<span class="text-rose-600">*</span>)</label>
                                         <input type="text" id="email" name="email"
                                             class="border w-full text-base px-2 py-1 focus:outline-none focus:ring-0 focus:border-gray-600"
@@ -326,7 +332,8 @@
                                         <span class="text-bold text-red-700" id="email_error"></span>
                                     </div>
                                     <div class="mt-3">
-                                        <label for="password" class="block text-base mb-2">Mật khẩu (<span
+                                        <label for="password"
+                                            class="block text-base mb-2">{{ trans('msg.password') }} (<span
                                                 class="text-rose-600">*</span>)</label></label>
                                         <input type="password" id="password" name="password"
                                             class="border w-full text-base px-2 py-1 focus:outline-none focus:ring-0 focus:border-gray-600"
@@ -335,13 +342,14 @@
                                     </div>
                                     <div class="mt-3 flex justify-between items-center">
                                         <div>
-                                            <a href="#" class="text-indigo-800 font-semibold">Quên mật khẩu?</a>
+                                            <a href="#"
+                                                class="text-indigo-800 font-semibold">{{ trans('msg.forgotpassword') }}</a>
                                         </div>
                                     </div>
                                     <div class="flex mt-5">
                                         <button type="submit"
                                             class="border-2 border-indigo-700 bg-indigo-700 text-white py-1 w-full rounded-md hover:bg-transparent hover:text-indigo-700 font-semibold"><i
-                                                class="fa-solid fa-right-to-bracket"></i>&nbsp;&nbsp;Đăng nhập</button>
+                                                class="fa-solid fa-right-to-bracket"></i>&nbsp;&nbsp;{{ trans('msg.login') }}</button>
                                     </div>
                                 </div>
                             </form>
@@ -353,23 +361,24 @@
                                 @csrf
                                 <div class="w-96 bg-white rounded-md">
                                     <div class="mt-3">
-                                        <label for="username" class="block text-base mb-2">Tên (<span
-                                                class="text-rose-600">*</span>)</label></label>
+                                        <label for="username" class="block text-base mb-2">{{ trans('msg.uname') }}
+                                            (<span class="text-rose-600">*</span>)</label></label>
                                         <input type="text" id="name_register" name="name_register"
                                             class="border w-full text-base px-2 py-1 focus:outline-none focus:ring-0 focus:border-gray-600"
                                             placeholder="Nhập vào tên..." />
                                         <span class="text-bold text-red-700" id="name_register_error"></span>
                                     </div>
                                     <div class="mt-3">
-                                        <label for="username" class="block text-base mb-2">Email (<span
-                                                class="text-rose-600">*</span>)</label></label>
+                                        <label for="username" class="block text-base mb-2">{{ trans('msg.email') }}
+                                            (<span class="text-rose-600">*</span>)</label></label>
                                         <input type="text" id="email_register" name="email_register"
                                             class="border w-full text-base px-2 py-1 focus:outline-none focus:ring-0 focus:border-gray-600"
                                             placeholder="Nhập vào mail..." />
                                         <span class="text-bold text-red-700" id="email_register_error"></span>
                                     </div>
                                     <div class="mt-3">
-                                        <label for="password" class="block text-base mb-2">Mật khẩu (<span
+                                        <label for="password"
+                                            class="block text-base mb-2">{{ trans('msg.password') }} (<span
                                                 class="text-rose-600">*</span>)</label></label>
                                         <input type="password" id="password_register" name="password_register"
                                             class="border w-full text-base px-2 py-1 focus:outline-none focus:ring-0 focus:border-gray-600"
@@ -379,7 +388,7 @@
                                     <div class="flex mt-5">
                                         <button type="submit"
                                             class="border-2 border-indigo-700 bg-indigo-700 text-white py-1 w-full rounded-md hover:bg-transparent hover:text-indigo-700 font-semibold"><i
-                                                class="fa-solid fa-right-to-bracket"></i>&nbsp;&nbsp;Đăng ký</button>
+                                                class="fa-solid fa-right-to-bracket"></i>&nbsp;&nbsp;{{ trans('msg.register') }}</button>
                                     </div>
                                 </div>
                             </form>
@@ -392,6 +401,10 @@
     @include('/components.footer')
     <script>
         var map = L.map('map').setView([10.246602, 105.971673], 14);
+        // L.tileLayer('https://maps.vietmap.vn/tm/{z}/{x}/{y}.png?apikey=9cbf0bc15d3901b7e043d8f76be8d73f370a82fe629a2d46', {
+        //     attribution: '&copy; <a href="https://maps.vietmap.vn/copyright">Vietmap</a> contributors'
+        // }).addTo(map);
+
         // apikey =
         //     'https://maps.vietmap.vn/api/dm/{z}/{x}/{y}@2x.png?apikey=c3d0f188ff669f89042771a20656579073cffec5a8a69747';
         //Open map
@@ -422,83 +435,82 @@
                     });
                     console.log("Khoảng cách là: " + distance / 1000 + " km");
 
-                    // $.ajax({
-                    //     url: 'https://maps.vietmap.vn/api/route?point=' + latitude + ',' +
-                    //         longitude +
-                    //         '&point=' + {{ $detail_place->latitude }} + ',' +
-                    //         {{ $detail_place->longitude }} +
-                    //         '&apikey=c3d0f188ff669f89042771a20656579073cffec5a8a69747',
-                    //     type: 'get',
-                    //     success: function(res) {
-                    //         // console.log(res);
-                    //         var colors = ['red', 'blue', 'green', 'yellow', 'orange'];
-                    //         // var html = '<h2 class="title">Kết quả lộ trình</h2>';
-                    //         for (var i = 0; i < res.paths.length; i++) {
-                    //             var totalmeter = 0;
-                    //             var num = Number(i + 1);
-                    //             // var subhtml = '';
-                    //             // subhtml += '<ul class="list">';
-                    //             var instructions = res.paths[i].instructions;
-                    //             // var points = res.paths[i].points.coordinates;
-                    //             var points = res.paths[i].points;
-                    //             // console.log(points);
-                    //             var polyline = L.Polyline.fromEncoded(points);
-                    //             var coordinates = polyline.getLatLngs();
-                    //             // console.log(coordinates);
-                    //         }
+                    $.ajax({
+                        url: 'https://maps.vietmap.vn/api/route?point=' + latitude + ',' +
+                            longitude +
+                            '&point=' + {{ $detail_place->latitude }} + ',' +
+                            {{ $detail_place->longitude }} +
+                            '&apikey=c3d0f188ff669f89042771a20656579073cffec5a8a69747',
+                        type: 'get',
+                        success: function(res) {
+                            // console.log(res);
+                            var colors = ['red', 'blue', 'green', 'yellow', 'orange'];
+                            // var html = '<h2 class="title">Kết quả lộ trình</h2>';
+                            for (var i = 0; i < res.paths.length; i++) {
+                                var totalmeter = 0;
+                                var num = Number(i + 1);
+                                var instructions = res.paths[i].instructions;
 
-                    //         //draw line
-                    //         var latlngs = [];
+                                var points = res.paths[i].points;
+                                var polyline = L.Polyline.fromEncoded(points);
+                                var coordinates = polyline.getLatLngs();
+                            }
 
-                    //         for (var k = 0; k < coordinates.length; k++) {
-                    //             latlngs.push([coordinates[k].lat, coordinates[k].lng]);
-                    //         }
+                            // Draw the route based on information taken from the Directions API
+                            // Vẽ đường dựa trên các thông tin được lấy từ API chỉ đường 
+                            var latlngs = [];
 
-                    //         var colorIdx = i % colors.length;
-                    //         var polyline = L.polyline(latlngs, {
-                    //             color: colors[colorIdx]
-                    //         }).addTo(map);
+                            for (var k = 0; k < coordinates.length; k++) {
+                                latlngs.push([coordinates[k].lat, coordinates[k].lng]);
+                            }
 
-                    //         //Test
-                    //         var distanceTooltip = L.tooltip({
-                    //             permanent: true,
-                    //             direction: 'center',
-                    //             className: 'distance-tooltip'
-                    //         }).setContent(distance / 1000 + ' km');
+                            var colorIdx = i % colors.length;
+                            var polyline = L.polyline(latlngs, {
+                                color: colors[colorIdx]
+                            }).addTo(map);
 
-                    //         polyline.bindTooltip(distanceTooltip).openTooltip();
+                            // Add the distance from your current location to the destination in the middle of the directions
+                            // Thêm số khoảng cách từ vị trí hiện tại đến địa điểm vào giữa hướng dẫn chỉ đường đi
+                            var distanceTooltip = L.tooltip({
+                                permanent: true,
+                                direction: 'center',
+                                className: 'distance-tooltip'
+                            }).setContent(distance / 1000 + ' km');
 
-                    //         // Zoom the map to the polyline and fit the polyline bounds
-                    //         map.fitBounds(polyline.getBounds()).addLayer(polyline);
-                    //         var endIcon = L.icon({
-                    //             iconUrl: 'https://cdn-icons-png.flaticon.com/512/2775/2775994.png',
-                    //             iconSize: [35, 35], // size of the icon
-                    //             iconAnchor: [17,
-                    //                 17
-                    //             ], // point of the icon which will correspond to marker's location
-                    //         });
-                    //         var startIcon = L.icon({
-                    //             iconUrl: 'https://cdn-icons-png.flaticon.com/512/2775/2775994.png',
-                    //             iconSize: [35, 35], // size of the icon
-                    //             iconAnchor: [17,
-                    //                 17
-                    //             ], // point of the icon which will correspond to marker's location
-                    //         });
+                            polyline.bindTooltip(distanceTooltip).openTooltip();
 
-                    //         L.marker(latlngs[0], {
-                    //             icon: startIcon,
-                    //         }).bindPopup('<p style="color: green; font-weight: bold">' +
-                    //             "Vị trí hiện tại" + '</p>').addTo(map);
-                    //         L.marker(latlngs[latlngs.length - 1], {
-                    //             icon: endIcon
-                    //         }).bindPopup('<p style="color: green; font-weight: bold">' +
-                    //             "{{ $detail_place->name_place }}" + '</p>').addTo(map);
+                            // Zoom the map to the polyline and fit the polyline bounds
+                            // Phóng to map khớp với đường polyline vừa vẽ
+                            map.fitBounds(polyline.getBounds()).addLayer(polyline);
+                            var endIcon = L.icon({
+                                iconUrl: 'https://cdn-icons-png.flaticon.com/512/2775/2775994.png',
+                                iconSize: [35, 35], // size of the icon
+                                iconAnchor: [17,
+                                    17
+                                ],
+                            });
+                            var startIcon = L.icon({
+                                iconUrl: 'https://cdn-icons-png.flaticon.com/512/2775/2775994.png',
+                                iconSize: [35, 35], // size of the icon
+                                iconAnchor: [17,
+                                    17
+                                ],
+                            });
 
-                    //     }
-                    // })
+                            L.marker(latlngs[0], {
+                                icon: startIcon,
+                            }).bindPopup('<p style="color: green; font-weight: bold">' +
+                                "Vị trí hiện tại" + '</p>').addTo(map);
+                            L.marker(latlngs[latlngs.length - 1], {
+                                icon: endIcon
+                            }).bindPopup('<p style="color: green; font-weight: bold">' +
+                                "{{ $detail_place->name_place }}" + '</p>').addTo(map);
+
+                        }
+                    })
                 });
             } else {
-                console.log('Geolocation is not supported by this browser.');
+                console.log('Geolocation không hỗ trợ bởi trình duyệt.');
             }
         })
     </script>
@@ -599,19 +611,19 @@
                 // var ckEditorData = myEditorSend.getData();
                 // formData.append('describe_edit_place', ckEditorData);
                 Swal.fire({
-                    title: 'Bạn muốn đánh giá địa điểm này?',
+                    title: '{{ trans('msg.want_rating') }}',
                     // text: "Thông tin địa điểm " + $('#name_edit_place').val() +
                     //     " sẽ được chỉnh sửa!",
                     icon: 'info',
                     showCancelButton: true,
                     confirmButtonColor: '#35A745',
                     cancelButtonColor: '#6c757d',
-                    confirmButtonText: 'Xác nhận',
-                    cancelButtonText: 'Hủy'
+                    confirmButtonText: '{{ trans('msg.confirm') }}',
+                    cancelButtonText: '{{ trans('msg.cancel') }}'
                 }).then((result) => {
                     if (result.isConfirmed) {
                         Swal.fire({
-                            title: 'Đang xử lý...',
+                            title: '{{ trans('msg.process') }}',
                             allowOutsideClick: false,
                             allowEscapeKey: false,
                             allowEnterKey: false,
@@ -640,16 +652,16 @@
                                 if (response.success) {
                                     Swal.fire({
                                         icon: 'success',
-                                        title: 'Thành công!',
-                                        text: 'Đánh giá địa điểm thành công'
+                                        title: '{{ trans('msg.successful') }}',
+                                        text: '{{ trans('msg.succes_place') }}'
                                     }).then(() => {
                                         location.reload();
                                     });
                                 } else {
                                     Swal.fire({
                                         icon: 'error',
-                                        title: 'Không thể thêm địa điểm!',
-                                        text: 'Đã xảy ra lỗi, vui lòng kiểm tra lại.'
+                                        title: '{{ trans('msg.cannot_place') }}',
+                                        text: '{{ trans('msg.have_error') }}'
                                     });
                                 }
                             },
@@ -657,8 +669,8 @@
                                 Swal.close();
                                 Swal.fire({
                                     icon: 'error',
-                                    title: 'Lỗi!',
-                                    text: 'Có lỗi xảy ra trong quá trình xử lý, vui lòng thực hiện lại sau'
+                                    title: '{{ trans('msg.error') }}',
+                                    text: '{{ trans('msg.have_error2') }}'
                                 });
                                 if (xhr.status === 422) {
                                     $('.invalid-feedback').empty();
@@ -702,8 +714,8 @@
                     success: function(response) {
                         Swal.fire({
                             icon: 'success',
-                            title: 'Thành công!',
-                            text: 'Đăng nhập thành công'
+                            title: '{{ trans('msg.successful') }}',
+                            text: '{{ trans('msg.success_login') }}'
                         }).then(() => {
                             location.reload();
                         });
@@ -752,16 +764,16 @@
                         if (response.success) {
                             Swal.fire({
                                 icon: 'success',
-                                title: 'Thành công!',
-                                text: 'Đăng ký thành công'
+                                title: '{{ trans('msg.successful') }}',
+                                text: '{{ trans('msg.success_register') }}'
                             }).then(() => {
                                 location.reload();
                             });
                         } else {
                             Swal.fire({
                                 icon: 'error',
-                                title: 'Không thể thêm địa điểm!',
-                                text: 'Đã xảy ra lỗi, vui lòng kiểm tra lại.'
+                                title: '{{ trans('msg.error_place') }}',
+                                text: '{{ trans('msg.have_error') }}'
                             });
                         }
                     },

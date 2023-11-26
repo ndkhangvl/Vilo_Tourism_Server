@@ -56,7 +56,7 @@
                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                     d="M5 1 1 5l4 4" />
             </svg>
-            <span class="sr-only">Previous</span>
+            <span class="sr-only">{{ trans('msg.previous') }}</span>
         </span>
     </button>
     <button type="button"
@@ -69,7 +69,7 @@
                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                     d="m1 9 4-4-4-4" />
             </svg>
-            <span class="sr-only">Next</span>
+            <span class="sr-only">{{ trans('msg.next') }}</span>
         </span>
     </button>
 </div>

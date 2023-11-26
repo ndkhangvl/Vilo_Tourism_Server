@@ -6,33 +6,33 @@
             <div class="w-1/3 pt-2"><select
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     wire:model="idArea">
-                    <option value="">Chọn khu vực</option>
-                    <option value="1000">Huyện Bình Tân</option>
-                    <option value="1001">Huyện Long Hồ</option>
-                    <option value="1002">Huyện Mang Thít</option>
-                    <option value="1003">Huyện Tam Bình</option>
-                    <option value="1004">Huyện Trà Ôn</option>
-                    <option value="1005">Huyện Vũng Liêm</option>
-                    <option value="1006">Thành phố Vĩnh Long</option>
-                    <option value="1007">Thị xã Bình Minh</option>
+                    <option value="">{{ __('msg.choose_region') }}</option>
+                    <option value="1000">{{ __('msg.binh_tan') }}</option>
+                    <option value="1001">{{ __('msg.long_ho') }}</option>
+                    <option value="1002">{{ __('msg.mang_thit') }}</option>
+                    <option value="1003">{{ __('msg.tam_binh') }}</option>
+                    <option value="1004">{{ __('msg.tra_on') }}</option>
+                    <option value="1005">{{ __('msg.vung_liem') }}</option>
+                    <option value="1006">{{ __('msg.tp_vinhlong') }}</option>
+                    <option value="1007">{{ __('msg.binh_minh') }}</option>
                 </select></div>
             <div class="w-1/3 pt-2"><select
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     wire:model="idFree">
-                    <option value="">Chọn phí</option>
-                    <option value="3000">Miễn phí</option>
-                    <option value="3001">Có phí</option>
+                    <option value="">{{ __('msg.choose_fee') }}</option>
+                    <option value="3000">{{ __('msg.free') }}</option>
+                    <option value="3001">{{ __('msg.have_fee') }}</option>
                 </select>
             </div>
             <div class="w-1/3 pt-2"><select
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     wire:model="idTypeService">
-                    <option value="">Chọn thể loại du lịch</option>
-                    <option value="4000">Du lịch sinh thái</option>
-                    <option value="4001">Du lịch làng nghề</option>
-                    <option value="4002">Du lịch lịch sử - văn hóa</option>
-                    <option value="4003">Du lịch tâm linh</option>
-                    <option value="4004">Du lịch trở về nguồn cội</option>
+                    <option value="">{{ __('msg.type_place') }}</option>
+                    <option value="4000">{{ __('msg.sinh_thai') }}</option>
+                    <option value="4001">{{ __('msg.lang_nghe') }}</option>
+                    <option value="4002">{{ __('msg.lich_su_van_hoa') }}</option>
+                    <option value="4003">{{ __('msg.tam_linh') }}</option>
+                    <option value="4004">{{ __('msg.tro_ve') }}</option>
                 </select>
             </div>
         </div>
@@ -53,7 +53,7 @@
                                 <p class="line-clamp-1">{{ $vlplace->address_place }}</p>
                                 <div class="flex place-items-center">
                                     <div class="rateYoPlace" data-rating="{{ $vlplace->rating }}"></div>
-                                    <p class="italic">Lượt xem: {{ $vlplace->view_place }}</p>
+                                    <p class="italic">{{ __('msg.view_place2') }}: {{ $vlplace->view_place }}</p>
                                 </div>
                             </div>
                         </a>

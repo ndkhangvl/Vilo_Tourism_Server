@@ -36,75 +36,75 @@
     @include('/components.header_home')
     <div class="container pt-6 px-16 mx-auto sm:w-750 md:w-970 lg:w-1170">
         <div class="text-center pb-2">
-            <h1 class="text-2xl font-bold italic text-green-600">Gợi ý theo sở thích</h1>
+            <h1 class="text-2xl font-bold italic text-green-600">{{ trans('msg.recommend_like') }}</h1>
         </div>
         <span class="devider mb-2"></span>
         <div class="border shadow pb-2">
-            <h1 class="italic p-2">Bạn thích loại địa điểm nào?</h1>
+            <h1 class="italic p-2">{{ trans('msg.what_type') }}</h1>
             <form action="/recommend-content" method="POST" id="recommendForm">
                 @csrf
                 <div class="grid grid-cols-4 gap-4 p-2">
                     <label class="flex items-center">
                         <input type="checkbox" name="souvneirStore" value="Cửa_hàng_lưu_niệm"
                             class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                        <span class="ml-2">Cửa hàng lưu niệm</span>
+                        <span class="ml-2">{{ trans('msg.souvneir_store') }}</span>
                     </label>
 
                     <label class="flex items-center">
                         <input type="checkbox" name="archArt" value="Kiến_trúc_và_nghệ_thuật"
                             class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                        <span class="ml-2">Kiến trúc và nghệ thuật</span>
+                        <span class="ml-2">{{ trans('msg.arch_art') }}</span>
                     </label>
 
                     <label class="flex items-center">
                         <input type="checkbox" name="culHistory" value="Văn_hóa_và_lịch_sử"
                             class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                        <span class="ml-2">Văn hóa và lịch sử</span>
+                        <span class="ml-2">{{ trans('msg.cul_history') }}</span>
                     </label>
                     <label class="flex items-center">
                         <input type="checkbox" name="diCuisine" value="Ẩm_thực_đa_dạng"
                             class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                        <span class="ml-2">Ẩm thực đa dạng</span>
+                        <span class="ml-2">{{ trans('msg.di_cuisine') }}</span>
                     </label>
                     <label class="flex items-center">
                         <input type="checkbox" name="resort" value="Khu_nghỉ_dưỡng"
                             class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                        <span class="ml-2">Khu nghỉ dưỡng</span>
+                        <span class="ml-2">{{ trans('msg.resort') }}</span>
                     </label>
                     <label class="flex items-center">
                         <input type="checkbox" name="goFishing" value="Câu_cá"
                             class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                        <span class="ml-2">Câu cá</span>
+                        <span class="ml-2">{{ trans('msg.go_fishing') }}</span>
                     </label>
                     <label class="flex items-center">
                         <input type="checkbox" name="folkGames" value="Trò_chơi_dân_gian"
                             class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                        <span class="ml-2">Trò chơi dân gian</span>
+                        <span class="ml-2">{{ trans('msg.folk_game') }}</span>
                     </label>
                     <label class="flex items-center">
                         <input type="checkbox" name="scenic" value="Phong_cảnh_đẹp"
                             class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                        <span class="ml-2">Phong cảnh đẹp</span>
+                        <span class="ml-2">{{ trans('msg.scenic') }}</span>
                     </label>
                     <label class="flex items-center">
                         <input type="checkbox" name="meArea" value="Khu_tưởng_niệm"
                             class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                        <span class="ml-2">Khu tưởng niệm</span>
+                        <span class="ml-2">{{ trans('msg.me_area') }}</span>
                     </label>
                     <label class="flex items-center">
                         <input type="checkbox" name="temMonuments" value="Đền_&_tượng_đài"
                             class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                        <span class="ml-2">Đền & tượng đài</span>
+                        <span class="ml-2">{{ trans('msg.tem_monuments') }}</span>
                     </label>
                     <label class="flex items-center">
                         <input type="checkbox" name="crafVillage" value="Làng_nghề"
                             class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                        <span class="ml-2">Làng nghề</span>
+                        <span class="ml-2">{{ trans('msg.craf_village') }}</span>
                     </label>
                     <label class="flex items-center">
                         <input type="checkbox" name="pagoda" value="Chùa"
                             class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                        <span class="ml-2">Chùa</span>
+                        <span class="ml-2">{{ trans('msg.pagoda') }}</span>
                     </label>
                 </div>
                 <button type="submit"
@@ -115,7 +115,7 @@
             </div>
         </div>
         <div class="text-center pb-2">
-            <h1 class="text-2xl font-bold italic text-green-600">Gợi ý cho bạn</h1>
+            <h1 class="text-2xl font-bold italic text-green-600">{{ trans('msg.recommend_for_you') }}</h1>
         </div>
         <span class="devider mb-2"></span>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-3 p-2 border shadow mb-2">
@@ -135,7 +135,7 @@
                 @endif
             @endforeach
         @else
-            <p>Bạn cần đánh giá ít nhất 1 địa điểm để hệ thống đưa ra gợi ý.</p>
+            <p>{{ trans('msg.one_rating') }}</p>
         @endif
 
     </div>
@@ -163,7 +163,7 @@
                     container.empty();
                     if (responseData.length == 0) {
                         // container.empty();
-                        Swal.fire("Hãy chọn ít nhất 1 lựa chọn!");
+                        Swal.fire("{{ trans('msg.one_option') }}");
                         // container.append(`<div><p>Hãy chọn ít nhất 1 lựa chọn</p></div>`);
                     } else {
                         $.each(responseData, function(index, data) {

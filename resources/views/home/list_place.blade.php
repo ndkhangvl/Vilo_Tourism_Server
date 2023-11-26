@@ -8,7 +8,7 @@
     @include('/components.constraint')
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/rateYo/2.3.2/jquery.rateyo.min.css">
-    <title>Danh sách địa điểm</title>
+    <title>{{ trans('msg.list_place') }}</title>
 </head>
 
 <body>
@@ -17,6 +17,7 @@
         <livewire:search-place />
     </div>
     @livewireScripts
+    @include('/components.footer')
 </body>
 
 </html>

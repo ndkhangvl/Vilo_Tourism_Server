@@ -18,7 +18,7 @@
             <a class="mx-2 my-1 flex items-center text-neutral-900 hover:text-neutral-900 focus:text-neutral-900 lg:mb-0 lg:mt-0"
                 href="/">
                 <img class="mr-2"
-                    src="https://media.vnptit3.vn/resources/portal//Images/VLG/superadminportal.vlg/Logo/logongangvinhlong214x74_vlg_636838381478241361.png"
+                    src="https://firebasestorage.googleapis.com/v0/b/vilo-tourism.appspot.com/o/logo-removebg-preview.png?alt=media&token=de2c872d-f09d-44d9-aa1b-93027af61e4f"
                     style="height: 50px" alt="TE Logo" loading="lazy" />
             </a>
         </div>
@@ -45,24 +45,26 @@
                 <!-- Home link -->
                 <li class="my-4 pl-2 lg:my-0 lg:pl-2 lg:pr-1" data-te-nav-item-ref>
                     <a class="font-bold text-neutral-500 hover-bounce hover:border-b border-gray-500 focus:text-neutral-700 disabled:text-black/30 dark:text-neutral-200 dark:hover:text-neutral-400 dark:focus:text-neutral-400 lg:px-2 [&.active]:text-black/90 dark:[&.active]:text-neutral-400"
-                        aria-current="page" href="/" data-te-nav-link-ref>Trang chủ</a>
+                        aria-current="page" href="/" data-te-nav-link-ref>{{ trans('msg.header_index') }}</a>
                 </li>
                 <li class="my-4 pl-2 lg:my-0 lg:pl-2 lg:pr-1" data-te-nav-item-ref>
                     <a class="font-bold text-neutral-500 hover-bounce hover:border-b border-gray-500 focus:text-neutral-700 disabled:text-black/30 dark:text-neutral-200 dark:hover:text-neutral-400 dark:focus:text-neutral-400 lg:px-2 [&.active]:text-black/90 dark:[&.active]:text-neutral-400"
-                        aria-current="page" href="/introduction" data-te-nav-link-ref>Giới thiệu</a>
+                        aria-current="page" href="/introduction"
+                        data-te-nav-link-ref>{{ trans('msg.header_introduction') }}</a>
                 </li>
                 <li class="my-4 pl-2 lg:my-0 lg:pl-2 lg:pr-1" data-te-nav-item-ref>
                     <a class="font-bold text-neutral-500 hover-bounce hover:border-b border-gray-500 focus:text-neutral-700 disabled:text-black/30 dark:text-neutral-200 dark:hover:text-neutral-400 dark:focus:text-neutral-400 lg:px-2 [&.active]:text-black/90 dark:[&.active]:text-neutral-400"
-                        aria-current="page" href="/news" data-te-nav-link-ref>Tin tức</a>
+                        aria-current="page" href="/news" data-te-nav-link-ref>{{ trans('msg.header_news') }}</a>
                 </li>
                 <li class="my-4 pl-2 lg:my-0 lg:pl-2 lg:pr-1" data-te-nav-item-ref>
                     <a class="font-bold text-neutral-500 hover-bounce hover:border-b border-gray-500 focus:text-neutral-700 disabled:text-black/30 dark:text-neutral-200 dark:hover:text-neutral-400 dark:focus:text-neutral-400 lg:px-2 [&.active]:text-black/90 dark:[&.active]:text-neutral-400"
-                        aria-current="page" href="/recommend-place" onclick="checkLogin()" data-te-nav-link-ref>Gợi
-                        ý</a>
+                        aria-current="page" href="/recommend-place" onclick="checkLogin()"
+                        data-te-nav-link-ref>{{ trans('msg.header_recommend') }}</a>
                 </li>
                 <li class="my-4 pl-2 lg:my-0 lg:pl-2 lg:pr-1" data-te-nav-item-ref>
                     <a class="font-bold text-neutral-500 hover-bounce hover:border-b border-gray-500 focus:text-neutral-700 disabled:text-black/30 dark:text-neutral-200 dark:hover:text-neutral-400 dark:focus:text-neutral-400 lg:px-2 [&.active]:text-black/90 dark:[&.active]:text-neutral-400"
-                        aria-current="page" href="/list-place" data-te-nav-link-ref>Điểm đến</a>
+                        aria-current="page" href="/list-place"
+                        data-te-nav-link-ref>{{ trans('msg.header_destination') }}</a>
                 </li>
                 {{-- <li class="my-4 pl-2 lg:my-0 lg:pl-2 lg:pr-1" data-te-nav-item-ref>
                     <a class="font-bold text-neutral-500 hover-bounce hover:border-b border-gray-500 focus:text-neutral-700 disabled:text-black/30 dark:text-neutral-200 dark:hover:text-neutral-400 dark:focus:text-neutral-400 lg:px-2 [&.active]:text-black/90 dark:[&.active]:text-neutral-400"
@@ -75,22 +77,22 @@
                     <div></div>
                 @else
                     @if (auth()->check())
-                        <p>Xin chào, <a href="/accountprofile">
+                        <p>{{ trans('msg.hello') }}, <a href="/accountprofile">
                                 <span class="font-bold" style="color: green;">
                                     {{ auth()->user()->name }}</span>
                             </a>
                         </p>
                         <div class="p-2 border rounded-lg hover:bg-green-500 hover:text-white">
-                            <a href="/logout">Đăng xuất</a>
+                            <a href="/logout">{{ trans('msg.logout') }}</a>
                         </div>
                     @else
                         <a href="/login"
                             class="mr-3 inline-block rounded px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-primary transition duration-150 ease-in-out hover:bg-neutral-100 hover:text-primary-600 focus:text-primary-600 focus:outline-none focus:ring-0 active:text-primary-700 motion-reduce:transition-none">
-                            Đăng nhập
+                            {{ trans('msg.login') }}
                         </a>
                         <a href="/register"
                             class="mr-3 inline-block rounded bg-emerald-600 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-emerald-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-emerald-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] motion-reduce:transition-none dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] hover:text-white">
-                            Đăng kí
+                            {{ trans('msg.register') }}
                         </a>
                     @endif
                 @endif

@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Trang chủ</title>
+    <title>{{ trans('msg.header_index') }}</title>
     @include('/components.constraint')
     <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.8.1/flowbite.min.css" rel="stylesheet" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.8.1/flowbite.min.js"></script>
@@ -63,8 +63,9 @@
     <div class="container">
         <div class="news p-2">
             <div class="flex justify-between items-end">
-                <h1 class="p-2 text-green-500 text-2xl font-bold">Tin tức</h1>
-                <a href="/list-news" class="text-gray-500 hover:text-blue-600 text-sm order-last">Xem thêm</a>
+                <h1 class="p-2 text-green-500 text-2xl font-bold">{{ trans('msg.news') }}</h1>
+                <a href="/list-news"
+                    class="text-gray-500 hover:text-blue-600 text-sm order-last">{{ trans('msg.view_more') }}</a>
             </div>
             <hr class="h-px my-2 bg-gray-200 border-0 dark:bg-gray-700">
             <div class="grid gap-4">
@@ -74,9 +75,9 @@
                         <div
                             class="absolute bottom-0 p-2 left-0 leading-5 w-full bg-gray-600 bg-opacity-50 text-white text-left">
                             @if ($vlnews[0]->id_type_news == 1)
-                                <h1 class="xl:text-base max-sm:text-xs italic mb-1">Tin tức</h1>
+                                <h1 class="xl:text-base max-sm:text-xs italic mb-1">{{ trans('msg.news') }}</h1>
                             @else
-                                <h1 class="xl:text-base max-sm:text-xs italic mb-1">Sự kiện</h1>
+                                <h1 class="xl:text-base max-sm:text-xs italic mb-1">{{ trans('msg.event') }}</h1>
                             @endif
                             <h1 class="xl:text-sm max-sm:text-xs font-medium">{{ $vlnews[0]->title_news }}</h1>
                         </div>
@@ -92,9 +93,11 @@
                                     <div
                                         class="absolute bottom-0 p-2 left-0 leading-5 w-full bg-gray-600 bg-opacity-50 text-white text-left">
                                         @if ($vlnew->id_type_news == 1)
-                                            <h1 class="xl:text-sm max-sm:text-xs italic mb-1">Tin tức</h1>
+                                            <h1 class="xl:text-sm max-sm:text-xs italic mb-1">{{ trans('msg.news') }}
+                                            </h1>
                                         @else
-                                            <h1 class="xl:text-sm max-sm:text-xs italic mb-1">Sự kiện</h1>
+                                            <h1 class="xl:text-sm max-sm:text-xs italic mb-1">{{ trans('msg.event') }}
+                                            </h1>
                                         @endif
                                         <h1 class="xl:text-sm max-sm:text-xs font-medium line-clamp-3">
                                             {{ $vlnew->title_news }}
@@ -109,8 +112,9 @@
         </div>
         <div class="news p-2">
             <div class="flex justify-between items-end">
-                <h1 class="p-2 text-green-500 text-2xl font-bold">Điểm đến</h1>
-                <a href="/list-place" class="text-gray-500 hover:text-blue-600 text-sm order-last">Xem thêm</a>
+                <h1 class="p-2 text-green-500 text-2xl font-bold">{{ trans('msg.des_place') }}</h1>
+                <a href="/list-place"
+                    class="text-gray-500 hover:text-blue-600 text-sm order-last">{{ trans('msg.view_more') }}</a>
             </div>
             <hr class="h-px my-2 bg-gray-200 border-0 dark:bg-gray-700">
             <div class="content">
@@ -170,13 +174,11 @@
                                             class="bg-green-300 text-green-700 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-blue-200 dark:text-blue-800">{{ $vlplace->rating }}.0</span>
                                         <span
                                             class="text-sm font-bold text-gray-900 dark:text-white">{{ $vlplace->view_place }}
-                                            lượt
-                                            xem</span>
+                                            {{ trans('msg.view_place') }}</span>
                                     </div>
                                     <div class="flex items-center justify-between">
                                         <a href="/detailplace/{{ $vlplace->id_place }}"
-                                            class="text-white bg-green-500 hover:bg-green-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Xem
-                                            chi tiết</a>
+                                            class="text-white bg-green-500 hover:bg-green-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">{{ trans('msg.view_detail') }}</a>
                                     </div>
                                 </div>
                             </div>
@@ -186,7 +188,7 @@
             </div>
         </div>
         <div class="flex justify-between items-end">
-            <h1 class="p-2 text-green-500 text-2xl font-bold">Bản đồ</h1>
+            <h1 class="p-2 text-green-500 text-2xl font-bold">{{ trans('msg.map') }}</h1>
         </div>
         <hr class="h-px my-2 bg-gray-200 border-0 dark:bg-gray-700">
         <div class="md:flex center p-2 gap-2">
