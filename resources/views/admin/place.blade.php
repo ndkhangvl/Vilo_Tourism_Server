@@ -1266,13 +1266,13 @@
 
         //Map
         var map = L.map('map').setView([10.246602, 105.971673], 14);
-        // L.tileLayer('https://maps.vietmap.vn/tm/{z}/{x}/{y}.png?apikey=9cbf0bc15d3901b7e043d8f76be8d73f370a82fe629a2d46', {
-        //     attribution: '&copy; <a href="https://maps.vietmap.vn/copyright">Vietmap</a> contributors'
-        // }).addTo(map);
-
-        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        L.tileLayer('https://maps.vietmap.vn/tm/{z}/{x}/{y}.png?apikey=9cbf0bc15d3901b7e043d8f76be8d73f370a82fe629a2d46', {
+            attribution: '&copy; <a href="https://maps.vietmap.vn/copyright">Vietmap</a> contributors'
         }).addTo(map);
+
+        // L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        //     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        // }).addTo(map);
         var currentMarker = null;
         map.on('click', function(e) {
             // Logging for debugging

@@ -66,7 +66,7 @@
         } else if (rating === 4) {
             return "{{ __('msg.four_star') }} 😁";
         } else {
-            return "{{ __('msg.five_Star') }} 🥰";
+            return "{{ __('msg.five_star') }} 🥰";
         }
     }
 

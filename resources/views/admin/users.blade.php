@@ -95,7 +95,7 @@
                                         onclick="getEditDetailPlace(event,this,{{ $vluser->id }})"><i
                                             class="tio-edit text-warning"></i></a>
                                     <form id="deleteForm-{{ $vluser->id }}"
-                                        action="/admin/news/delete/{{ $vluser->id }}" method="POST">
+                                        action="/admin/users/delete/{{ $vluser->id }}" method="POST">
                                         @method('DELETE')
                                         @csrf
                                         <button type="submit" id="submitDel"

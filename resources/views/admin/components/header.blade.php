@@ -5,10 +5,10 @@
              <!-- Logo -->
              <a class="navbar-brand" href="/admin" aria-label="Front">
                  <img class="navbar-brand-logo"
-                     src="https://media.vnptit3.vn/resources/portal//Images/VLG/superadminportal.vlg/Logo/logongangvinhlong214x74_vlg_636838381478241361.png"
+                     src="https://firebasestorage.googleapis.com/v0/b/vilo-tourism.appspot.com/o/logo-removebg-preview.png?alt=media&token=de2c872d-f09d-44d9-aa1b-93027af61e4f"
                      alt="Logo">
                  <img class="navbar-brand-logo-mini"
-                     src="https://media.vnptit3.vn/resources/portal//Images/VLG/superadminportal.vlg/Logo/logongangvinhlong214x74_vlg_636838381478241361.png"
+                     src="https://firebasestorage.googleapis.com/v0/b/vilo-tourism.appspot.com/o/logo-removebg-preview.png?alt=media&token=de2c872d-f09d-44d9-aa1b-93027af61e4f"
                      alt="Logo">
              </a>
              <!-- End Logo -->
@@ -86,10 +86,10 @@
                  <!-- Logo -->
                  <a class="navbar-brand" href="/admin" aria-label="Front">
                      <img class="navbar-brand-logo"
-                         src="https://media.vnptit3.vn/resources/portal//Images/VLG/superadminportal.vlg/Logo/logongangvinhlong214x74_vlg_636838381478241361.png"
+                         src="https://firebasestorage.googleapis.com/v0/b/vilo-tourism.appspot.com/o/logo-removebg-preview.png?alt=media&token=de2c872d-f09d-44d9-aa1b-93027af61e4f"
                          alt="Logo">
                      <img class="navbar-brand-logo-mini"
-                         src="https://media.vnptit3.vn/resources/portal//Images/VLG/superadminportal.vlg/Logo/logongangvinhlong214x74_vlg_636838381478241361.png"
+                         src="https://firebasestorage.googleapis.com/v0/b/vilo-tourism.appspot.com/o/logo-removebg-preview.png?alt=media&token=de2c872d-f09d-44d9-aa1b-93027af61e4f"
                          alt="Logo">
                  </a>
                  <!-- End Logo -->
@@ -298,7 +298,7 @@
                          <!-- End Other Links -->
                      </li> --}}
 
-                     <li class="navbar-vertical-footer-list-item">
+                     {{-- <li class="navbar-vertical-footer-list-item">
                          <!-- Language -->
                          <div class="hs-unfold">
                              <a class="js-hs-unfold-invoker btn btn-icon btn-ghost-secondary rounded-circle"
@@ -329,7 +329,7 @@
                              </div>
                          </div>
                          <!-- End Language -->
-                     </li>
+                     </li> --}}
                  </ul>
              </div>
              <!-- End Footer -->

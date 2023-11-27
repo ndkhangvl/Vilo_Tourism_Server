@@ -109,7 +109,11 @@ class APIController extends Controller
     }
     public function getRecommendPlace()
     {
-        $vlplace = DB::select('select * from VLPlace');
+        $vlplace = DB::table('vlplace')
+            ->select('vlplace.*', 'vlr.rating')
+            ->join(DB::raw('(SELECT id_place, AVG(place_ratings) AS rating FROM vlrating GROUP BY id_place) as vlr'), 'vlplace.id_place', '=', 'vlr.id_place')
+            ->orderByRaw('id_place')
+            ->get();
         return response()->json($vlplace);
     }
 

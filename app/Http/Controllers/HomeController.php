@@ -231,7 +231,7 @@ class HomeController extends Controller
                     $response = Http::post($apiUrl, $postData);
 
                     $responseData = $response->json();
-
+                    // dd($responseData);
 
                     return view('home.recommend_place', [
                         'responseData' => $responseData,

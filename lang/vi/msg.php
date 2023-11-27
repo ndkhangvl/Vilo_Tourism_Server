@@ -50,7 +50,7 @@ return [
 	'want_rating' => 'Bạn muốn đánh giá địa điểm này?',
 	'process' => 'Đang xử lý...',
 	'successful' => 'Thành công!',
-	'succces_place' => 'Đánh giá địa điểm thành công',
+	'succes_place' => 'Đánh giá địa điểm thành công',
 	'success_login' => 'Đăng nhập thành công',
 	'success_register' => 'Đăng kí thành công',
 	'cannot_place' => 'Không thể thêm địa điểm!',

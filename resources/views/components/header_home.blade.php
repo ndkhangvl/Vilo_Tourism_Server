@@ -19,7 +19,7 @@
                 href="/">
                 <img class="mr-2"
                     src="https://firebasestorage.googleapis.com/v0/b/vilo-tourism.appspot.com/o/logo-removebg-preview.png?alt=media&token=de2c872d-f09d-44d9-aa1b-93027af61e4f"
-                    style="height: 50px" alt="TE Logo" loading="lazy" />
+                    style="height: 60px" alt="TE Logo" loading="lazy" />
             </a>
         </div>
         <!-- Hamburger button for mobile view -->

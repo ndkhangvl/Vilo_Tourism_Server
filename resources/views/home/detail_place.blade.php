@@ -146,7 +146,7 @@
                             {{-- <div id="rateYo" style="height: 50px"></div> --}}
                             <div class="flex flex-col gap-2 justify-center text-center bg-neutral-100 rounded-l-lg">
                                 <p class="text-2xl font-bold">{{ trans('msg.rating_avg') }}</p>
-                                <p class="text-4xl font-serif text-emerald-600 font-bold">
+                                <p class="text-4xl font-sans text-emerald-600 font-bold">
                                     {{ $ratingValue[0]->rating }}/5.0</p>
                                 <div class="mx-auto" id="rateYo" data-rating="{{ $ratingValue[0]->rating }}"
                                     style="height: 50px">
@@ -408,15 +408,15 @@
         // apikey =
         //     'https://maps.vietmap.vn/api/dm/{z}/{x}/{y}@2x.png?apikey=c3d0f188ff669f89042771a20656579073cffec5a8a69747';
         //Open map
-        // L.tileLayer('https://maps.vietmap.vn/tm/{z}/{x}/{y}.png?apikey=9cbf0bc15d3901b7e043d8f76be8d73f370a82fe629a2d46', {
-        //     attribution: '&copy; <a href="https://maps.vietmap.vn/copyright">Vietmap</a> contributors'
-        // }).addTo(map);
+        L.tileLayer('https://maps.vietmap.vn/tm/{z}/{x}/{y}.png?apikey=9cbf0bc15d3901b7e043d8f76be8d73f370a82fe629a2d46', {
+            attribution: '&copy; <a href="https://maps.vietmap.vn/copyright">Vietmap</a> contributors'
+        }).addTo(map);
         // L.tileLayer('https://maps.vietmap.vn/tm/{z}/{x}/{y}.png?apikey=c3d0f188ff669f89042771a20656579073cffec5a8a69747', {
         //     attribution: '&copy; <a href="https://maps.vietmap.vn/copyright">Vietmap</a> contributors'
         // }).addTo(map);
-        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        }).addTo(map);
+        // L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        //     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        // }).addTo(map);
         // console.log($distances);
         $(document).ready(function() {
             if (navigator.geolocation) {
