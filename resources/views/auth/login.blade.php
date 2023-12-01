@@ -28,7 +28,7 @@
                         <label for="email" class="mb-2 text-gray-700">{{ trans('msg.email') }}</label>
                         <input type="email" name="email" id="email" placeholder="email@gmail.com"
                             class="px-4 py-2 border-2 border-slate-300 rounded-md max-w-full focus:border-blue-500 focus:outline-none">
-                        <span class="text-bold text-red-700" id="email_error"></span>
+                        <span class="text-bold text-red-700" id="email_error" class="invalid-feedback"></span>
                     </div>
 
                     <div id="input-field" class="flex flex-col relative">
@@ -36,7 +36,7 @@
                         <label for="Password" class="mb-2 text-gray-700">{{ trans('msg.password') }}</label>
                         <input type="password" name="password" id="password" placeholder="*********"
                             class="px-4 py-2 border-2 border-slate-300 rounded-md max-w-full focus:outline-none focus:border-blue-500">
-                        <span class="text-bold text-red-700" id="password_error"></span>
+                        <span class="text-bold text-red-700" id="password_error" class="invalid-feedback"></span>
                     </div>
                     <a href="/forgot-passwd"
                         class="text-blue-500 font-semibold no-underline text-right">{{ trans('msg.forgotpassword') }}</a>
@@ -50,15 +50,10 @@
             </div>
 
             <!-- image -->
-            <div class="w-1/2 p-2">
-                <img src="https://baovinhlong.com.vn/dataimages/201905/original/images2202122_11__10_.jpg"
-                    alt="" class="h-f lg:block hidden">
-
+            <div class="w-1/2">
+                <img src="https://thvl.vn/wp-content/uploads/2013/02/h%C3%ACnh-%C4%90%C3%A0i-v%E1%BB%81-%C4%91%C3%AAm_2M.jpg"
+                    alt="" class="object-cover h-full w-full">
             </div>
-
-
-
-        </div>
         </div>
     </main>
     @include('/components.footer')
@@ -84,13 +79,25 @@
                         'X-CSRF-TOKEN': csrfToken
                     },
                     success: function(response) {
-                        Swal.fire({
-                            icon: 'success',
-                            title: '{{ trans('msg.successful') }}',
-                            text: '{{ trans('msg.success_login') }}'
-                        }).then(() => {
-                            location.reload();
-                        });
+                        console.log(response);
+                        if (response.success == true) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: '{{ trans('msg.successful') }}',
+                                text: '{{ trans('msg.success_login') }}'
+                            }).then(() => {
+                                location.reload();
+                            });
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: '{{ trans('msg.error') }}',
+                                text: '{{ trans('msg.error') }}'
+                            }).then(() => {
+                                $('#email_error').empty();
+                                $('#password_error').empty();
+                            });
+                        }
                     },
                     error: function(xhr) {
                         Swal.close();

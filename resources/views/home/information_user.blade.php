@@ -8,25 +8,56 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     @include('/components.constraint')
     <title>{{ trans('msg.account') }}</title>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/rateYo/2.3.2/jquery.rateyo.min.css">
 </head>
 
 <body>
     @include('/components.header_home')
-    <div class="container md:pt-6 md:px-56 mx-auto sm:w-750 md:w-970 lg:w-1170">
-        <div class="p-2 border shadow mb-4">
-            <h1 class="text-2xl text-black font-bold text-center">{{ trans('msg.info_account') }}</h1>
-            <hr class="m-2 mx-auto w-24 h-1 bg-green-700" />
-            <p class="text-xl">{{ trans('msg.full_name') }}: <span class="text-2xl">{{ auth()->user()->name }}</span>
-            </p>
-            <p class="text-xl">{{ trans('msg.email') }}: <span class="text-2xl">{{ auth()->user()->email }}</span></p>
-            <p class="text-xl">{{ trans('msg.date_create_account') }}: <span
-                    class="text-2xl">{{ auth()->user()->created_at }}</span></p>
+    <div class="container md:pt-6 md:px-4 mx-auto sm:w-750 md:w-970 lg:w-1170">
+        <div class="md:flex gap-4">
+            <div class="w-full md:w-2/4">
+                <h1 class="text-2xl text-black font-bold text-center">{{ trans('msg.info_account') }}</h1>
+                <hr class="m-2 mx-auto w-24 h-1 bg-green-700" />
+                <div class="p-2 border shadow mb-4 rounded-lg">
+                    <div class="flex flex-wrap">
+                        <div class="w-full sm:w-1/4">
+                            <p class="text-xl">{{ trans('msg.full_name') }}</p>
+                        </div>
+                        <div class="w-full sm:w-3/4">
+                            <p class="text-2xl">{{ auth()->user()->name }}</p>
+                        </div>
+                    </div>
+                    <div class="flex flex-wrap">
+                        <div class="w-full sm:w-1/4">
+                            <p class="text-xl">{{ trans('msg.email') }}</p>
+                        </div>
+                        <div class="w-full sm:w-3/4">
+                            <p class="text-2xl">{{ auth()->user()->email }}</p>
+                        </div>
+                    </div>
+                    <div class="flex flex-wrap">
+                        <div class="w-full sm:w-1/4">
+                            <p class="text-xl">{{ trans('msg.date_create_account') }}</p>
+                        </div>
+                        <div class="w-full sm:w-3/4">
+                            <p class="text-2xl">{{ \Carbon\Carbon::parse(auth()->user()->created_at)->format('d/m/Y') }}
+                            </p>
+                        </div>
+                    </div>
 
-            <div class="flex justify-center gap-2">
-                <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                    onclick="changeInfo()">{{ trans('msg.change_info') }}</button>
-                <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                    onclick="changePassword()">{{ trans('msg.change_passwd') }}</button>
+                    <div class="flex justify-center gap-2">
+                        <button class="bg-green-700 hover:bg-green-600 text-white font-bold py-2 px-4 rounded"
+                            onclick="changeInfo()">{{ trans('msg.change_info') }}</button>
+                        <button class="bg-green-700 hover:bg-green-600 text-white font-bold py-2 px-4 rounded"
+                            onclick="changePassword()">{{ trans('msg.change_passwd') }}</button>
+                    </div>
+                </div>
+            </div>
+            <div class="w-full md:w-2/4">
+                <h1 class="text-2xl text-black font-bold text-center capitalize">{{ trans('msg.history_rating') }}</h1>
+                <hr class="m-2 mx-auto w-24 h-1 bg-green-700" />
+                <livewire:list-rating-user :idUser="auth()->user()->id" />
             </div>
         </div>
     </div>
@@ -193,6 +224,8 @@
             }
         }
     </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/rateYo/2.3.2/jquery.rateyo.min.js"></script>
+    @livewireScripts
 </body>
 
 </html>

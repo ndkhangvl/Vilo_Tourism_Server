@@ -50,6 +50,7 @@ return [
     'want_rating' => 'Do you want to rate this place?',
     'process' => 'Processing...',
     'successful' => 'Successful!',
+    'delete_success' => 'Rating removed successfully',
     'succes_place' => 'Place rated successfully',
     'success_login' => 'Successfully logged in',
     'success_register' => 'Successfully registered',
@@ -131,5 +132,6 @@ return [
     'tro_ve' => 'Back to Roots Tourism',
     'view_place2' => 'Views',
     'change_info_user' => 'Change information',
+    'history_rating' => 'Rating history of user',
 ];
 

@@ -43,19 +43,22 @@
             <div class="grid grid-cols-1 gap-6 lg:grid-cols-4 md:grid-cols-3">
                 @foreach ($vlplace as $vlplace)
                     <div class="relative shadow bg-gray-50 dark:bg-gray-800">
-                        <a href="/detailplace/{{ $vlplace->id_place }}"> <img src="{{ $vlplace->image_url }}"
-                                alt="" class="object-cover w-full h-64">
-                            <div class="p-3 flex flex-col">
-                                <p
-                                    class="text-xl font-bold tracking-tight text-gray-900 dark:text-gray-300 line-clamp-1 hover:text-green-500">
-                                    {{ $vlplace->name_place }}
-                                </p>
-                                <p class="line-clamp-1">{{ $vlplace->address_place }}</p>
-                                <div class="flex place-items-center">
-                                    <div class="rateYoPlace" data-rating="{{ $vlplace->rating }}"></div>
-                                    <p class="italic">{{ __('msg.view_place2') }}: {{ $vlplace->view_place }}</p>
-                                </div>
+                        <a href="/detailplace/{{ $vlplace->id_place }}">
+                            <img src="{{ !empty($vlplace->image_url) ? $vlplace->image_url : 'https://vinhlongtourist.vn/Images/NoImage/Transparency/NoImage400x266.png' }}"
+                                alt="Image" class="object-cover w-full h-64">
+                        </a>
+
+                        <div class="p-3 flex flex-col">
+                            <p
+                                class="text-xl font-bold tracking-tight text-gray-900 dark:text-gray-300 line-clamp-1 hover:text-green-500">
+                                {{ $vlplace->name_place }}
+                            </p>
+                            <p class="line-clamp-1">{{ $vlplace->address_place }}</p>
+                            <div class="flex place-items-center">
+                                <div class="rateYoPlace" data-rating="{{ $vlplace->rating }}"></div>
+                                <p class="italic">{{ __('msg.view_place2') }}: {{ $vlplace->view_place }}</p>
                             </div>
+                        </div>
                         </a>
                     </div>
                 @endforeach

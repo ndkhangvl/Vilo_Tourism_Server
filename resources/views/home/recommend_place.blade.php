@@ -118,8 +118,8 @@
             <h1 class="text-2xl font-bold italic text-green-600">{{ trans('msg.recommend_for_you') }}</h1>
         </div>
         <span class="devider mb-2"></span>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-3 p-2 border shadow mb-2">
-            @if (count($responseData) > 0)
+        @if (count($responseData) > 0)
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-3 p-2 border shadow mb-2">
                 @foreach ($responseData as $responseItem)
                     @if ($loop->index < 6)
                         <div class="relative rounded overflow-hidden">
@@ -135,10 +135,12 @@
                 @endif
             @endforeach
         @else
-            <p>{{ trans('msg.one_rating') }}</p>
-        @endif
+            <div class="gap-3 p-2 border shadow mb-2">
+                <p>{{ trans('msg.one_rating') }}</p>
+            </div>
+    @endif
 
-    </div>
+</div>
 </div>
 @include('/components.footer')
 <script>

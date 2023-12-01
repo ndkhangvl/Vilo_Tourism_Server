@@ -50,6 +50,7 @@ return [
 	'want_rating' => 'Bạn muốn đánh giá địa điểm này?',
 	'process' => 'Đang xử lý...',
 	'successful' => 'Thành công!',
+	'delete_success' => 'Xóa đánh giá thành công',
 	'succes_place' => 'Đánh giá địa điểm thành công',
 	'success_login' => 'Đăng nhập thành công',
 	'success_register' => 'Đăng kí thành công',
@@ -87,7 +88,7 @@ return [
 	'new_pass' => 'Mật khẩu mới',
 	'confirm_pass' => 'Xác nhận mật khẩu',
 	'detail_event' => 'Chi tiết sự kiện',
-	'detail_news' => 'Chi tiết tin tức',
+	'detail_news2' => 'Chi tiết tin tức',
 	'list_place' => 'Danh sách địa điểm',
 	'recommend_like' => 'Gợi ý theo sở thích',
 	'what_type' => 'Bạn thích thể loại địa điểm nào?',
@@ -131,4 +132,5 @@ return [
 	'tro_ve' => 'Du lịch trở về nguồn cội',
 	'view_place2' => 'Lượt xem',
 	'change_info_user' => 'Thay đổi thông tin',
+	'history_rating' => 'Lịch sử đánh giá của người dùng'
 ];

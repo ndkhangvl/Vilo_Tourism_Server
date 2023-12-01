@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\SendRefresh;
 use App\Models\VLRating;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -67,8 +68,9 @@ class HomeController extends Controller
     {
         $vlplace = DB::table('vlplace')
             ->select('vlplace.*', 'vlr.rating')
-            ->join(DB::raw('(SELECT id_place, AVG(place_ratings) AS rating FROM vlrating GROUP BY id_place) as vlr'), 'vlplace.id_place', '=', 'vlr.id_place')
-            ->orderByRaw('id_place')
+            ->join(DB::raw('(SELECT id_place, CAST(AVG(CAST(place_ratings AS FLOAT)) AS DECIMAL(3, 1)) AS rating FROM vlrating GROUP BY id_place) as vlr'), 'vlplace.id_place', '=', 'vlr.id_place')
+            // ->orderByRaw('id_place')
+            ->orderBy('id_place', 'desc')
             ->get();
         // dd($vlplace);
         return view('home.list_place', [
@@ -99,7 +101,9 @@ class HomeController extends Controller
         }
         // dd($userHasReview);
         $ratingValue = DB::select('SELECT CAST(AVG(CAST(place_ratings AS FLOAT)) AS DECIMAL(3, 1)) AS rating FROM VLRating WHERE id_place=?', [$id]);
-        $detailRatingValue = DB::select('SELECT place_ratings, COUNT(*) as count FROM VLRating WHERE id_place = ? GROUP BY place_ratings', [$id]);
+        // $detailRatingValue = DB::select('SELECT place_ratings, COUNT(*) as count FROM VLRating WHERE id_place = ? GROUP BY place_ratings', [$id]);
+        $detailRatingValue = DB::select('EXEC GetPlaceRatingsCount ?;', [$id]);
+        //dd($detailRatingValue);
         $listRating = DB::table('VLRating')
             ->join('users', 'VLRating.id_user', '=', 'users.id')
             ->select('users.id', 'users.name', 'VLRating.place_ratings')
@@ -230,8 +234,14 @@ class HomeController extends Controller
 
                     $response = Http::post($apiUrl, $postData);
 
-                    $responseData = $response->json();
-                    // dd($responseData);
+                    $responseData1 = $response->json();
+                    //dd($responseData1);
+                    if ($responseData1 !== null) {
+                        $responseData = $responseData1;
+                    } else {
+                        // Biến chứa dữ liệu JSON có giá trị là null, có nghĩa là không có dữ liệu
+                        $responseData = [];
+                    }
 
                     return view('home.recommend_place', [
                         'responseData' => $responseData,
@@ -329,13 +339,10 @@ class HomeController extends Controller
             DB::table('VLRating')
                 ->where('id_user', $request->id_user)
                 ->where('id_place', $request->id_place)
-                ->delete();
-            $vlrating = new VLRating();
-            $vlrating->id_user = $request->id_user;
-            $vlrating->id_place = $request->id_place;
-            $vlrating->place_ratings = $request->place_rating;
-            $vlrating->date_post_rating = Carbon::now();
-            $vlrating->save();
+                ->update([
+                    'place_ratings' => $request->place_rating,
+                    'date_post_rating' => Carbon::now(),
+                ]);
         } else {
             $vlrating = new VLRating();
             $vlrating->id_user = $request->id_user;
@@ -344,6 +351,8 @@ class HomeController extends Controller
             $vlrating->date_post_rating = Carbon::now();
             $vlrating->save();
         }
+
+        // SendRefresh::dispatch()->delay(now()->addSeconds(10));
 
         return response()->json([
             'success' => true,

@@ -72,7 +72,7 @@
                 @foreach ($detail_place as $detail_place)
                     <div class="pb-2 relative">
                         <img class="rounded-t-lg object-containt w-full" style="height:500px"
-                            src="{{ $detail_place->image_url }}">
+                            src="{{ !empty($detail_place->image_url) ? $detail_place->image_url : 'https://vinhlongtourist.vn/Images/NoImage/Transparency/NoImage400x266.png' }}">
                         <div class="absolute bottom-0 left-0 w-full bg-black bg-opacity-50 text-white text-center">
                             <h1 class="text-4xl p-4 font-bold uppercase">{{ $detail_place->name_place }}</h1>
                         </div>
@@ -156,12 +156,12 @@
                                 <ul class="mx-auto">
                                     <li class="flex">
                                         <p class="text-xl font-bold pr-20 grow">5
-                                            {{ trans('msg.star') }}({{ $detailRatingValue[0]->count ?? 0 }})</p>
+                                            {{ trans('msg.star') }}({{ $detailRatingValue[4]->count ?? 0 }})</p>
                                         <div id="rateYo1"></div>
                                     </li>
                                     <li class="flex">
                                         <p class="text-xl font-bold pr-20 grow">4
-                                            {{ trans('msg.star') }}({{ $detailRatingValue[1]->count ?? 0 }})</p>
+                                            {{ trans('msg.star') }}({{ $detailRatingValue[3]->count ?? 0 }})</p>
                                         <div id="rateYo2"></div>
                                     </li>
                                     <li class="flex">
@@ -171,12 +171,12 @@
                                     </li>
                                     <li class="flex">
                                         <p class="text-xl font-bold pr-20 grow">2
-                                            {{ trans('msg.star') }}({{ $detailRatingValue[3]->count ?? 0 }})</p>
+                                            {{ trans('msg.star') }}({{ $detailRatingValue[1]->count ?? 0 }})</p>
                                         <div id="rateYo4"></div>
                                     </li>
                                     <li class="flex">
                                         <p class="text-xl font-bold pr-20 grow">1
-                                            {{ trans('msg.star') }}({{ $detailRatingValue[4]->count ?? 0 }})</p>
+                                            {{ trans('msg.star') }}({{ $detailRatingValue[0]->count ?? 0 }})</p>
                                         <div id="rateYo5"></div>
                                     </li>
                                 </ul>
@@ -203,7 +203,6 @@
                             Bạn đã sửa rồi bạn có muốn sửa đánh giá
                         </button> --}}
                             <div class="border p-4" id="myDiv">
-                                <!-- Nội dung bạn muốn hiển thị trong div -->
                                 <p class="mb-4 text-xl text-green-700 font-bold italic">{{ trans('msg.fix_rating') }}
                                 </p>
                                 <div id="feedbackText" class="text-center text-2xl italic font-bold"></div>
@@ -239,7 +238,7 @@
                     @else
                         <div>
                             <button id="openLoginRegisterModalButton"
-                                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                                class="bg-green-700 hover:bg-green-500 text-white font-bold py-2 px-4 rounded">
                                 {{ trans('msg.login_modal') }}
                             </button>
                         </div>
@@ -405,18 +404,16 @@
         //     attribution: '&copy; <a href="https://maps.vietmap.vn/copyright">Vietmap</a> contributors'
         // }).addTo(map);
 
-        // apikey =
-        //     'https://maps.vietmap.vn/api/dm/{z}/{x}/{y}@2x.png?apikey=c3d0f188ff669f89042771a20656579073cffec5a8a69747';
         //Open map
-        L.tileLayer('https://maps.vietmap.vn/tm/{z}/{x}/{y}.png?apikey=9cbf0bc15d3901b7e043d8f76be8d73f370a82fe629a2d46', {
-            attribution: '&copy; <a href="https://maps.vietmap.vn/copyright">Vietmap</a> contributors'
-        }).addTo(map);
+        // L.tileLayer('https://maps.vietmap.vn/tm/{z}/{x}/{y}.png?apikey=9cbf0bc15d3901b7e043d8f76be8d73f370a82fe629a2d46', {
+        //     attribution: '&copy; <a href="https://maps.vietmap.vn/copyright">Vietmap</a> contributors'
+        // }).addTo(map);
         // L.tileLayer('https://maps.vietmap.vn/tm/{z}/{x}/{y}.png?apikey=c3d0f188ff669f89042771a20656579073cffec5a8a69747', {
         //     attribution: '&copy; <a href="https://maps.vietmap.vn/copyright">Vietmap</a> contributors'
         // }).addTo(map);
-        // L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        //     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        // }).addTo(map);
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
         // console.log($distances);
         $(document).ready(function() {
             if (navigator.geolocation) {

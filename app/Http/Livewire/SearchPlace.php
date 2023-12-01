@@ -27,8 +27,8 @@ class SearchPlace extends Component
     public function render()
     {
         $query = DB::table('vlplace')
-            ->select('vlplace.*', 'vlr.rating')
-            ->join(DB::raw('(SELECT id_place, CAST(AVG(CAST(place_ratings AS FLOAT)) AS DECIMAL(3, 1)) AS rating FROM vlrating GROUP BY id_place) as vlr'), 'vlplace.id_place', '=', 'vlr.id_place')
+            ->select('vlplace.*', DB::raw('CAST(COALESCE(vlr.rating, 0) AS FLOAT) as rating'))
+            ->leftJoin(DB::raw('(SELECT id_place, CAST(AVG(CAST(place_ratings AS FLOAT)) AS DECIMAL(3, 1)) AS rating FROM vlrating GROUP BY id_place) as vlr'), 'vlplace.id_place', '=', 'vlr.id_place')
             ->whereRaw("vlplace.name_place COLLATE SQL_Latin1_General_CP1_CI_AI LIKE ?", ['%' . $this->searchTerm . '%'])
             ->when($this->idArea, function ($query) {
                 $query->where('vlplace.id_area', $this->idArea);
@@ -39,7 +39,8 @@ class SearchPlace extends Component
             ->when($this->idTypeService, function ($query) {
                 $query->where('vlplace.id_type', $this->idTypeService);
             })
-            ->orderBy('id_place');
+            ->orderBy('id_place', 'desc');
+        //dd($query->get());
         $this->emit('renderedPlace');
         $this->vlplace = $query->get();
         return view('livewire.search-place');

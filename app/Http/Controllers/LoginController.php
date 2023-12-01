@@ -106,10 +106,22 @@ class LoginController extends Controller
 
         if (Auth::attempt($credentials)) {
             if (auth()->user()->role == 'admin') {
-                return redirect('/admin');
+                // return redirect('/admin');
+                return response()->json([
+                    'success' => true,
+                    'input' => $request->all()
+                ]);
             } else {
-                return redirect('/');
+                return response()->json([
+                    'success' => true,
+                    'input' => $request->all()
+                ]);
             }
+        } else {
+            return response()->json([
+                'success' => false,
+                'input' => $request->all()
+            ]);
         }
     }
 

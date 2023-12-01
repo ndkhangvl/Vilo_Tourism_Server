@@ -60,10 +60,9 @@
             </div>
 
             <!-- image -->
-            <div class="w-1/2 p-2">
-                <img src="https://baovinhlong.com.vn/dataimages/201905/original/images2202122_11__10_.jpg"
-                    alt="" class="h-f lg:block hidden">
-
+            <div class="w-1/2">
+                <img src="https://thvl.vn/wp-content/uploads/2013/02/h%C3%ACnh-%C4%90%C3%A0i-v%E1%BB%81-%C4%91%C3%AAm_2M.jpg"
+                    alt="" class="object-cover h-full w-full">
             </div>
 
 
