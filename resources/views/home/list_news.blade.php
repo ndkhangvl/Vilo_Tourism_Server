@@ -58,8 +58,9 @@
                                                 class="italic">{{ $vlnews->view_news }}</span>
                                         </h1>
                                     </div>
-                                    <div class="ck-content text-justify line-clamp-3" id="content">
-                                        {!! strip_tags($vlnews->content_news, '<p><a><br><ul><li>') !!}
+                                    <div class="line-clamp-3 normal-case prose">
+                                        <h1 class="xl:text-sm max-sm:text-xs text-justify">
+                                            {!! strip_tags($vlnews->content_news, '<p><br><ul><li>') !!}
                                     </div>
                                 </div>
                             </div>

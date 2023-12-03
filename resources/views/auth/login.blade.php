@@ -86,7 +86,11 @@
                                 title: '{{ trans('msg.successful') }}',
                                 text: '{{ trans('msg.success_login') }}'
                             }).then(() => {
-                                location.reload();
+                                if (response.role == '1') {
+                                    window.location.href = '/admin';
+                                } else {
+                                    window.location.href = '/';
+                                }
                             });
                         } else {
                             Swal.fire({
@@ -102,7 +106,8 @@
                     error: function(xhr) {
                         Swal.close();
                         if (xhr.status === 422) {
-                            $('.invalid-feedback').empty();
+                            $('#email_error').empty();
+                            $('#password_error').empty();
                             var response = JSON.parse(xhr.responseText);
                             var errors = response.errors;
                             for (var field in errors) {

@@ -1,28 +1,35 @@
 <div>
-    <div class="border shadow p-2 mt-4 gap-2 table-data">
-        @foreach ($listRating as $listRatings)
-            <div class="flex p-2">
-                <div class="l-list-rating">
-                    <div class="inline-flex rounded-full bg-slate-300 text-white w-12 h-12 items-center justify-center">
-                        <span class="text-md font-medium">{{ strtoupper(substr($listRatings->name, 0, 1)) }}</span>
+    @if (count($listRating) > 0)
+        <div class="border shadow p-2 mt-4 gap-2 table-data">
+            @foreach ($listRating as $listRatings)
+                <div class="flex p-2">
+                    <div class="l-list-rating">
+                        <div
+                            class="inline-flex rounded-full bg-slate-300 text-white w-12 h-12 items-center justify-center">
+                            <span class="text-md font-medium">{{ strtoupper(substr($listRatings->name, 0, 1)) }}</span>
+                        </div>
+                    </div>
+                    <div class="r-list-rating ml-5">
+                        <div class="rounded-md bg-neutral-200 p-3">
+                            <p class="dynamic-content text-md font-medium">{{ $listRatings->name }}</p>
+                            <div class="listRateYo" data-rating="{{ $listRatings->place_ratings }}"></div>
+                        </div>
+                        <p class="italic text-slate-400">
+                            {{ \Carbon\Carbon::parse($listRatings->date_post_rating)->format('d/m/Y') }}</p>
                     </div>
                 </div>
-                <div class="r-list-rating ml-5">
-                    <div class="rounded-md bg-neutral-200 p-3">
-                        <p class="dynamic-content text-md font-medium">{{ $listRatings->name }}</p>
-                        <div class="listRateYo" data-rating="{{ $listRatings->place_ratings }}"></div>
-                    </div>
-                    <p class="italic text-slate-400">
-                        {{ \Carbon\Carbon::parse($listRatings->date_post_rating)->format('d/m/Y') }}</p>
-                </div>
+            @endforeach
+            <div id="pagination-links" wire:click="changePage($event)"
+                class="pagination flex justify-center items-center space-x-2">
+                {{-- {{ $listRating->appends(request()->all())->links() }} --}}
+                {{ $listRating->links() }}
             </div>
-        @endforeach
-        <div id="pagination-links" wire:click="changePage($event)"
-            class="pagination flex justify-center items-center space-x-2">
-            {{-- {{ $listRating->appends(request()->all())->links() }} --}}
-            {{ $listRating->links() }}
         </div>
-    </div>
+    @else
+        <div class="border shadow p-2 mt-4 gap-2 table-data">
+            <p> {{ trans('msg.empty_rating') }}</p>
+        </div>
+    @endif
 </div>
 <script>
     document.addEventListener('DOMContentLoaded', function() {

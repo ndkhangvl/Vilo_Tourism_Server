@@ -215,24 +215,48 @@ class AdminPlaceController extends Controller
         $vlplace = VLPlace::findOrFail($id);
 
         if ($vlplace->image_url != null) {
-            $parts = parse_url($vlplace->image_url);
-            $path = ltrim($parts['path'], '/');
-            $imgDelete = basename($path);
+            $results = DB::select('EXEC DeleteVLPlaceById ?;', [$id]);
+            $message = $results[0]->message;
+            if ($message === 'Deleted') {
+                $parts = parse_url($vlplace->image_url);
+                $path = ltrim($parts['path'], '/');
+                $imgDelete = basename($path);
 
-            $storage = (new Factory)->withServiceAccount('../vilo-tourism-firebase-adminsdk-jgppv-ee7114cf39.json')->createStorage();
-            $bucket = $storage->getBucket();
-            $bucket->object($imgDelete)->delete();
-            $results = DB::statement('EXEC DeleteVLPlaceById ?;', [$id]);
+                $storage = (new Factory)->withServiceAccount('../vilo-tourism-firebase-adminsdk-jgppv-ee7114cf39.json')->createStorage();
+                $bucket = $storage->getBucket();
+                $bucket->object($imgDelete)->delete();
+                return response()->json([
+                    'success' => true,
+                    'data' => $results,
+                ]);
+            } elseif ($message === 'CannotDelete') {
+                return response()->json([
+                    'success' => false,
+                    'data' => $results,
+                ]);
+            }
         } else {
-            $results = DB::statement('EXEC DeleteVLPlaceById ?;', [$id]);
+            $results = DB::select('EXEC DeleteVLPlaceById ?;', [$id]);
+            $message = $results[0]->message;
+            if ($message === 'Deleted') {
+                return response()->json([
+                    'success' => true,
+                    'data' => $results,
+                ]);
+            } else {
+                return response()->json([
+                    'success' => false,
+                    'data' => $results,
+                ]);
+            }
         }
         // return response()->json([
         //     'success' => true,
         //     'data' => 'Thành công xóa',
         // ]);
-        return response()->json([
-            'success' => true,
-            'data' => $results,
-        ]);
+        // return response()->json([
+        //     'success' => true,
+        //     'data' => $results,
+        // ]);
     }
 }

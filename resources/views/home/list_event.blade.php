@@ -38,30 +38,36 @@
         <div class="block md:flex p-2 ">
             <div class="content w-full md:w-8/12 pr-2 pb-2">
                 @if (count($vlnews_event) > 0)
-                    <div class="grid grid-cols-2 gap-4 mb-4">
-                        @foreach ($vlnews_event as $vlnews_event)
-                            <div class="">
-                                <img class="w-full object-cover rounded-lg" src="{{ $vlnews_event->image_url_news }}"
-                                    alt="Hình ảnh" style="height: 250px">
-                            </div>
-                            <div class="">
-                                <h1 class="md:text-3xl text-md font-bold text-justify line-clamp-3">
-                                    {{ $vlnews_event->title_news }}</h1>
-                                <div class="flex flex-row justify-start pb-3">
-                                    <h1>{{ trans('msg.date_post_news') }}: <span id="date_post_news"
-                                            class="mr-2 italic">
-                                            {{ \Carbon\Carbon::parse($vlnews_event->date_post_news)->format('d/m/Y') }}</span>
-                                    </h1>
-                                    <h1 class="">{{ trans('msg.view_news') }}: <span
-                                            class="italic">{{ $vlnews_event->view_news }}</span>
-                                    </h1>
+                    @foreach ($vlnews_event as $event)
+                        <a href="/detailnews/{{ $event->id_news }}">
+                            <div class="grid grid-cols-2 gap-4 mb-4">
+                                <div class="">
+                                    <img class="w-full object-cover rounded-lg" src="{{ $event->image_url_news }}"
+                                        alt="Hình ảnh" style="height: 250px">
                                 </div>
-                                <div class="ck-content text-justify line-clamp-3" id="content">
-                                    {!! $vlnews_event->content_news !!}
+                                <div class="">
+                                    <h1
+                                        class="md:text-3xl text-md font-bold text-justify line-clamp-3 hover:text-emerald-500">
+                                        {{ $event->title_news }}
+                                    </h1>
+                                    <div class="flex flex-row justify-start pb-3">
+                                        <h1>{{ trans('msg.date_post_news') }}: <span id="date_post_news"
+                                                class="mr-2 italic">
+                                                {{ \Carbon\Carbon::parse($event->date_post_news)->format('d/m/Y') }}</span>
+                                        </h1>
+                                        <h1 class="">{{ trans('msg.view_news') }}: <span
+                                                class="italic">{{ $event->view_news }}</span>
+                                        </h1>
+                                    </div>
+                                    <div class="line-clamp-3 normal-case prose">
+                                        <h1 class="xl:text-sm max-sm:text-xs text-justify">
+                                            {!! strip_tags($event->content_news, '<p><br><ul><li>') !!}
+                                        </h1>
+                                    </div>
                                 </div>
                             </div>
-                        @endforeach
-                    </div>
+                        </a>
+                    @endforeach
                 @else
                     <p>{{ trans('msg.no_event') }}</p>
                 @endif

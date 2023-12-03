@@ -30,11 +30,13 @@ class AdminNewsController extends Controller
 
     public function store(Request $request)
     {
-        // $request->validate([
-        //     'name_place' => 'required',
-        // ], [
-        //     'name_place.required' => 'Trường tên địa điểm là bắt buộc.',
-        // ]);
+        $request->validate([
+            'title_news' => 'required',
+            'content_news' => 'required',
+        ], [
+            'title_news.required' => 'Trường tên địa điểm là bắt buộc.',
+            'content_news' => 'Trường nội dung là bắt buộc',
+        ]);
 
 
         $vlnews = new VLnews;

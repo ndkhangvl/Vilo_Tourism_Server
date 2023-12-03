@@ -158,12 +158,14 @@
                             <div class="form-group col-md-12">
                                 <label for="label_title" class="font-weight-bold">Tên tin tức</label>
                                 <input type="text" name="title_news" id="title_news" class="form-control"
-                                    placeholder="Nhập vào tên tin tức" required>
+                                    placeholder="Nhập vào tên tin tức">
+                                <span class="invalid-feedback" id="title_news_error"></span>
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="content_news_label" class="font-weight-bold">Nội dung</label>
                             <textarea id="addNewsCKEditor" class="form-control" name="content_news"></textarea>
+                            <span class="invalid-feedback" id="content_news_error"></span>
                         </div>
                         <div class="form-group">
                             <label for="file_input" class="font-weight-bold">Hình thumbnail</label>
@@ -708,7 +710,24 @@
                                 }
                             },
                             error: function(xhr) {
-                                console.log(xhr);
+                                Swal.close();
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Lỗi!',
+                                    text: 'Có lỗi xảy ra trong quá trình xử lý, vui lòng thực hiện lại sau'
+                                });
+                                if (xhr.status === 422) {
+                                    $('.invalid-feedback').empty();
+                                    var response = JSON.parse(xhr.responseText);
+                                    var errors = response.errors;
+                                    for (var field in errors) {
+                                        if (errors.hasOwnProperty(field)) {
+                                            var errorMessage = errors[field][0];
+                                            $('#' + field + '_error').text(errorMessage)
+                                                .show();
+                                        }
+                                    }
+                                }
                             }
                         });
                     }

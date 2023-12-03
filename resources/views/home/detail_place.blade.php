@@ -286,8 +286,8 @@
                     @foreach ($distances as $distance)
                         <div class="relative mb-4">
                             <a href="/detailplace/{{ $distance['id'] }}">
-                                <img src="{{ $distance['image_url'] }}" alt="Image"
-                                    class="object-cover w-full h-full" style="height: 200px;">
+                                <img src="                                {{ !empty($distance['image_url']) ? $distance['image_url'] : 'https://vinhlongtourist.vn/Images/NoImage/Transparency/NoImage400x266.png' }}"
+                                    alt="Image" class="object-cover w-full h-full" style="height: 200px;">
                             </a>
                             <div
                                 class="absolute bottom-0 left-0 w-full bg-gray-500 bg-opacity-50 text-white text-center">

@@ -1,13 +1,36 @@
 <!-- Main navigation container -->
 <style>
     .hover-bounce {
-        transition: border-bottom 0.3s ease-in-out;
+        /* transition: border-bottom 0.3s ease-in-out; */
+        position: relative;
+        display: block;
+        transition: 0.5s;
+        cursor: pointer;
         /* Thời gian và hiệu ứng transition */
     }
 
     .hover-bounce:hover {
-        border-bottom-width: 2px;
+        /* border-bottom-width: 2px; */
+        color: rgb(21 128 61);
         /* Chiều rộng của thanh gạch dưới khi hover */
+    }
+
+    .hover-bounce:after {
+        position: absolute;
+        content: "";
+        width: 100%;
+        height: 3px;
+        top: 100%;
+        left: 0;
+        transition: transform 0.5s;
+        transform: scaleX(0);
+        transform-origin: right;
+        background-color: rgb(21 128 61);
+    }
+
+    .hover-bounce:hover::after {
+        transform: scaleX(1);
+        transform-origin: left;
     }
 </style>
 <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -44,30 +67,30 @@
             <ul class="list-style-none mr-auto flex flex-col pl-0 lg:mt-1 lg:flex-row" data-te-navbar-nav-ref>
                 <!-- Home link -->
                 <li class="my-4 pl-2 lg:my-0 lg:pl-2 lg:pr-1" data-te-nav-item-ref>
-                    <a class="font-bold text-neutral-500 hover-bounce hover:border-b border-gray-500 focus:text-neutral-700 disabled:text-black/30 dark:text-neutral-200 dark:hover:text-neutral-400 dark:focus:text-neutral-400 lg:px-2 [&.active]:text-black/90 dark:[&.active]:text-neutral-400"
+                    <a class="font-bold text-neutral-500 hover-bounce border-gray-500 focus:text-neutral-700 disabled:text-black/30 dark:text-neutral-200 dark:hover:text-neutral-400 dark:focus:text-neutral-400 lg:px-2 [&.active]:text-black/90 dark:[&.active]:text-neutral-400"
                         aria-current="page" href="/" data-te-nav-link-ref>{{ trans('msg.header_index') }}</a>
                 </li>
                 <li class="my-4 pl-2 lg:my-0 lg:pl-2 lg:pr-1" data-te-nav-item-ref>
-                    <a class="font-bold text-neutral-500 hover-bounce hover:border-b border-gray-500 focus:text-neutral-700 disabled:text-black/30 dark:text-neutral-200 dark:hover:text-neutral-400 dark:focus:text-neutral-400 lg:px-2 [&.active]:text-black/90 dark:[&.active]:text-neutral-400"
+                    <a class="font-bold text-neutral-500 hover-bounce border-gray-500 focus:text-neutral-700 disabled:text-black/30 dark:text-neutral-200 dark:hover:text-neutral-400 dark:focus:text-neutral-400 lg:px-2 [&.active]:text-black/90 dark:[&.active]:text-neutral-400"
                         aria-current="page" href="/introduction"
                         data-te-nav-link-ref>{{ trans('msg.header_introduction') }}</a>
                 </li>
                 <li class="my-4 pl-2 lg:my-0 lg:pl-2 lg:pr-1" data-te-nav-item-ref>
-                    <a class="font-bold text-neutral-500 hover-bounce hover:border-b border-gray-500 focus:text-neutral-700 disabled:text-black/30 dark:text-neutral-200 dark:hover:text-neutral-400 dark:focus:text-neutral-400 lg:px-2 [&.active]:text-black/90 dark:[&.active]:text-neutral-400"
+                    <a class="font-bold text-neutral-500 hover-bounce border-gray-500 focus:text-neutral-700 disabled:text-black/30 dark:text-neutral-200 dark:hover:text-neutral-400 dark:focus:text-neutral-400 lg:px-2 [&.active]:text-black/90 dark:[&.active]:text-neutral-400"
                         aria-current="page" href="/news" data-te-nav-link-ref>{{ trans('msg.header_news') }}</a>
                 </li>
                 <li class="my-4 pl-2 lg:my-0 lg:pl-2 lg:pr-1" data-te-nav-item-ref>
-                    <a class="font-bold text-neutral-500 hover-bounce hover:border-b border-gray-500 focus:text-neutral-700 disabled:text-black/30 dark:text-neutral-200 dark:hover:text-neutral-400 dark:focus:text-neutral-400 lg:px-2 [&.active]:text-black/90 dark:[&.active]:text-neutral-400"
+                    <a class="font-bold text-neutral-500 hover-bounce border-gray-500 focus:text-neutral-700 disabled:text-black/30 dark:text-neutral-200 dark:hover:text-neutral-400 dark:focus:text-neutral-400 lg:px-2 [&.active]:text-black/90 dark:[&.active]:text-neutral-400"
                         aria-current="page" href="/recommend-place" onclick="checkLogin()"
                         data-te-nav-link-ref>{{ trans('msg.header_recommend') }}</a>
                 </li>
                 <li class="my-4 pl-2 lg:my-0 lg:pl-2 lg:pr-1" data-te-nav-item-ref>
-                    <a class="font-bold text-neutral-500 hover-bounce hover:border-b border-gray-500 focus:text-neutral-700 disabled:text-black/30 dark:text-neutral-200 dark:hover:text-neutral-400 dark:focus:text-neutral-400 lg:px-2 [&.active]:text-black/90 dark:[&.active]:text-neutral-400"
+                    <a class="font-bold text-neutral-500 hover-bounce border-gray-500 focus:text-neutral-700 disabled:text-black/30 dark:text-neutral-200 dark:hover:text-neutral-400 dark:focus:text-neutral-400 lg:px-2 [&.active]:text-black/90 dark:[&.active]:text-neutral-400"
                         aria-current="page" href="/list-place"
                         data-te-nav-link-ref>{{ trans('msg.header_destination') }}</a>
                 </li>
                 {{-- <li class="my-4 pl-2 lg:my-0 lg:pl-2 lg:pr-1" data-te-nav-item-ref>
-                    <a class="font-bold text-neutral-500 hover-bounce hover:border-b border-gray-500 focus:text-neutral-700 disabled:text-black/30 dark:text-neutral-200 dark:hover:text-neutral-400 dark:focus:text-neutral-400 lg:px-2 [&.active]:text-black/90 dark:[&.active]:text-neutral-400"
+                    <a class="font-bold text-neutral-500 hover-bounce border-gray-500 focus:text-neutral-700 disabled:text-black/30 dark:text-neutral-200 dark:hover:text-neutral-400 dark:focus:text-neutral-400 lg:px-2 [&.active]:text-black/90 dark:[&.active]:text-neutral-400"
                         aria-current="page" href="#" data-te-nav-link-ref>Lịch trình</a>
                 </li> --}}
             </ul>

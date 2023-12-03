@@ -84,6 +84,7 @@ return [
     'pass_length' => 'Old password must be at least 8 characters long.',
     'pass_length_new' => 'New password must be at least 8 characters long.',
     'no_same_pass' => 'Does not match the new password.',
+    'no_same_old_pass' => 'Does not match the old password.',
     'old_pass' => 'Old Password',
     'new_pass' => 'New Password',
     'confirm_pass' => 'Confirm Password',
@@ -133,5 +134,6 @@ return [
     'view_place2' => 'Views',
     'change_info_user' => 'Change information',
     'history_rating' => 'Rating history of user',
+    'empty_rating' => 'No rating for place'
 ];
 

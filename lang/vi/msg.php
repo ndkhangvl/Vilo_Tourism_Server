@@ -84,6 +84,7 @@ return [
 	'pass_length' => 'Mật khẩu cũ phải có ít nhất 8 ký tự.',
 	'pass_length_new' => 'Mật khẩu mới phải có ít nhất 8 ký tự.',
 	'no_same_pass' => 'Không khớp với mật khẩu mới.',
+	'no_same_old_pass' => 'Không khớp với mật khẩu cũ',
 	'old_pass' => 'Mật khẩu cũ',
 	'new_pass' => 'Mật khẩu mới',
 	'confirm_pass' => 'Xác nhận mật khẩu',
@@ -132,5 +133,6 @@ return [
 	'tro_ve' => 'Du lịch trở về nguồn cội',
 	'view_place2' => 'Lượt xem',
 	'change_info_user' => 'Thay đổi thông tin',
-	'history_rating' => 'Lịch sử đánh giá của người dùng'
+	'history_rating' => 'Lịch sử đánh giá của người dùng',
+	'empty_rating' => 'Địa điểm này chưa có đánh giá'
 ];

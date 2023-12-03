@@ -1051,7 +1051,7 @@
                         },
                         success: function(response) {
                             Swal.close();
-                            if (response.success) {
+                            if (response.success == true) {
                                 Swal.fire({
                                     icon: 'success',
                                     title: 'Đã xóa!',
@@ -1068,7 +1068,11 @@
                             }
                         },
                         error: function(xhr) {
-                            console.log(xhr);
+                            Swal.fire(
+                                'Lỗi!',
+                                'Có lỗi xảy ra trong quá trình xử lý, vui lòng thực hiện lại sau',
+                                'error'
+                            );
                         }
                     });
                 }

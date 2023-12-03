@@ -117,7 +117,7 @@
                                 Swal.fire({
                                     icon: 'error',
                                     title: '{{ trans('msg.not_change_passwd') }}',
-                                    text: '{{ trans('msg.not_same_old_passwd') }}'
+                                    text: '{{ trans('msg.no_same_old_pass') }}'
                                 });
                         },
                         error: function(error) {
@@ -192,7 +192,7 @@
             var oldPassword = document.getElementById('old_password').value;
             // Thêm logic kiểm tra và hiển thị thông báo lỗi
             // Ví dụ: (chỉ để minh họa)
-            if (oldPassword.length < 6 || oldPassword.length > 50) {
+            if (oldPassword.length < 8 || oldPassword.length > 50) {
                 document.getElementById('old_password_error').innerText = '{{ trans('msg.pass_length') }}';
             } else {
                 document.getElementById('old_password_error').innerText = '';
@@ -204,7 +204,7 @@
             var newPassword = document.getElementById('new_password').value;
             // Thêm logic kiểm tra và hiển thị thông báo lỗi
             // Ví dụ: (chỉ để minh họa)
-            if (newPassword.length < 6 || newPassword.length > 50) {
+            if (newPassword.length < 8 || newPassword.length > 50) {
                 document.getElementById('new_password_error').innerText = '{{ trans('msg.pass_length_new') }}';
             } else {
                 document.getElementById('new_password_error').innerText = '';

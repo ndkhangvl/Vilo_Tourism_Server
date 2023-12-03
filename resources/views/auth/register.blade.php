@@ -94,13 +94,13 @@
                     },
                     success: function(response) {
                         Swal.close();
-                        if (response.success) {
+                        if (response.success == true) {
                             Swal.fire({
                                 icon: 'success',
                                 title: '{{ trans('msg.successful') }}',
                                 text: '{{ trans('msg.success_register') }}'
                             }).then(() => {
-                                location.reload();
+                                window.location.href = '/login';
                             });
                         } else {
                             Swal.fire({
@@ -113,7 +113,9 @@
                     error: function(xhr) {
                         Swal.close();
                         if (xhr.status === 422) {
-                            $('.invalid-feedback').empty();
+                            $('#name_register_error').empty();
+                            $('#email_register_error').empty();
+                            $('#password_register_error').empty();
                             var response = JSON.parse(xhr.responseText);
                             var errors = response.errors;
                             for (var field in errors) {

@@ -64,13 +64,13 @@ class LoginController extends Controller
         $request->validate([
             'name_register' => 'required',
             'email_register' => 'required|email|unique:users,email', // Assuming your users table has an 'email' column
-            'password_register' => 'required'
+            'password_register' => 'required|min:8'
         ], [
-            'name_register.required' => 'Vui lòng nhập tên của bạn',
-            'email_register.required' => 'Vui lòng nhập email.',
-            'email_register.email' => 'Không đúng định dạng email (example@gmail.com).',
-            'email_register.unique' => 'Email đã tồn tại trong hệ thống.',
-            'password_register.required' => 'Vui lòng nhập mật khẩu.',
+            'name_register.required' => 'Please enter your name.',
+            'email_register.required' => 'Please enter your email address.',
+            'email_register.email' => 'Invalid email format (example@gmail.com).',
+            'email_register.unique' => 'This email is already registered in the system.',
+            'password_register.required' => 'Please enter your password.',
         ]);
         // dd($request->all());
         try {
@@ -82,9 +82,15 @@ class LoginController extends Controller
             $cred->save();
             // dd($cred);
             // $response = ['status' => 200, 'message' => 'Register Successfully! Welcome to Our Community'];
-            return redirect('/login');
+            return response()->json([
+                'success' => true,
+                'input' => $request->all()
+            ]);
         } catch (Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 500);
+            return response()->json([
+                'success' => false,
+                'input' => $request->all()
+            ]);
         }
     }
 
@@ -94,9 +100,9 @@ class LoginController extends Controller
             'email' => 'required|email',
             'password' => 'required'
         ], [
-            'email.required' => 'Vui lòng nhập email.',
-            'email.email' => 'Không đúng định dạng email (example@gmail.com).',
-            'password.required' => 'Vui lòng nhập mật khẩu.',
+            'email.required' => 'Please enter your email address.',
+            'email.email' => 'Invalid email format (example@gmail.com).',
+            'password.required' => 'Please enter your password.',
         ]);
 
         $credentials = [
@@ -109,11 +115,13 @@ class LoginController extends Controller
                 // return redirect('/admin');
                 return response()->json([
                     'success' => true,
+                    'role' => '1',
                     'input' => $request->all()
                 ]);
             } else {
                 return response()->json([
                     'success' => true,
+                    'role' => '0',
                     'input' => $request->all()
                 ]);
             }
@@ -158,8 +166,8 @@ class LoginController extends Controller
     public function changePassword(Request $request)
     {
         $request->validate([
-            'old_password' => 'required|min:6|max:50',
-            'new_password' => 'required|min:6|max:50',
+            'old_password' => 'required|min:8|max:50',
+            'new_password' => 'required|min:8|max:50',
             'confirm_password' => 'required|same:new_password'
         ]);
 
@@ -215,23 +223,27 @@ class LoginController extends Controller
             'forgot_pass' => 'required'
 
         ], [
-            'forgot_pass.required' => 'Vui lòng nhập email.'
+            'forgot_pass.required' => 'Please enter email.'
         ]);
 
 
         $user = User::where('email', '=', $request->forgot_pass)->first();
         if (!$user) {
-            return back()->with('fail', 'Tài khoản không tồn tại với thông tin email.');
+            return response()->json([
+                'success' => false,
+            ]);
         } else {
             $newpass = Str::random(8);
             User::where('email', $request->forgot_pass)
                 ->update([
-                    'password' => $newpass,
+                    'password' => bcrypt($newpass),
                 ]);
             $user_after = User::where('email', '=', $request->forgot_pass)->first();
-            Mail::to($request->forgot_pass)->send(new ForgotPasswordMail($user_after));
+            Mail::to($request->forgot_pass)->send(new ForgotPasswordMail($user_after, $newpass));
+            return response()->json([
+                'success' => true,
+            ]);
         }
-        return redirect('/login');
     }
 }
 

@@ -87,77 +87,82 @@ class HomeController extends Controller
         //     ]
         // );
         $fixedLocation = DB::select('select latitude,longitude from VLPlace where id_place=?', [$id]);
-        $location = DB::select('EXEC GetAllLocation;');
-        if (Auth::check()) {
-            $userReview = DB::select('SELECT place_ratings FROM VLRating WHERE id_user = ? AND id_place = ?', [Auth::user()->id, $id]);
+        // dd($fixedLocation);
+        if ($fixedLocation == null) {
+            return redirect('errors.404');
         } else {
-            $userReview = [];
-        }
-        // dd($userReview);
-        if (count($userReview) > 0) {
-            $userHasReview = true;
-        } else {
-            $userHasReview = false;
-        }
-        // dd($userHasReview);
-        $ratingValue = DB::select('SELECT CAST(AVG(CAST(place_ratings AS FLOAT)) AS DECIMAL(3, 1)) AS rating FROM VLRating WHERE id_place=?', [$id]);
-        // $detailRatingValue = DB::select('SELECT place_ratings, COUNT(*) as count FROM VLRating WHERE id_place = ? GROUP BY place_ratings', [$id]);
-        $detailRatingValue = DB::select('EXEC GetPlaceRatingsCount ?;', [$id]);
-        //dd($detailRatingValue);
-        $listRating = DB::table('VLRating')
-            ->join('users', 'VLRating.id_user', '=', 'users.id')
-            ->select('users.id', 'users.name', 'VLRating.place_ratings')
-            ->where('id_place', $id)
-            ->paginate(10);
-        $R = 6371.0;
-        $distances = [];
-
-        foreach ($location as $item) {
-            $lat1 = deg2rad($fixedLocation[0]->latitude);
-            $lon1 = deg2rad($fixedLocation[0]->longitude);
-            $lat2 = deg2rad($item->latitude);
-            $lon2 = deg2rad($item->longitude);
-
-            $dlon = $lon2 - $lon1;
-            $dlat = $lat2 - $lat1;
-            $a = sin($dlat / 2) ** 2 + cos($lat1) * cos($lat2) * sin($dlon / 2) ** 2;
-            $c = 2 * atan2(sqrt($a), sqrt(1 - $a));
-            $distance = $R * $c;
-
-            if ($distance <= 10) {
-                $distance = round($distance, 2);
-                $distances[] = [
-                    'id' => $item->id_place,
-                    'name_place' => $item->name_place,
-                    'image_url' => $item->image_url,
-                    'distance' => $distance
-                ];
+            $location = DB::select('EXEC GetAllLocation;');
+            if (Auth::check()) {
+                $userReview = DB::select('SELECT place_ratings FROM VLRating WHERE id_user = ? AND id_place = ?', [Auth::user()->id, $id]);
+            } else {
+                $userReview = [];
             }
+            // dd($userReview);
+            if (count($userReview) > 0) {
+                $userHasReview = true;
+            } else {
+                $userHasReview = false;
+            }
+            // dd($userHasReview);
+            $ratingValue = DB::select('SELECT CAST(AVG(CAST(place_ratings AS FLOAT)) AS DECIMAL(3, 1)) AS rating FROM VLRating WHERE id_place=?', [$id]);
+            // $detailRatingValue = DB::select('SELECT place_ratings, COUNT(*) as count FROM VLRating WHERE id_place = ? GROUP BY place_ratings', [$id]);
+            $detailRatingValue = DB::select('EXEC GetPlaceRatingsCount ?;', [$id]);
+            //dd($detailRatingValue);
+            $listRating = DB::table('VLRating')
+                ->join('users', 'VLRating.id_user', '=', 'users.id')
+                ->select('users.id', 'users.name', 'VLRating.place_ratings')
+                ->where('id_place', $id)
+                ->paginate(10);
+            $R = 6371.0;
+            $distances = [];
+
+            foreach ($location as $item) {
+                $lat1 = deg2rad($fixedLocation[0]->latitude);
+                $lon1 = deg2rad($fixedLocation[0]->longitude);
+                $lat2 = deg2rad($item->latitude);
+                $lon2 = deg2rad($item->longitude);
+
+                $dlon = $lon2 - $lon1;
+                $dlat = $lat2 - $lat1;
+                $a = sin($dlat / 2) ** 2 + cos($lat1) * cos($lat2) * sin($dlon / 2) ** 2;
+                $c = 2 * atan2(sqrt($a), sqrt(1 - $a));
+                $distance = $R * $c;
+
+                if ($distance <= 10) {
+                    $distance = round($distance, 2);
+                    $distances[] = [
+                        'id' => $item->id_place,
+                        'name_place' => $item->name_place,
+                        'image_url' => $item->image_url,
+                        'distance' => $distance
+                    ];
+                }
+            }
+
+            $sortDistance = collect($distances)->sortBy('distance')->toArray();
+            $limitedDistances = collect($sortDistance)->slice(1, 5)->toArray();
+
+            $detail_place = DB::select('EXEC GetVLPlaceID ?;', [$id]);
+            $testData = DB::select('SELECT feature_place FROM VLPlace WHERE id_place=?;', [$id]);
+            $featurePlaceString = $testData[0]->feature_place;
+            $featuresArray = explode('|', $featurePlaceString);
+            $hashtags = array_map(function ($feature) {
+                return strtolower(str_replace(' ', '_', $feature));
+            }, $featuresArray);
+            $resultArray = ['hashtags' => $hashtags];
+            // dd($resultArray);
+            //Recommend Content
+            $apiUrl = 'http://127.0.0.1:5000/recommend';
+            try {
+                $response = Http::post($apiUrl, $resultArray);
+                $responseData2 = $response->json();
+
+            } catch (\Exception $e) {
+                // Xử lý lỗi (nếu có)
+                return response()->json(['error' => $e->getMessage()], 500);
+            }
+            DB::table('VLPlace')->where('id_place', [$id])->increment('view_place', 1);
         }
-
-        $sortDistance = collect($distances)->sortBy('distance')->toArray();
-        $limitedDistances = collect($sortDistance)->slice(1, 5)->toArray();
-
-        $detail_place = DB::select('EXEC GetVLPlaceID ?;', [$id]);
-        $testData = DB::select('SELECT feature_place FROM VLPlace WHERE id_place=?;', [$id]);
-        $featurePlaceString = $testData[0]->feature_place;
-        $featuresArray = explode('|', $featurePlaceString);
-        $hashtags = array_map(function ($feature) {
-            return strtolower(str_replace(' ', '_', $feature));
-        }, $featuresArray);
-        $resultArray = ['hashtags' => $hashtags];
-        // dd($resultArray);
-        //Recommend Content
-        $apiUrl = 'http://127.0.0.1:5000/recommend';
-        try {
-            $response = Http::post($apiUrl, $resultArray);
-            $responseData2 = $response->json();
-
-        } catch (\Exception $e) {
-            // Xử lý lỗi (nếu có)
-            return response()->json(['error' => $e->getMessage()], 500);
-        }
-        DB::table('VLPlace')->where('id_place', [$id])->increment('view_place', 1);
         return view('home.detail_place', [
             'detail_place' => $detail_place,
             'distances' => $limitedDistances,

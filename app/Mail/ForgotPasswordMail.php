@@ -13,14 +13,16 @@ class ForgotPasswordMail extends Mailable
 {
     use Queueable, SerializesModels;
     public $user_after;
+    public $newpass;
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($user_after)
+    public function __construct($user_after, $newpass)
     {
         $this->user_after = $user_after;
+        $this->newpass = $newpass;
     }
 
     /**
