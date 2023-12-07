@@ -142,12 +142,12 @@
                     window.location.href = "/recommend-place";
                 } else {
                     // Người dùng chưa đăng nhập
-                    Swal.fire('Lỗi', 'Hãy đăng nhập để sử dụng gợi ý.', 'error');
+                    Swal.fire('Error', 'Please log in to use the recommendations function.', 'error');
                 }
             },
             error: function(error) {
                 // Xử lý lỗi
-                Swal.fire('Lỗi', 'Bạn chưa đăng nhập.', 'error');
+                Swal.fire('Error', 'You are not login.', 'error');
             }
         });
     }

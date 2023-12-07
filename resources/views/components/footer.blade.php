@@ -53,7 +53,7 @@
             </a>
         </div>
         <p class="mt-8 text-base leading-6 text-center text-gray-700">
-            © 2023, CICT - ndkhangvl
+            © 2023, CICT - ndkhangvl, Data from VinhLongTourist.vn
         </p>
     </div>
 </section>
